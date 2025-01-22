@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Top 3 Video Script Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .dashboard-title {
+            color: #0066cc;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .video-analysis {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .video-stats {
+            color: #666;
+        }
+
+        .video-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .script-section {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .script-section h4 {
+            color: #0066cc;
+            margin-bottom: 0.8rem;
+        }
+
+        .script-content {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .chart {
+            width: 100%;
+            height: 400px !important;
+            min-height: 400px;
+        }
+
+        .insights {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .insights h4 {
+            color: #0066cc;
+            margin-bottom: 0.5rem;
+        }
+
+        .insights ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .insights li {
+            margin-bottom: 0.5rem;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .insights li:before {
+            content: "•";
+            color: #0066cc;
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .video-content, .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="dashboard-title">Weekly Top 3 Video Script Analysis</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Views</h3>
+            <div class="stat-value">16M</div>
+        </div>
+        <div class="stat-card">
+            <h3>Average Views</h3>
+            <div class="stat-value">5.3M</div>
+        </div>
+        <div class="stat-card">
+            <h3>Top Platform</h3>
+            <div class="stat-value">YouTube</div>
+        </div>
+    </div>
+
+    <div class="video-analysis">
+        <div class="video-header">
+            <h3 class="video-title">1. Cat Litter Box Story</h3>
+            <div class="video-stats">Views: 6.3M (YouTube)</div>
+        </div>
+        <div class="video-content">
+            <div class="script-section">
+                <h4>Script Highlights</h4>
+                <div class="script-content">
+                    <p>• "This new litter box is truly my VIP seat"</p>
+                    <p>• "Every time I go in, it feels like entering a spa, comfortable and relaxing"</p>
+                    <p>• "The owner finally understands my taste, this litter box is perfect for me"</p>
+                    <p>• "With it, even going to the bathroom is an enjoyable experience"</p>
+                    <p>• "After eating, I need to go to the bathroom, (I can't hold it, hurry up, I really can't hold it anymore)"</p>
+                </div>
+            </div>
+            <div class="script-section">
+                <h4>Key Elements</h4>
+                <div class="script-content">
+                    <p>• Humorous comparison with the inconvenience of traditional litter boxes</p>
+                    <p>• Emphasis on the comfort brought by the product</p>
+                    <p>• Personification to add fun</p>
+                    <p>• Highlighting the premium positioning of the product</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-analysis">
+        <div class="video-header">
+            <h3 class="video-title">2. Cat's Dream</h3>
+            <div class="video-stats">Views: 5.2M (TikTok)</div>
+        </div>
+        <div class="video-content">
+            <div class="script-section">
+                <h4>Script Highlights</h4>
+                <div class="script-content">
+                    <p>• "One day, I will catch that mysterious red dot!"</p>
+                    <p>• "Dreaming of a castle made of fish, I can eat whenever I want"</p>
+                    <p>• "If I could fly, that would be so cool, I could chase those birds"</p>
+                    <p>• "Maybe one day, I can travel the world with my owner"</p>
+                </div>
+            </div>
+            <div class="script-section">
+                <h4>Key Elements</h4>
+                <div class="script-content">
+                    <p>• Using daily cat behavior to create humor</p>
+                    <p>• Displaying the nature of cats through dreams</p>
+                    <p>• Adding emotional resonance elements</p>
+                    <p>• Highlighting the emotional connection between the pet and the owner</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-analysis">
+        <div class="video-header">
+            <h3 class="video-title">3. Weather Moods</h3>
+            <div class="video-stats">Views: 4.5M (TikTok)</div>
+        </div>
+        <div class="video-content">
+            <div class="script-section">
+                <h4>Script Highlights</h4>
+                <div class="script-content">
+                    <p>• "Such good weather, perfect for sunbathing"</p>
+                    <p>• "It's raining outside, I’ll take a lazy nap listening to the rain"</p>
+                    <p>• "The weather is a bit gloomy, but my mood is still bright"</p>
+                </div>
+            </div>
+            <div class="script-section">
+                <h4>Key Elements</h4>
+                <div class="script-content">
+                    <p>• Showcasing different emotions through weather changes</p>
+                    <p>• Depicting everyday life scenes of a cat</p>
+                    <p>• Creating a relaxed and joyful atmosphere</p>
+                    <p>• Highlighting an optimistic attitude</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-container">
+            <h3>Content Theme Distribution</h3>
+            <div id="themeChart" class="chart"></div>
+            <div class="insights">
+                <h4>Theme Insights</h4>
+                <ul>
+                    <li>Daily life scenes are the most popular</li>
+                    <li>Humor elements are the key attraction</li>
+                    <li>Emotional resonance content performs significantly well</li>
+                </ul>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h3>Emotional Elements Analysis</h3>
+            <div id="emotionChart" class="chart"></div>
+            <div class="insights">
+                <h4>Emotion Insights</h4>
+                <ul>
+                    <li>Humor is the primary emotional tone</li>
+                    <li>Warmth triggers high interaction</li>
+                    <li>Relaxed and happy atmosphere is the most popular</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+        });
+
+        function initCharts() {
+            // Theme Distribution Chart
+            const themeChart = echarts.init(document.getElementById('themeChart'));
+            themeChart.setOption({
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c}%'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                },
+                series: [{
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: true,
+                        position: 'outside',
+                        formatter: '{b}: {c}%'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '18',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    data: [
+                        { value: 40, name: 'Daily Life' },
+                        { value: 30, name: 'Emotional Resonance' },
+                        { value: 20, name: 'Humor' },
+                        { value: 10, name: 'Product Experience' }
+                    ]
+                }]
+            });
+
+            // Emotional Elements Chart
+            const emotionChart = echarts.init(document.getElementById('emotionChart'));
+            emotionChart.setOption({
+                radar: {
+                    indicator: [
+                        { name: 'Humor', max: 100 },
+                        { name: 'Warmth', max: 100 },
+                        { name: 'Fun', max: 100 },
+                        { name: 'Resonance', max: 100 },
+                        { name: 'Storytelling', max: 100 }
+                    ]
+                },
+                series: [{
+                    type: 'radar',
+                    data: [{
+                        value: [90, 85, 95, 80, 70],
+                        name: 'Emotional Element Distribution',
+                        areaStyle: {
+                            color: 'rgba(0, 102, 204, 0.2)'
+                        },
+                        lineStyle: {
+                            color: '#0066cc'
+                        },
+                        itemStyle: {
+                            color: '#0066cc'
+                        }
+                    }]
+                }]
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                themeChart.resize();
+                emotionChart.resize();
+            });
+        }
+    </script>
+</body>
+</html>

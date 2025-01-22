@@ -1,0 +1,224 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Neakasa Google Keywords Research</title> 
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script> 
+    <style> 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        } 
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 2rem; 
+            background: #f8f9fa; 
+        } 
+        .dashboard-title { 
+            color: #0066cc; 
+            margin-bottom: 2rem; 
+        } 
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 1.5rem; 
+            margin-bottom: 2rem; 
+        } 
+        .stat-card { 
+            background: white; 
+            padding: 1.5rem; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        } 
+        .stat-card h3 { 
+            color: #666; 
+            font-size: 0.9rem; 
+            margin-bottom: 0.5rem; 
+        } 
+        .stat-value { 
+            font-size: 1.8rem; 
+            font-weight: bold; 
+            color: #0066cc; 
+        } 
+        .chart-container { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            margin-bottom: 2rem; 
+        } 
+        .chart { 
+            width: 100%; 
+            height: 800px !important; 
+            min-height: 800px; 
+        } 
+        .insights { 
+            margin-top: 2rem; 
+            padding: 1.5rem; 
+            background: #f8f9fa; 
+            border-radius: 8px; 
+        } 
+        .insights h3 { 
+            color: #0066cc; 
+            margin-bottom: 1rem; 
+        } 
+        .insights-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 2rem; 
+        } 
+        .insights-section h4 { 
+            color: #333; 
+            margin-bottom: 0.8rem; 
+        } 
+        .insights-section ul { 
+            list-style-type: none; 
+            padding-left: 0; 
+        } 
+        .insights-section li { 
+            margin-bottom: 0.8rem; 
+            padding-left: 20px; 
+            position: relative; 
+            line-height: 1.5; 
+        } 
+        .insights-section li:before { 
+            content: "•"; 
+            color: #0066cc; 
+            position: absolute; 
+            left: 0; 
+        } 
+        @media (max-width: 1200px) { 
+            .insights-grid { 
+                grid-template-columns: 1fr; 
+            } 
+        } 
+    </style> 
+</head> 
+<body> 
+    <h1 class="dashboard-title">Neakasa Google Keywords Research</h1> 
+    <div class="stats-grid"> 
+        <div class="stat-card"> 
+            <h3>Monthly Search Volume</h3> 
+            <div class="stat-value">110K</div> 
+        </div> 
+        <div class="stat-card"> 
+            <h3>Average CPC</h3> 
+            <div class="stat-value">$2.79</div> 
+        </div> 
+        <div class="stat-card"> 
+            <h3>Market CAGR</h3> 
+            <div class="stat-value">4.8%</div> 
+        </div> 
+        <div class="stat-card"> 
+            <h3>Offline Sales Share</h3> 
+            <div class="stat-value">62.3%</div> 
+        </div> 
+    </div> 
+    <div class="chart-container"> 
+        <div id="keywordChart" class="chart"></div> 
+        <div class="insights"> 
+            <h3>Keywords Analysis Insights</h3> 
+            <div class="insights-grid"> 
+                <div class="insights-section"> 
+                    <h4>Key Findings</h4> 
+                    <ul> 
+                        <li>Functional keywords (self-cleaning, smart control) have the highest search volume, indicating users' focus on product practicality</li> 
+                        <li>Health monitoring-related long-tail keywords are growing rapidly, reflecting an increase in users' concern about pet health</li> 
+                        <li>Keywords related to multi-cat and large-cat scenarios show stable search volume, indicating sustained demand from specific user groups</li> 
+                        <li>Design-related keywords have smaller search volumes but higher conversion rates, indicating users' willingness to pay for aesthetic designs</li> 
+                    </ul> 
+                </div> 
+                <div class="insights-section"> 
+                    <h4>Strategic Recommendations</h4> 
+                    <ul> 
+                        <li>Optimize SEO layout for functional keywords to improve organic search rankings</li> 
+                        <li>Develop targeted marketing content for multi-cat households, enhancing scene-based promotion</li> 
+                        <li>Increase content marketing related to health monitoring features to meet users' concerns about pet health</li> 
+                        <li>Invest in targeted ads for design-related keywords to improve conversion of high-value users</li> 
+                    </ul> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+    <script> 
+        document.addEventListener('DOMContentLoaded', function() { 
+            const keywordChart = echarts.init(document.getElementById('keywordChart')); 
+            const option = { 
+                title: { 
+                    text: 'Neakasa Keywords Map', 
+                    left: 'center' 
+                }, 
+                tooltip: { 
+                    trigger: 'item', 
+                    formatter: '{b}: {c}' 
+                }, 
+                series: { 
+                    type: 'sunburst', 
+                    data: [ 
+                        { 
+                            name: 'Brand Keywords', 
+                            children: [ 
+                                {value: 35, name: 'Litter Robot'}, 
+                                {value: 28, name: 'CATLINK'}, 
+                                {value: 32, name: 'PetKit PURA MAX7'} 
+                            ] 
+                        }, 
+                        { 
+                            name: 'Functional Keywords', 
+                            children: [ 
+                                {value: 45, name: 'Self-cleaning'}, 
+                                {value: 42, name: 'Automatic'}, 
+                                {value: 38, name: 'Smart'}, 
+                                {value: 35, name: 'Odor control'} 
+                            ] 
+                        }, 
+                        { 
+                            name: 'Feature-Based', 
+                            children: [ 
+                                {value: 25, name: 'High-sided'}, 
+                                {value: 22, name: 'Low-entry'}, 
+                                {value: 28, name: 'Designer'} 
+                            ] 
+                        }, 
+                        { 
+                            name: 'Material-Based', 
+                            children: [ 
+                                {value: 20, name: 'Plastic'}, 
+                                {value: 18, name: 'Ceramic'}, 
+                                {value: 15, name: 'Stainless steel'} 
+                            ] 
+                        }, 
+                        { 
+                            name: 'Usage Scenarios', 
+                            children: [ 
+                                {value: 32, name: 'Multi cat'}, 
+                                {value: 28, name: 'Large cat'}, 
+                                {value: 25, name: 'Covered'} 
+                            ] 
+                        }, 
+                        { 
+                            name: 'Special Features', 
+                            children: [ 
+                                {value: 35, name: 'Health monitoring'}, 
+                                {value: 30, name: 'Anti-splash'}, 
+                                {value: 28, name: 'Enclosed'} 
+                            ] 
+                        } 
+                    ], 
+                    radius: ['0', '95%'], 
+                    emphasis: { 
+                        focus: 'ancestor' 
+                    }, 
+                    levels: [ {}, { r0: '15%', r: '35%', itemStyle: { borderRadius: 5 }, label: { rotate: 'tangential' } }, { r0: '35%', r: '70%', label: { align: 'right' } } ] 
+                } 
+            }; 
+            keywordChart.setOption(option); 
+            window.addEventListener('resize', function() { 
+                keywordChart.resize(); 
+            }); 
+        }); 
+    </script> 
+</body> 
+</html>

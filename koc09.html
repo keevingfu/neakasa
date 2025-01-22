@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Performance</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .dashboard-title {
+            color: #0066cc;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .stat-subtext {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .chart-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-section h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart {
+            width: 100%;
+            height: 400px !important;
+            min-height: 400px;
+        }
+
+        .insights {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .insights h3 {
+            color: #0066cc;
+            margin-bottom: 1rem;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .insights-section h4 {
+            color: #333;
+            margin-bottom: 0.8rem;
+        }
+
+        .insights-section ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .insights-section li {
+            margin-bottom: 0.8rem;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .insights-section li:before {
+            content: "•";
+            color: #0066cc;
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="dashboard-title">Search Performance</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Google Search Volume</h3>
+            <div class="stat-value">110K</div>
+            <div class="stat-subtext">Monthly searches</div>
+        </div>
+        <div class="stat-card">
+            <h3>Amazon Search Volume</h3>
+            <div class="stat-value">74K</div>
+            <div class="stat-subtext">Monthly searches</div>
+        </div>
+        <div class="stat-card">
+            <h3>YouTube Position Rate</h3>
+            <div class="stat-value">50%+</div>
+            <div class="stat-subtext">Top positions</div>
+        </div>
+        <div class="stat-card">
+            <h3>TikTok Position Rate</h3>
+            <div class="stat-value">20%+</div>
+            <div class="stat-subtext">Top positions</div>
+        </div>
+    </div>
+
+    <div class="chart-section">
+        <h2>Social Media Search Rankings</h2>
+        <div id="socialChart" class="chart"></div>
+        <div class="insights">
+            <div class="insights-grid">
+                <div class="insights-section">
+                    <h4>Key Findings</h4>
+                    <ul>
+                        <li>YouTube performs best on the "litter box" keyword, occupying over 50% of premium positions</li>
+                        <li>TikTok maintains more than 20% exposure on core keywords</li>
+                        <li>Long-tail keywords like "best litter box self-cleaning" have relatively lower ranking share</li>
+                        <li>There are significant performance differences across platforms, requiring differentiated strategies</li>
+                    </ul>
+                </div>
+                <div class="insights-section">
+                    <h4>Strategic Recommendations</h4>
+                    <ul>
+                        <li>Increase YouTube short video content production to solidify current advantageous positions</li>
+                        <li>Optimize TikTok content strategy to improve core keyword ranking</li>
+                        <li>Increase coverage of long-tail keyword-related content</li>
+                        <li>Develop differentiated content strategies tailored to each platform's characteristics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-section">
+        <h2>Cross-Platform Search Volume Comparison</h2>
+        <div id="volumeChart" class="chart"></div>
+        <div class="insights">
+            <div class="insights-grid">
+                <div class="insights-section">
+                    <h4>Key Findings</h4>
+                    <ul>
+                        <li>Google search volume is overall higher than Amazon, indicating more users in the awareness stage</li>
+                        <li>Core keywords maintain high search volume across all platforms</li>
+                        <li>Functional keywords perform better on e-commerce platforms</li>
+                        <li>Long-tail keywords have lower search volume but higher conversion rates</li>
+                    </ul>
+                </div>
+                <div class="insights-section">
+                    <h4>Strategic Recommendations</h4>
+                    <ul>
+                        <li>Increase Google ad spending to boost brand awareness in the early stages</li>
+                        <li>Optimize Amazon listings to improve core keyword conversions</li>
+                        <li>Develop differentiated cross-platform ad strategies</li>
+                        <li>Focus on precise marketing of long-tail keywords</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-section">
+        <h2>Keyword Performance Matrix</h2>
+        <div id="matrixChart" class="chart"></div>
+        <div class="insights">
+            <div class="insights-grid">
+                <div class="insights-section">
+                    <h4>Key Findings</h4>
+                    <ul>
+                        <li>Core keywords perform well in both search volume and conversion rates</li>
+                        <li>Functional keywords have relatively high CPC but yield good conversion results</li>
+                        <li>Brand-related keywords have lower competition</li>
+                        <li>Long-tail keywords, although with small search volume, have high conversion rates</li>
+                    </ul>
+                </div>
+                <div class="insights-section">
+                    <h4>Strategic Recommendations</h4>
+                    <ul>
+                        <li>Maintain investment in core keywords to strengthen market position</li>
+                        <li>Optimize the advertising efficiency of functional keywords</li>
+                        <li>Enhance brand keyword layout</li>
+                        <li>Refine operations for long-tail keywords</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Social Media Rankings Chart
+            const socialChart = echarts.init(document.getElementById('socialChart'));
+            socialChart.setOption({
+                title: {
+                    text: 'Social Media Search Rankings by Keyword',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['YouTube', 'TikTok', 'Instagram'],
+                    top: '10%'
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '20%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01],
+                    axisLabel: {
+                        formatter: '{value}%'
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['litter box', 'smart litter box', 'best litter box self cleaning']
+                },
+                series: [
+                    {
+                        name: 'YouTube',
+                        type: 'bar',
+                        data: [50, 20, 15]
+                    },
+                    {
+                        name: 'TikTok',
+                        type: 'bar',
+                        data: [20, 15, 10]
+                    },
+                    {
+                        name: 'Instagram',
+                        type: 'bar',
+                        data: [15, 12, 8]
+                    }
+                ]
+            });
+
+            // Search Volume Comparison Chart
+            const volumeChart = echarts.init(document.getElementById('volumeChart'));
+            volumeChart.setOption({
+                title: {
+                    text: 'Search Volume by Platform',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['Google', 'Amazon', 'Social Media'],
+                    top: '10%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['Core Keywords', 'Functional', 'Brand Related', 'Long-tail']
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Monthly Searches'
+                },
+                series: [
+                    {
+                        name: 'Google',
+                        type: 'line',
+                        data: [110000, 85000, 45000, 25000]
+                    },
+                    {
+                        name: 'Amazon',
+                        type: 'line',
+                        data: [74000, 65000, 35000, 20000]
+                    },
+                    {
+                        name: 'Social Media',
+                        type: 'line',
+                        data: [50000, 40000, 30000, 15000]
+                    }
+                ]
+            });
+
+            // Keyword Performance Matrix Chart
+            const matrixChart = echarts.init(document.getElementById('matrixChart'));
+            matrixChart.setOption({
+                title: {
+                    text: 'Keyword Performance Matrix',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        return `${params.data[3]}<br/>Search Volume: ${params.data[0]}<br/>CPC: $${params.data[1]}<br/>Conversion Rate: ${params.data[2]}%`;
+                    }
+                },
+                xAxis: {
+                    type: 'value',
+                    name: 'Search Volume',
+                    splitLine: {
+                        show: false
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'CPC ($)',
+                    splitLine: {
+                        show: false
+                    }
+                },
+                series: [{
+                    type: 'scatter',
+                    symbolSize: function(data) {
+                        return data[2] * 5;
+                    },
+                    data: [
+                        [110000, 6.35, 8, 'Cat litter box'],
+                        [74000, 7.34, 7, 'Cat litter'],
+                        [45000, 5.89, 6, 'Automatic litter box'],
+                        [35000, 4.89, 5, 'Multi cat litter box'],
+                        [25000, 5.67, 4, 'Litter Robot'],
+                        [12000, 4.56, 3, 'Odor control litter box']
+                    ]
+                }]
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                socialChart.resize();
+                volumeChart.resize();
+                matrixChart.resize();
+            });
+        });
+    </script>
+</body>
+</html>

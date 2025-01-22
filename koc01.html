@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOC Performance</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .dashboard-title {
+            color: #0066cc;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 450px;
+        }
+
+        .chart-container h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .chart {
+            width: 100%;
+            height: 400px !important;
+            min-height: 400px;
+            background: #fff;
+        }
+
+        .insights {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .insights h4 {
+            color: #0066cc;
+            margin-bottom: 0.5rem;
+        }
+
+        .insights ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .insights li {
+            margin-bottom: 0.5rem;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .insights li:before {
+            content: "•";
+            color: #0066cc;
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="dashboard-title">KOC Performance</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total KOC Accounts</h3>
+            <div class="stat-value">38</div>
+        </div>
+        <div class="stat-card">
+            <h3>Active Accounts</h3>
+            <div class="stat-value">35</div>
+        </div>
+        <div class="stat-card">
+            <h3>Average Engagement</h3>
+            <div class="stat-value">4.8%</div>
+        </div>
+        <div class="stat-card">
+            <h3>Content Posted</h3>
+            <div class="stat-value">450+</div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-container">
+            <h3>Platform Distribution</h3>
+            <div id="platformChart" class="chart"></div>
+            <div class="insights">
+                <h4>Platform Insights</h4>
+                <ul>
+                    <li>YouTube leads with 14 active accounts</li>
+                    <li>TikTok and Instagram have equal distribution</li>
+                    <li>Cross-platform synergy opportunities identified</li>
+                </ul>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h3>Account Categories</h3>
+            <div id="categoryChart" class="chart"></div>
+            <div class="insights">
+                <h4>Category Insights</h4>
+                <ul>
+                    <li>Personal Lifestyle accounts show highest engagement</li>
+                    <li>Pet-focused content growing rapidly</li>
+                    <li>General content maintains steady performance</li>
+                </ul>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h3>Growth Trends</h3>
+            <div id="growthChart" class="chart"></div>
+            <div class="insights">
+                <h4>Growth Insights</h4>
+                <ul>
+                    <li>TikTok showing fastest growth rate</li>
+                    <li>YouTube Shorts strategy proving effective</li>
+                    <li>Instagram engagement steadily increasing</li>
+                </ul>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h3>Content Performance</h3>
+            <div id="performanceChart" class="chart"></div>
+            <div class="insights">
+                <h4>Performance Insights</h4>
+                <ul>
+                    <li>Short-form video content leads engagement</li>
+                    <li>Visual content performs well across platforms</li>
+                    <li>Mixed content strategy shows balanced results</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 等待 DOM 加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化所有图表
+            initCharts();
+        });
+
+        function initCharts() {
+            // 平台分布图表
+            const platformChart = echarts.init(document.getElementById('platformChart'));
+            platformChart.setOption({
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c} accounts ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                },
+                series: [{
+                    type: 'pie',
+                    radius: '70%',
+                    data: [
+                        { value: 14, name: 'YouTube' },
+                        { value: 12, name: 'TikTok' },
+                        { value: 12, name: 'Instagram' }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            });
+
+            // 账号类别图表
+            const categoryChart = echarts.init(document.getElementById('categoryChart'));
+            categoryChart.setOption({
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' }
+                },
+                legend: {
+                    data: ['Personal', 'Pet Focus', 'General']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['YouTube', 'TikTok', 'Instagram']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: 'Personal',
+                        type: 'bar',
+                        stack: 'total',
+                        data: [5, 4, 4]
+                    },
+                    {
+                        name: 'Pet Focus',
+                        type: 'bar',
+                        stack: 'total',
+                        data: [4, 3, 3]
+                    },
+                    {
+                        name: 'General',
+                        type: 'bar',
+                        stack: 'total',
+                        data: [5, 5, 5]
+                    }
+                ]
+            });
+
+            // 增长趋势图表
+            const growthChart = echarts.init(document.getElementById('growthChart'));
+            growthChart.setOption({
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['TikTok', 'YouTube', 'Instagram']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', ]
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Growth Rate (%)'
+                },
+                series: [
+                    {
+                        name: 'TikTok',
+                        type: 'line',
+                        data: [30, 45, 62, 80, 95, 110]
+                    },
+                    {
+                        name: 'YouTube',
+                        type: 'line',
+                        data: [20, 35, 50, 65, 80, 90]
+                    },
+                    {
+                        name: 'Instagram',
+                        type: 'line',
+                        data: [25, 40, 55, 70, 85, 95]
+                    }
+                ]
+            });
+
+            // 内容表现图表
+            const performanceChart = echarts.init(document.getElementById('performanceChart'));
+            performanceChart.setOption({
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' }
+                },
+                legend: {
+                    data: ['Engagement Rate', 'Views', 'Shares']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['Short Video', 'Live Stream', 'Posts', 'Stories']
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Performance Score'
+                },
+                series: [
+                    {
+                        name: 'Engagement Rate',
+                        type: 'bar',
+                        data: [95, 80, 85, 75]
+                    },
+                    {
+                        name: 'Views',
+                        type: 'bar',
+                        data: [90, 85, 75, 70]
+                    },
+                    {
+                        name: 'Shares',
+                        type: 'bar',
+                        data: [85, 70, 65, 60]
+                    }
+                ]
+            });
+
+            // 处理窗口大小变化
+            window.addEventListener('resize', function() {
+                platformChart.resize();
+                categoryChart.resize();
+                growthChart.resize();
+                performanceChart.resize();
+            });
+        }
+    </script>
+</body>
+</html> 

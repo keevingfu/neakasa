@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Analysis Heatmap</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .dashboard-title {
+            color: #0066cc;
+            margin-bottom: 2rem;
+        }
+
+        .heatmap-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #0066cc;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-controls {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chart-controls label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .chart-controls select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+
+        .chart {
+            width: 100%;
+            height: 600px !important;
+            min-height: 600px;
+        }
+
+        .insights {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .insights h4 {
+            color: #0066cc;
+            margin-bottom: 0.5rem;
+        }
+
+        .insights ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .insights li {
+            margin-bottom: 0.5rem;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .insights li:before {
+            content: "•";
+            color: #0066cc;
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="dashboard-title">Market Analysis Heatmap for Similar Products</h1>
+
+    <div class="heatmap-section">
+        <div class="chart-container">
+            <div class="chart-controls">
+                <label for="metric-select">Analysis Metric:</label>
+                <select id="metric-select" onchange="updateHeatmap()">
+                    <option value="popularity">Product Popularity</option>
+                    <option value="sales">Sales Performance</option>
+                    <option value="satisfaction">Customer Satisfaction</option>
+                </select>
+            </div>
+            <div id="heatmap" class="chart"></div>
+            <div class="insights">
+                <h4>Market Analysis Insights</h4>
+                <ul id="insights-list">
+                    <li>Smart features show highest popularity across home scenarios</li>
+                    <li>Health monitoring features perform well in multi-cat households</li>
+                    <li>Auto-cleaning functionality leads in satisfaction for busy environments</li>
+                </ul>
+            </div>
+            <div class="insights">
+                <h4>Strategic Recommendations</h4>
+                <ul id="recommendations-list">
+                    <li>Focus on developing smart integration features for modern homes</li>
+                    <li>Enhance health monitoring capabilities for premium segments</li>
+                    <li>Optimize auto-cleaning efficiency for high-traffic scenarios</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let heatmapChart;
+        const features = [
+            'Smart Control', 'Auto Clean', 'Health Monitor', 
+            'UV Sterilize', 'Odor Control', 'App Integration',
+            'Voice Control', 'Eco-Friendly', 'Modular Design'
+        ];
+        
+        const scenarios = [
+            'Single Cat Home', 'Multi-Cat Home', 'Small Apartment',
+            'Large House', 'Pet Clinic', 'Smart Home',
+            'Travel Home', 'Elderly Home', 'Modern Family'
+        ];
+
+        const dataMap = {
+            popularity: [
+                [9, 8, 7, 6, 8, 9, 7, 6, 8],
+                [8, 9, 8, 7, 9, 8, 8, 7, 9],
+                [7, 8, 6, 5, 7, 8, 6, 8, 7],
+                [6, 7, 7, 6, 8, 7, 7, 7, 8],
+                [8, 9, 9, 8, 8, 8, 8, 6, 7],
+                [9, 8, 7, 7, 8, 9, 8, 7, 9],
+                [8, 9, 8, 7, 9, 8, 7, 8, 8],
+                [7, 8, 7, 6, 8, 7, 8, 9, 7],
+                [9, 8, 8, 7, 8, 9, 8, 7, 8]
+            ],
+            sales: [
+                [8, 7, 6, 5, 7, 8, 6, 5, 7],
+                [7, 8, 7, 6, 8, 7, 7, 6, 8],
+                [6, 7, 5, 4, 6, 7, 5, 7, 6],
+                [5, 6, 6, 5, 7, 6, 6, 6, 7],
+                [7, 8, 8, 7, 7, 7, 7, 5, 6],
+                [8, 7, 6, 6, 7, 8, 7, 6, 8],
+                [7, 8, 7, 6, 8, 7, 6, 7, 7],
+                [6, 7, 6, 5, 7, 6, 7, 8, 6],
+                [8, 7, 7, 6, 7, 8, 7, 6, 7]
+            ],
+            satisfaction: [
+                [9, 9, 8, 7, 9, 9, 8, 7, 9],
+                [9, 9, 9, 8, 9, 9, 9, 8, 9],
+                [8, 9, 7, 6, 8, 9, 7, 9, 8],
+                [7, 8, 8, 7, 9, 8, 8, 8, 9],
+                [9, 9, 9, 9, 9, 9, 9, 7, 8],
+                [9, 9, 8, 8, 9, 9, 9, 8, 9],
+                [9, 9, 9, 8, 9, 9, 8, 9, 9],
+                [8, 9, 8, 7, 9, 8, 9, 9, 8],
+                [9, 9, 9, 8, 9, 9, 9, 8, 9]
+            ]
+        };
+
+        const insightsMap = {
+            popularity: [
+                "Smart features and app integration show highest popularity across scenarios",
+                "Auto-cleaning functionality is particularly popular in multi-cat homes",
+                "Health monitoring features are gaining traction in modern households"
+            ],
+            sales: [
+                "Premium features drive higher sales in smart home environments",
+                "Basic functionality sells well in single-cat households",
+                "Multi-feature products perform best in modern family settings"
+            ],
+            satisfaction: [
+                "Smart control features receive highest satisfaction ratings",
+                "Health monitoring shows strong satisfaction in pet clinics",
+                "Auto-cleaning gets top marks from busy households"
+            ]
+        };
+
+        const recommendationsMap = {
+            popularity: [
+                "Prioritize smart feature development for market expansion",
+                "Focus on multi-cat household solutions",
+                "Enhance app integration capabilities"
+            ],
+            sales: [
+                "Develop tiered product offerings for different market segments",
+                "Strengthen distribution in smart home channels",
+                "Create targeted bundles for specific scenarios"
+            ],
+            satisfaction: [
+                "Maintain high quality standards in smart control features",
+                "Expand health monitoring capabilities",
+                "Optimize auto-cleaning efficiency"
+            ]
+        };
+
+        function initHeatmap() {
+            heatmapChart = echarts.init(document.getElementById('heatmap'));
+            updateHeatmap();
+        }
+
+        function updateHeatmap() {
+            const metric = document.getElementById('metric-select').value;
+            const data = dataMap[metric];
+            
+            // Update insights
+            document.getElementById('insights-list').innerHTML = 
+                insightsMap[metric].map(insight => `<li>${insight}</li>`).join('');
+            
+            // Update recommendations
+            document.getElementById('recommendations-list').innerHTML = 
+                recommendationsMap[metric].map(rec => `<li>${rec}</li>`).join('');
+
+            const option = {
+                tooltip: {
+                    position: 'top',
+                    formatter: function(params) {
+                        return `${params.name}<br/>
+                                ${scenarios[params.value[1]]}<br/>
+                                ${features[params.value[0]]}<br/>
+                                Score: ${params.value[2]}`;
+                    }
+                },
+                grid: {
+                    top: '60px',
+                    right: '10%',
+                    bottom: '15%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: features,
+                    splitArea: {
+                        show: true
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        rotate: 45
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: scenarios,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                visualMap: {
+                    min: 0,
+                    max: 10,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '0%',
+                    inRange: {
+                        color: ['#e6f7ff', '#1890ff', '#002766']
+                    }
+                },
+                series: [{
+                    name: metric,
+                    type: 'heatmap',
+                    data: data.map((row, i) => 
+                        row.map((val, j) => [j, i, val])
+                    ).flat(),
+                    label: {
+                        show: true
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+
+            heatmapChart.setOption(option);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initHeatmap();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            heatmapChart && heatmapChart.resize();
+        });
+    </script>
+</body>
+</html> 
