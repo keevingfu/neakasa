@@ -61,8 +61,8 @@
     <div class="container-fluid">
         <div class="dashboard-container">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3">Neakasa Performance Overview</h1>
-                <select id="timeRangeSelect" class="form-select" style="width: 180px;">
+                <h1 class="h3">Neakasa KOC Performance Overview</h1>
+                <select id="timeRangeSelect" class="form-select" style="width: 180px;" title="Time Range Selection">
                     <option value="last7days">Last 7 Days</option>
                     <option value="last30days" selected>Last 30 Days</option>
                     <option value="last90days">Last 90 Days</option>
@@ -73,23 +73,22 @@
             <div class="metrics-grid">
                 <div class="metric-card">
                     <div class="metric-label">Total Views</div>
-                    <div class="metric-value">112.4M</div>
-                    <div class="metric-trend trend-up">↑ 15.2% vs last period</div>
+                    <div class="metric-value">105,402,911</div>
+                    
                 </div>
                 <div class="metric-card">
-                    <div class="metric-label">Engagement Rate</div>
-                    <div class="metric-value">4.8%</div>
-                    <div class="metric-trend trend-up">↑ 0.5% vs last period</div>
+                    <div class="metric-label">Total Engagement</div>
+                    <div class="metric-value">532,444</div>
+                    
                 </div>
                 <div class="metric-card">
-                    <div class="metric-label">Conversion Rate</div>
-                    <div class="metric-value">3.2%</div>
-                    <div class="metric-trend trend-up">↑ 0.3% vs last period</div>
+                    <div class="metric-label">Total Post</div>
+                    <div class="metric-value">2269</div>
+                    
                 </div>
                 <div class="metric-card">
-                    <div class="metric-label">Active Users</div>
-                    <div class="metric-value">89K</div>
-                    <div class="metric-trend trend-up">↑ 12% vs last period</div>
+                    <div class="metric-label">Total KOC</div>
+                    <div class="metric-value">38</div>
                 </div>
             </div>
 
@@ -152,19 +151,19 @@
                             <ul class="list-unstyled">
                                 <li class="mb-3">
                                     <i class="fas fa-chart-line text-primary me-2"></i>
-                                    Product demonstration videos consistently achieve highest engagement rates across all platforms
+                                    Peak performance reached on Nov 26 with 2.1B views, showing significant viral potential
                                 </li>
                                 <li class="mb-3">
                                     <i class="fas fa-users text-success me-2"></i>
-                                    Community engagement shows strong growth with 88% active participation rate
+                                    TikTok leads platform performance with 79.2M views and 305K likes on a single channel
                                 </li>
                                 <li class="mb-3">
                                     <i class="fas fa-bullseye text-info me-2"></i>
-                                    Educational content drives 35% higher conversion rates compared to promotional content
+                                    Product demos achieve highest engagement (4.8%) and conversion (3.2%) rates among all content types
                                 </li>
                                 <li class="mb-3">
                                     <i class="fas fa-share-alt text-warning me-2"></i>
-                                    User-generated content generates 2.5x more shares than brand content
+                                    WhatsApp shows strongest overall engagement with 90% view rate and 85% share rate
                                 </li>
                             </ul>
                         </div>
@@ -179,19 +178,19 @@
                             <ul class="list-unstyled">
                                 <li class="mb-3">
                                     <i class="fas fa-lightbulb text-warning me-2"></i>
-                                    Increase focus on video content showcasing product features and user testimonials
+                                    Prioritize TikTok content strategy with focus on viral-potential product demonstrations
                                 </li>
                                 <li class="mb-3">
                                     <i class="fas fa-comments text-primary me-2"></i>
-                                    Enhance community engagement through interactive Q&A sessions and user spotlights
+                                    Leverage WhatsApp's high engagement by developing more shareable content formats
                                 </li>
                                 <li class="mb-3">
                                     <i class="fas fa-graduation-cap text-success me-2"></i>
-                                    Develop more educational content about pet health and smart technology benefits
+                                    Increase product demo content production while maintaining educational content ratio
                                 </li>
                                 <li class="mb-3">
                                     <i class="fas fa-chart-pie text-info me-2"></i>
-                                    Optimize content distribution timing based on platform-specific engagement patterns
+                                    Optimize cross-platform strategy: TikTok for reach, WhatsApp for engagement, YouTube for stability
                                 </li>
                             </ul>
                         </div>
@@ -207,41 +206,81 @@
         const overallPerformance = echarts.init(document.getElementById('overallPerformance'));
         overallPerformance.setOption({
             title: {
-                text: 'Performance Trends',
+                text: 'Total Views & Total Engagements',
+                subtext: 'Data from November to December',
                 left: 'center'
             },
             tooltip: {
-                trigger: 'axis'
+                trigger: 'axis',
+                formatter: function (params) {
+                    var res = params[0].name + '<br/>';
+                    params.forEach(function (item) {
+                        res += item.seriesName + ': ' + item.value + '<br/>';
+                    });
+                    return res;
+                }
             },
             legend: {
-                data: ['Views', 'Engagement', 'Conversion'],
-                top: '10%'
+                data: ['Total Views', 'Total Engagements'],
+                bottom: 10
             },
             xAxis: {
                 type: 'category',
-                data: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan']
+                boundaryGap: false,
+                data: ['Nov 6', 'Nov 14', 'Nov 22', 'Nov 26', 'Dec 20']
             },
-            yAxis: {
-                type: 'value'
-            },
+            yAxis: [
+                {
+                    type: 'value',
+                    name: 'Views (B)',
+                    position: 'left',
+                    axisLabel: {
+                        formatter: function (value) {
+                            return value >= 1e9 ? (value / 1e9).toFixed(1) + 'B' : (value / 1e6).toFixed(1) + 'M';
+                        }
+                    }
+                },
+                {
+                    type: 'value',
+                    name: 'Engagements (M)',
+                    position: 'right',
+                    axisLabel: {
+                        formatter: function (value) {
+                            return value >= 1e6 ? (value / 1e6).toFixed(1) + 'M' : (value / 1e3).toFixed(1) + 'K';
+                        }
+                    }
+                }
+            ],
             series: [
                 {
-                    name: 'Views',
+                    name: 'Total Views',
                     type: 'line',
+                    yAxisIndex: 0,
+                    data: [6300000, 2200000, 4500000, 2100000000, 663600000],
+                    areaStyle: {
+                        color: 'rgba(255, 0, 0, 0.5)'
+                    },
                     smooth: true,
-                    data: [820, 932, 901, 934, 1290, 1330]
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max Views', value: 2810000000, xAxis: 4, yAxis: 2810000000, itemStyle: { color: 'red' } }
+                        ]
+                    }
                 },
                 {
-                    name: 'Engagement',
+                    name: 'Total Engagements',
                     type: 'line',
+                    yAxisIndex: 1,
+                    data: [0, 0, 0, 0, 3000000],
+                    areaStyle: {
+                        color: 'rgba(0, 255, 0, 0.5)'
+                    },
                     smooth: true,
-                    data: [420, 532, 501, 534, 690, 730]
-                },
-                {
-                    name: 'Conversion',
-                    type: 'line',
-                    smooth: true,
-                    data: [150, 232, 201, 234, 290, 330]
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max Engagements', value: 3000000, xAxis: 4, yAxis: 3000000, itemStyle: { color: 'red' } }
+                        ]
+                    }
                 }
             ]
         });
@@ -250,30 +289,32 @@
         const platformDistribution = echarts.init(document.getElementById('platformDistribution'));
         platformDistribution.setOption({
             title: {
-                text: 'Content Distribution by Platform',
-                left: 'center'
+                text: 'Platform Distribution'
             },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{b}: {c}%'
+            tooltip: {},
+            legend: {
+                data: ['播放量', '点赞量', '评论量', '互动数']
             },
+            xAxis: {
+                data: ['Tiktok 724', 'Tiktok 816', 'Youtube 729']
+            },
+            yAxis: {},
             series: [{
-                type: 'pie',
-                radius: '70%',
-                center: ['50%', '60%'],
-                data: [
-                    { value: 35, name: 'WhatsApp' },
-                    { value: 30, name: 'Facebook' },
-                    { value: 20, name: 'LinkedIn' },
-                    { value: 15, name: 'Email' }
-                ],
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
+                name: '播放量',
+                type: 'bar',
+                data: [79168479, 13995741, 12238691]
+            }, {
+                name: '点赞量',
+                type: 'bar',
+                data: [305308, 78343, 131937]
+            }, {
+                name: '评论量',
+                type: 'bar',
+                data: [1184, 1212, 739]
+            }, {
+                name: '互动数',
+                type: 'bar',
+                data: [0, 13721, 0]
             }]
         });
 
@@ -366,4 +407,4 @@
     });
     </script>
 </body>
-</html> 
+</html>
