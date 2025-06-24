@@ -1,5 +1,7 @@
 // Service for KOL management
 import { KOL, KOLFilter, KOLMetrics, PlatformAccount } from '../types/kol';
+import { kolDatabaseService } from './kolDatabaseService';
+import { kolRealDataService } from './kolRealDataService';
 
 // Mock data generation for 189 KOLs
 const categories = [
@@ -241,14 +243,77 @@ class KOLService {
   }
 
   static async getKOLs(filter?: Partial<KOLFilter>): Promise<KOL[]> {
-    // Generate 189 KOLs if not already generated
+    // Get KOLs from real data service and generate additional ones
     if (!this.isInitialized) {
-      this.kols = Array.from({ length: 189 }, (_, i) => this.generateKOL(i));
+      const realKOLs = await kolRealDataService.getTopKOLs();
+      
+      // Convert real KOLs to full KOL objects
+      const convertedKOLs = realKOLs.map((realKOL, index) => {
+        const followerCount = realKOL.total_views / 3; // Estimate followers from views
+        const platformAccounts: PlatformAccount[] = [{
+          platform: realKOL.platform.toLowerCase() as 'youtube' | 'tiktok' | 'instagram' | 'twitter' | 'facebook',
+          username: `@${realKOL.kol_name.toLowerCase().replace(/\s+/g, '_')}`,
+          followers: Math.floor(followerCount),
+          followersGrowth: 15.5,
+          avgViews: realKOL.avg_views,
+          avgEngagement: realKOL.engagement_rate,
+          verified: followerCount > 1000000,
+          url: `https://${realKOL.platform.toLowerCase()}.com/user`,
+        }];
+        
+        return {
+          id: `kol_${index + 1}`,
+          name: realKOL.kol_name,
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${realKOL.kol_name.replace(' ', '')}`,
+          verified: followerCount > 1000000,
+          category: realKOL.top_categories[0] || 'General',
+          platforms: platformAccounts,
+          totalFollowers: Math.floor(followerCount),
+          avgEngagementRate: realKOL.engagement_rate,
+          totalVideos: realKOL.total_videos,
+          totalViews: realKOL.total_views,
+          joinedDate: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000 * 3).toISOString(),
+          lastActiveDate: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'active' as const,
+          tags: ['product-review', 'unboxing', 'tutorial'],
+          performanceScore: Math.floor(realKOL.engagement_rate * 5) + 60,
+          monthlyReach: Math.floor(followerCount * 0.6),
+          audienceDemographics: {
+            gender: {
+              male: 45.5,
+              female: 52.5,
+              other: 2.0,
+            },
+            ageGroups: {
+              '13-17': 8.5,
+              '18-24': 35.2,
+              '25-34': 32.8,
+              '35-44': 15.3,
+              '45+': 8.2,
+            },
+            topCountries: [
+              { country: 'United States', percentage: 42.5 },
+              { country: 'United Kingdom', percentage: 12.8 },
+              { country: 'Canada', percentage: 8.5 },
+              { country: 'Australia', percentage: 6.2 },
+              { country: 'Germany', percentage: 5.8 },
+            ],
+          },
+        } as KOL;
+      });
+      
+      // Generate additional KOLs to reach 189 total
+      const additionalCount = 189 - convertedKOLs.length;
+      const additionalKOLs = Array.from({ length: additionalCount }, (_, i) => 
+        this.generateKOL(convertedKOLs.length + i)
+      );
+      
+      this.kols = [...convertedKOLs, ...additionalKOLs];
       this.isInitialized = true;
     }
 
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     let filtered = [...this.kols];
 
@@ -317,12 +382,13 @@ class KOLService {
   }
 
   static async getKOLMetrics(): Promise<KOLMetrics> {
+    // Get metrics from real data service
+    const overviewMetrics = await kolRealDataService.getOverviewMetrics();
     const kols = await this.getKOLs();
 
-    const activeKOLs = kols.filter((kol) => kol.status === 'active').length;
-    const totalReach = kols.reduce((sum, kol) => sum + kol.totalFollowers, 0);
-    const avgEngagementRate =
-      kols.reduce((sum, kol) => sum + kol.avgEngagementRate, 0) / kols.length;
+    const activeKOLs = overviewMetrics.active_kols;
+    const totalReach = overviewMetrics.total_reach;
+    const avgEngagementRate = overviewMetrics.avg_engagement_rate;
 
     // Count by category
     const categoryCount = kols.reduce(

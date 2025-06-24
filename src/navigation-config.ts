@@ -32,6 +32,8 @@ export const navigationConfig: NavigationItem[] = [
     name: 'Content Testing',
     path: '/content-testing',
     children: [
+      { id: 'self-koc', name: 'Self-KOC Analysis', path: '/content-testing/self-koc' },
+      { id: 'neakasa-leap', name: 'KOC Performance', path: '/content-testing/neakasa-leap' },
       { id: 'ideation', name: 'Content Ideation Planning', path: '/content-testing/ideation' },
       { id: 'execution', name: 'Content Testing Execution', path: '/content-testing/execution' },
       { id: 'performance', name: 'Performance Analysis', path: '/content-testing/performance' },
@@ -54,16 +56,49 @@ export const navigationConfig: NavigationItem[] = [
     path: '/content-ads',
     children: [
       {
-        id: 'ad-distribution',
-        name: 'Ad Distribution Strategy',
-        path: '/content-ads/distribution',
+        id: 'ads-overview',
+        name: 'Overview',
+        path: '/content-ads/overview',
       },
-      { id: 'audience-insights', name: 'Audience Insights', path: '/content-ads/audience' },
-      { id: 'optimization', name: 'Content Optimization', path: '/content-ads/optimization' },
       {
-        id: 'performance-conversion',
-        name: 'Performance Conversion',
-        path: '/content-ads/performance',
+        id: 'ad-campaign-analytics',
+        name: 'Ad Campaign Analytics',
+        path: '/content-ads/campaign-analytics',
+      },
+      {
+        id: 'channel-performance',
+        name: 'Channel Performance Report',
+        path: '/content-ads/channel-performance',
+      },
+      {
+        id: 'campaign-details',
+        name: 'Campaign Detail Analysis',
+        path: '/content-ads/campaign-details',
+      },
+      {
+        id: 'pricing-strategy',
+        name: 'Pricing Strategy Analysis',
+        path: '/content-ads/pricing-strategy',
+      },
+      {
+        id: 'global-prime-day',
+        name: 'Global Prime Day Analysis',
+        path: '/content-ads/global-prime-day',
+      },
+      {
+        id: 'pricing-comparison',
+        name: 'Pricing Comparison Analysis',
+        path: '/content-ads/pricing-comparison',
+      },
+      {
+        id: 'kol-campaign-performance',
+        name: 'KOL Campaign Performance',
+        path: '/content-ads/kol-campaign-performance',
+      },
+      {
+        id: 'integrated-dashboard',
+        name: 'Integrated Performance Dashboard',
+        path: '/content-ads/integrated-dashboard',
       },
     ],
   },

@@ -2,9 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## 🚀 Latest Updates (June 23, 2025)
+## 🚀 Latest Updates (December 2024)
 
 ### ✨ New Features
+- **Self-KOC Analysis Module** - Performance analysis of self-operated content accounts across platforms
 - **Content Insight Overview Dashboard** - Comprehensive dashboard aggregating all analysis modules
 - **TikTok Video Card Implementation Guide** - Complete technical documentation in section 3.8
 - **React Query Integration** - Fixed QueryClientProvider setup for proper data fetching
@@ -63,22 +64,32 @@ npm run format:check      # Check code formatting
    - `viralVideoService.ts`: Viral video data management
    - `commentAnalysisService.ts`: User comment analysis with mock data
    - `semrushApi.ts`: SEO and competitor analysis integration
+   - `selfKOCService.ts`: Self-operated KOC account performance data
 
 2. **State Management**: 
    - **Zustand** (`src/stores/`): Local state for UI and cached data
-   - **React Query**: Server state, caching, and synchronization
+   - **React Query** (`@tanstack/react-query`): Server state, caching, and synchronization
    - Pattern: Services → React Query → Components (with Zustand for UI state)
 
 3. **Data Sources**:
    - CSV files in `data/` directory (KOL videos, viral videos)
-   - SQLite database (`neakasa.db`) for structured data
+   - SQLite database (`neakasa.db`) for structured data:
+     - `neakasa_selfkoc_accounts`: Self-operated KOC account metadata
+     - `neakasa_catbox_selfkoc_*`: Cat litter box product performance data
+     - `neakasa_gyj_selfkoc_*`: Garment steamer product performance data
    - Mock data for development (comment analysis, domain data)
    - External APIs (Semrush for SEO insights)
 
 ### Component Architecture
 - **Page Components**: Each module has its own directory under `src/components/`
+  - `overview/`: Dashboard and summary views
+  - `content-insight/`: Consumer voice, viral videos, search insights
+  - `content-testing/`: A/B testing and optimization
+  - `content-for-kol/`: KOL performance and management
+  - `content-for-ads/`: Ad distribution and optimization
+  - `content-for-private/`: Private channel analytics
 - **Shared Components**: 
-  - `ui/`: Reusable UI primitives (Card, Tabs, Select, Badge)
+  - `ui/`: Reusable UI primitives (card, tabs, select, badge) - lowercase naming
   - `video/`: Video handling components with platform adapters
   - `layout/`: App structure (Sidebar, MainLayout)
 - **Routing**: React Router v6 with navigation config in `navigation-config.ts`
@@ -158,9 +169,24 @@ const { data, isLoading, error } = useQuery({
 ## Testing Strategy
 
 - **Unit Tests**: Components and utilities with React Testing Library
-- **E2E Tests**: Critical user flows with Cypress
+- **E2E Tests**: Critical user flows with Cypress (configured but not yet implemented)
 - **Test Data**: Mock data generators in service files
 - Run single test: `npm test -- --testNamePattern="test name"`
+
+## Database Schema
+
+The SQLite database (`data/neakasa.db`) contains the following key tables:
+
+### Self-operated KOC Analysis Tables
+- `neakasa_selfkoc_accounts`: Account metadata (brand, product, channel, URL)
+- `neakasa_catbox_selfkoc_ytb/tk/ins`: Cat litter box content performance
+- `neakasa_gyj_selfkoc_ytb/tk/ins`: Garment steamer content performance
+
+### Other Key Tables
+- `kol_videos`: KOL video performance data
+- `viral_video`: Viral video analytics
+- `search_insights_summary`: SEO keyword performance
+- `domain_overview`: Domain-level metrics
 
 ## Claude AI Interaction Rules
 
@@ -955,7 +981,7 @@ function selectExecutionStrategy(task: Task) {
    - Real-time notifications
    - Collaborative features
 
-### Recent Improvements (June 23, 2025)
+### Recent Improvements (December 2024)
 
 1. **Code Quality Overhaul**
    - Fixed all 52 ESLint errors and warnings
@@ -970,6 +996,7 @@ function selectExecutionStrategy(task: Task) {
    - Better type inference and safety
 
 3. **New Features Added**
+   - **Self-KOC Analysis Module**: Track and analyze self-operated content accounts
    - **Content Insight Overview Dashboard**: Comprehensive view aggregating all analysis data
    - **React Query Integration**: Fixed QueryClientProvider setup in App.tsx
    - **TikTok Video Implementation Guide**: Added complete technical documentation
@@ -1018,7 +1045,7 @@ function selectExecutionStrategy(task: Task) {
 1. **Platform Limitations**: TikTok videos cannot be embedded directly (use preview + link approach)
 2. **Mock Data**: All data is currently mocked, not persistent
 3. **Authentication**: Demo-only implementation (accepts any credentials)
-4. ~~**ESLint/TypeScript Issues**: All resolved as of June 23, 2025~~
+4. **Navigation Issues**: Self-KOC Analysis is currently placed under Content Testing but should be under Content Insight
 
 ### Development Guidelines for New Features
 

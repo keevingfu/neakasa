@@ -1,14 +1,13 @@
 import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import AdCampaignAnalytics from './AdCampaignAnalytics';
 
 const ContentEmpowermentAds: React.FC = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Content Empowerment for Ads</h1>
-      <p className="text-gray-600">
-        Enhance your advertising campaigns with data-driven content strategies and creative
-        optimization tools.
-      </p>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navigate to="campaign-analytics" replace />} />
+      <Route path="campaign-analytics" element={<AdCampaignAnalytics />} />
+    </Routes>
   );
 };
 

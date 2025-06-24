@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '../ui/card';
-import { TrendingUp, Users, Search, Video, BarChart3, ThumbsUp, MessageSquare, Share2 } from 'lucide-react';
+import { TrendingUp, Users, Search, Video, BarChart3, ThumbsUp, MessageSquare, Share2, Package } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { commentAnalysisService } from '../../services/commentAnalysisService';
 import { domainMockData } from '../../services/domainMockData';
@@ -302,26 +302,129 @@ const ContentInsightOverview: React.FC = () => {
         </Card>
       </div>
 
+      {/* Self-KOC Analysis Summary */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Self-Operated KOC Performance</h2>
+            <Package className="w-5 h-5 text-gray-400" />
+          </div>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center p-3 bg-green-50 rounded-lg">
+                <p className="text-2xl font-bold text-green-600">4,167</p>
+                <p className="text-sm text-gray-600">Cat Litter Box Content</p>
+                <p className="text-xs text-green-600 mt-1">93K avg views on IG</p>
+              </div>
+              <div className="text-center p-3 bg-blue-50 rounded-lg">
+                <p className="text-2xl font-bold text-blue-600">1,041</p>
+                <p className="text-sm text-gray-600">Garment Steamer Content</p>
+                <p className="text-xs text-blue-600 mt-1">1.8K avg views on IG</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Best Platform:</span>
+                <span className="text-sm font-medium text-pink-600">Instagram</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Best Engagement:</span>
+                <span className="text-sm font-medium text-red-600">YouTube (4.15%)</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Total Accounts:</span>
+                <span className="text-sm font-medium">89 Active</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Key Insights & Actions</h2>
+            <TrendingUp className="w-5 h-5 text-gray-400" />
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-green-100 rounded">
+                <div className="w-2 h-2 bg-green-500 rounded-full" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">Focus on Cat Litter Box</p>
+                <p className="text-xs text-gray-500">4x better performance than garment steamer</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-pink-100 rounded">
+                <div className="w-2 h-2 bg-pink-500 rounded-full" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">Prioritize Instagram Strategy</p>
+                <p className="text-xs text-gray-500">93K average views vs 12K on YouTube</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-red-100 rounded">
+                <div className="w-2 h-2 bg-red-500 rounded-full" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">Leverage YouTube Engagement</p>
+                <p className="text-xs text-gray-500">Despite lower views, engagement rate is highest</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="p-1 bg-blue-100 rounded">
+                <div className="w-2 h-2 bg-blue-500 rounded-full" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">Review Garment Steamer Strategy</p>
+                <p className="text-xs text-gray-500">Consider repositioning or reducing investment</p>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+
       {/* Quick Actions */}
       <Card className="p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <button className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <button 
+            onClick={() => window.location.href = '/content-insight/consumer-voice'}
+            className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
+          >
             <MessageSquare className="w-5 h-5 text-blue-600 mb-2" />
             <p className="font-medium text-gray-900">Analyze Comments</p>
             <p className="text-sm text-gray-500">Deep dive into consumer sentiment</p>
           </button>
-          <button className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors">
+          <button 
+            onClick={() => window.location.href = '/content-insight/search'}
+            className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
+          >
             <Search className="w-5 h-5 text-purple-600 mb-2" />
             <p className="font-medium text-gray-900">Keyword Research</p>
             <p className="text-sm text-gray-500">Discover trending search terms</p>
           </button>
-          <button className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors">
+          <button 
+            onClick={() => window.location.href = '/content-insight/viral-video'}
+            className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
+          >
             <Video className="w-5 h-5 text-green-600 mb-2" />
             <p className="font-medium text-gray-900">Find Viral Content</p>
             <p className="text-sm text-gray-500">Explore top performing videos</p>
           </button>
-          <button className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors">
+          <button 
+            onClick={() => window.location.href = '/content-testing/self-koc'}
+            className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <Package className="w-5 h-5 text-indigo-600 mb-2" />
+            <p className="font-medium text-gray-900">Self-KOC Analysis</p>
+            <p className="text-sm text-gray-500">Track owned accounts performance</p>
+          </button>
+          <button 
+            onClick={() => window.location.href = '/content-testing'}
+            className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
+          >
             <BarChart3 className="w-5 h-5 text-orange-600 mb-2" />
             <p className="font-medium text-gray-900">Run A/B Test</p>
             <p className="text-sm text-gray-500">Test content variations</p>

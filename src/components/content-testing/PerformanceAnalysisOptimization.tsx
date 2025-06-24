@@ -3,6 +3,7 @@ import ReactECharts from 'echarts-for-react';
 import { Calculator, TrendingUp, Award, BarChart3, Info, CheckCircle, XCircle } from 'lucide-react';
 import { ContentTestingService } from '../../services/contentTestingService';
 import { TestExecution, TestAnalysis, ABTestIdea } from '../../types/contentTesting';
+import SelfKOCPerformanceAnalysis from './SelfKOCPerformanceAnalysis';
 
 const ContentPerformanceOptimization: React.FC = () => {
   const [executions, setExecutions] = useState<TestExecution[]>([]);
@@ -357,31 +358,6 @@ const ContentPerformanceOptimization: React.FC = () => {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-gray-800">Performance Analysis & Optimization</h1>
 
-      {/* Test Selector */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm">
-        <h2 className="text-xl font-bold mb-4">Select Test for Analysis</h2>
-        <select
-          value={selectedExecution?.id || ''}
-          onChange={(e) => {
-            const execution = executions.find((ex) => ex.id === e.target.value);
-            if (execution) {
-              setSelectedExecution(execution);
-              analyzeTest(execution);
-            }
-          }}
-          className="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {executions.map((execution) => {
-            const test = testIdeas.find((t) => t.id === execution.testId);
-            return (
-              <option key={execution.id} value={execution.id}>
-                {test?.name || 'Unknown Test'} - Started{' '}
-                {new Date(execution.startDate).toLocaleDateString()}
-              </option>
-            );
-          })}
-        </select>
-      </div>
 
       {selectedExecution && analysis && (
         <>
@@ -545,6 +521,8 @@ const ContentPerformanceOptimization: React.FC = () => {
           </div>
         </>
       )}
+      {/* Self-KOC Performance Analysis */}
+      <SelfKOCPerformanceAnalysis />
     </div>
   );
 };

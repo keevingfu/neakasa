@@ -14,6 +14,7 @@ import {
   Award,
   Activity,
   BookOpen,
+  Users,
 } from 'lucide-react';
 import { ContentTestingService } from '../../services/contentTestingService';
 import { ABTestIdea, TestExecution, TestLearning } from '../../types/contentTesting';
@@ -340,7 +341,16 @@ const ContentTestingHub: React.FC = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+        <Link
+          to="/content-testing/self-koc"
+          className="bg-gradient-to-r from-pink-50 to-pink-100 p-6 rounded-2xl hover:shadow-md transition-shadow"
+        >
+          <Users className="w-8 h-8 text-pink-600 mb-3" />
+          <h3 className="font-semibold mb-1">Self-KOC Analysis</h3>
+          <p className="text-sm text-gray-600">Analyze owned accounts</p>
+        </Link>
+        
         <Link
           to="/content-testing/ideation"
           className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl hover:shadow-md transition-shadow"
