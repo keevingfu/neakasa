@@ -1,0 +1,40 @@
+# Husky
+.husky
+
+# Git
+.git
+.gitignore
+
+# Testing
+cypress
+coverage
+__tests__
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Development files
+.env.local
+.env.development.local
+.env.test.local
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Scripts
+start-dev.sh
+start-project.sh
+
+# Test files
+testSemrushDirect.js
+test-search-insights.md
