@@ -3,7 +3,6 @@ import { Card } from '../ui/card';
 import {
   BarChart,
   Bar,
-  LineChart,
   Line,
   PieChart,
   Pie,
@@ -14,26 +13,19 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  RadarChart,
-  Radar,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ComposedChart,
   Treemap,
-  Sankey
 } from 'recharts';
-import { 
-  Globe, 
-  DollarSign, 
-  ShoppingBag, 
+import {
+  Globe,
+  ShoppingBag,
   Clock,
   TrendingUp,
   Award,
   MapPin,
   Package,
-  Tag
+  Tag,
 } from 'lucide-react';
+import { CustomTooltipProps } from '../../types/charts';
 
 interface MarketData {
   country: string;
@@ -50,7 +42,9 @@ interface MarketData {
 }
 
 const GlobalPrimeDayAnalysis: React.FC = () => {
-  const [selectedRegion, setSelectedRegion] = useState<'all' | 'americas' | 'europe' | 'apac'>('all');
+  const [selectedRegion, setSelectedRegion] = useState<'all' | 'americas' | 'europe' | 'apac'>(
+    'all'
+  );
   const [selectedProduct, setSelectedProduct] = useState<'all' | 'm1' | 'm1lite' | 'magic1'>('all');
 
   // Market data by country
@@ -66,7 +60,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '$379.99-$382.49',
       promotionTypes: ['DOTD', 'Prime Exclusive'],
       timeZone: 'PDT',
-      color: '#3B82F6'
+      color: '#3B82F6',
     },
     {
       country: 'Canada',
@@ -79,7 +73,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '$118.99-$559.99',
       promotionTypes: ['BD', 'DOTD'],
       timeZone: 'PDT',
-      color: '#EF4444'
+      color: '#EF4444',
     },
     {
       country: 'Japan',
@@ -92,7 +86,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '¥41,859',
       promotionTypes: ['BD'],
       timeZone: 'JST',
-      color: '#EC4899'
+      color: '#EC4899',
     },
     {
       country: 'Germany',
@@ -105,7 +99,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '€99.99-€399.99',
       promotionTypes: ['DOTD', 'Prime Exclusive', 'BD'],
       timeZone: 'GMT+2',
-      color: '#F59E0B'
+      color: '#F59E0B',
     },
     {
       country: 'Italy',
@@ -118,7 +112,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '€99.99-€399.99',
       promotionTypes: ['DOTD', 'Prime Exclusive'],
       timeZone: 'GMT+2',
-      color: '#10B981'
+      color: '#10B981',
     },
     {
       country: 'France',
@@ -131,7 +125,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '€99.99-€399.99',
       promotionTypes: ['DOTD', 'Prime Exclusive'],
       timeZone: 'GMT+2',
-      color: '#6366F1'
+      color: '#6366F1',
     },
     {
       country: 'United Kingdom',
@@ -144,7 +138,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '€99.99-€399.99',
       promotionTypes: ['DOTD', 'BD'],
       timeZone: 'GMT+1',
-      color: '#8B5CF6'
+      color: '#8B5CF6',
     },
     {
       country: 'Spain',
@@ -157,7 +151,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '€103.99-€399.99',
       promotionTypes: ['Prime Exclusive'],
       timeZone: 'GMT+2',
-      color: '#DC2626'
+      color: '#DC2626',
     },
     {
       country: 'Australia',
@@ -170,17 +164,19 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       priceRange: '$559.00',
       promotionTypes: ['DOTD'],
       timeZone: 'AEST',
-      color: '#059669'
-    }
+      color: '#059669',
+    },
   ];
 
   // Filter data based on selection
-  const filteredData = marketData.filter(market => {
-    const regionMatch = selectedRegion === 'all' || 
+  const filteredData = marketData.filter((market) => {
+    const regionMatch =
+      selectedRegion === 'all' ||
       (selectedRegion === 'americas' && ['United States', 'Canada'].includes(market.country)) ||
-      (selectedRegion === 'europe' && ['Germany', 'Italy', 'France', 'United Kingdom', 'Spain'].includes(market.country)) ||
+      (selectedRegion === 'europe' &&
+        ['Germany', 'Italy', 'France', 'United Kingdom', 'Spain'].includes(market.country)) ||
       (selectedRegion === 'apac' && ['Japan', 'Australia'].includes(market.country));
-    
+
     return regionMatch;
   });
 
@@ -191,55 +187,65 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
     totalM1: filteredData.reduce((sum, m) => sum + m.m1Count, 0),
     totalM1Lite: filteredData.reduce((sum, m) => sum + m.m1LiteCount, 0),
     totalMagic1: filteredData.reduce((sum, m) => sum + m.magic1Count, 0),
-    avgProductsPerMarket: filteredData.length > 0 ? 
-      (filteredData.reduce((sum, m) => sum + m.products, 0) / filteredData.length).toFixed(1) : 0
+    avgProductsPerMarket:
+      filteredData.length > 0
+        ? (filteredData.reduce((sum, m) => sum + m.products, 0) / filteredData.length).toFixed(1)
+        : 0,
   };
 
   // Regional distribution
   const regionalDistribution = [
-    { 
-      region: 'Americas', 
-      markets: 2, 
+    {
+      region: 'Americas',
+      markets: 2,
       products: 5,
       revenue: 45000,
-      color: '#3B82F6'
+      color: '#3B82F6',
     },
-    { 
-      region: 'Europe', 
-      markets: 5, 
+    {
+      region: 'Europe',
+      markets: 5,
       products: 14,
       revenue: 120000,
-      color: '#10B981'
+      color: '#10B981',
     },
-    { 
-      region: 'APAC', 
-      markets: 2, 
+    {
+      region: 'APAC',
+      markets: 2,
       products: 3,
       revenue: 35000,
-      color: '#F59E0B'
-    }
+      color: '#F59E0B',
+    },
   ];
 
   // Product availability by market
-  const productAvailability = filteredData.map(market => ({
+  const productAvailability = filteredData.map((market) => ({
     country: market.country,
     M1: market.m1Count,
     'M1 Lite': market.m1LiteCount,
     'Magic 1': market.magic1Count,
-    total: market.products
+    total: market.products,
   }));
 
   // Promotion type distribution
   const promotionTypes = ['DOTD', 'Prime Exclusive', 'BD'];
-  const promotionDistribution = promotionTypes.map(type => ({
+  const promotionDistribution = promotionTypes.map((type) => ({
     type,
-    count: filteredData.reduce((sum, market) => 
-      sum + (market.promotionTypes.includes(type) ? 1 : 0), 0
+    count: filteredData.reduce(
+      (sum, market) => sum + (market.promotionTypes.includes(type) ? 1 : 0),
+      0
     ),
-    percentage: filteredData.length > 0 ?
-      (filteredData.reduce((sum, market) => 
-        sum + (market.promotionTypes.includes(type) ? 1 : 0), 0
-      ) / filteredData.length * 100).toFixed(1) : 0
+    percentage:
+      filteredData.length > 0
+        ? (
+            (filteredData.reduce(
+              (sum, market) => sum + (market.promotionTypes.includes(type) ? 1 : 0),
+              0
+            ) /
+              filteredData.length) *
+            100
+          ).toFixed(1)
+        : 0,
   }));
 
   // Time zone coverage
@@ -247,24 +253,24 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
     { zone: 'PDT (Americas)', start: '7/8 12:00 AM', duration: 96, offset: -7 },
     { zone: 'GMT+2 (Europe)', start: '7/8 12:00 AM', duration: 96, offset: 2 },
     { zone: 'JST (Japan)', start: '7/8 12:00 AM', duration: 168, offset: 9 },
-    { zone: 'AEST (Australia)', start: '7/8 12:00 AM', duration: 96, offset: 10 }
+    { zone: 'AEST (Australia)', start: '7/8 12:00 AM', duration: 96, offset: 10 },
   ];
 
   // Treemap data for market size
-  const treemapData = filteredData.map(market => ({
+  const treemapData = filteredData.map((market) => ({
     name: market.country,
     size: market.products * 1000,
     value: market.products,
-    color: market.color
+    color: market.color,
   }));
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-semibold text-sm">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <p key={index} className="text-xs" style={{ color: entry.color }}>
               {entry.name}: {entry.value}
             </p>
@@ -281,12 +287,14 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Global Prime Day Analysis</h2>
-          <p className="text-gray-600 mt-1">Amazon Prime Day performance across 9 international markets</p>
+          <p className="text-gray-600 mt-1">
+            Amazon Prime Day performance across 9 international markets
+          </p>
         </div>
         <div className="flex gap-2">
           <select
             value={selectedRegion}
-            onChange={(e) => setSelectedRegion(e.target.value as any)}
+            onChange={(e) => setSelectedRegion(e.target.value as 'all' | 'americas' | 'europe' | 'apac')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All Regions</option>
@@ -296,7 +304,7 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
           </select>
           <select
             value={selectedProduct}
-            onChange={(e) => setSelectedProduct(e.target.value as any)}
+            onChange={(e) => setSelectedProduct(e.target.value as 'all' | 'm1' | 'm1lite' | 'magic1')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All Products</option>
@@ -386,7 +394,14 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
               <Legend />
               <Bar yAxisId="left" dataKey="markets" name="Markets" fill="#3B82F6" />
               <Bar yAxisId="left" dataKey="products" name="Products" fill="#10B981" />
-              <Line yAxisId="right" type="monotone" dataKey="revenue" name="Est. Revenue" stroke="#F59E0B" strokeWidth={2} />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="revenue"
+                name="Est. Revenue"
+                stroke="#F59E0B"
+                strokeWidth={2}
+              />
             </BarChart>
           </ResponsiveContainer>
         </Card>
@@ -416,12 +431,12 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
           <Treemap
             data={treemapData}
             dataKey="size"
-            aspectRatio={4/3}
+            aspectRatio={4 / 3}
             stroke="#fff"
             fill="#8884d8"
           >
-            <Tooltip 
-              content={({ active, payload }: any) => {
+            <Tooltip
+              content={({ active, payload }: { active?: boolean; payload?: Array<{ payload: { name: string; value: number } }> }) => {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload;
                   return (
@@ -501,10 +516,11 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
                   <span className="text-sm text-gray-600">{zone.duration}h</span>
                 </div>
                 <div className="text-sm text-gray-600">
-                  Start: {zone.start} (UTC{zone.offset > 0 ? '+' : ''}{zone.offset})
+                  Start: {zone.start} (UTC{zone.offset > 0 ? '+' : ''}
+                  {zone.offset})
                 </div>
                 <div className="mt-2 bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full"
                     style={{ width: `${(zone.duration / 168) * 100}%` }}
                   />
@@ -524,12 +540,18 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Country</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">Region</th>
-                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">Products</th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">
+                  Products
+                </th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">M1</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">M1 Lite</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">Magic 1</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Price Range</th>
-                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">Promotion Types</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">
+                  Price Range
+                </th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">
+                  Promotion Types
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -542,11 +564,15 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      market.region === 'Americas' ? 'bg-blue-100 text-blue-800' :
-                      market.region === 'Europe' ? 'bg-green-100 text-green-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        market.region === 'Americas'
+                          ? 'bg-blue-100 text-blue-800'
+                          : market.region === 'Europe'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-yellow-100 text-yellow-800'
+                      }`}
+                    >
                       {market.region}
                     </span>
                   </td>
@@ -584,7 +610,8 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
               <div>
                 <p className="text-sm font-medium">Europe Dominates Coverage</p>
                 <p className="text-xs text-gray-600">
-                  5 markets with consistent €399.99 pricing for M1, showing strong regional coordination
+                  5 markets with consistent €399.99 pricing for M1, showing strong regional
+                  coordination
                 </p>
               </div>
             </div>
@@ -593,7 +620,8 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
               <div>
                 <p className="text-sm font-medium">Product Mix Strategy</p>
                 <p className="text-xs text-gray-600">
-                  Europe & Germany lead with full 3-product lineup, while APAC focuses on flagship M1
+                  Europe & Germany lead with full 3-product lineup, while APAC focuses on flagship
+                  M1
                 </p>
               </div>
             </div>
@@ -602,7 +630,8 @@ const GlobalPrimeDayAnalysis: React.FC = () => {
               <div>
                 <p className="text-sm font-medium">Japan Extended Event</p>
                 <p className="text-xs text-gray-600">
-                  7-day event (vs 4 days elsewhere) indicates strategic importance of Japanese market
+                  7-day event (vs 4 days elsewhere) indicates strategic importance of Japanese
+                  market
                 </p>
               </div>
             </div>

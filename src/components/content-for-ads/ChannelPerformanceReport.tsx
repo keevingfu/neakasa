@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card } from '../ui/card';
 import {
-  BarChart,
   Bar,
   LineChart,
   Line,
@@ -20,9 +19,15 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   ComposedChart,
-  Area
 } from 'recharts';
-import { DollarSign, TrendingUp, Users, ShoppingCart, Globe, BarChart3, AlertCircle } from 'lucide-react';
+import {
+  DollarSign,
+  Users,
+  ShoppingCart,
+  Globe,
+  BarChart3,
+  AlertCircle,
+} from 'lucide-react';
 
 const ChannelPerformanceReport: React.FC = () => {
   // Data based on the provided table
@@ -34,8 +39,8 @@ const ChannelPerformanceReport: React.FC = () => {
         { name: 'Official Website', traffic: 1191, revenue: 55.99, color: '#3B82F6' },
         { name: 'Amazon', traffic: 5596, revenue: 479.98, color: '#F59E0B' },
         { name: 'TikTok Shop', traffic: 1220, revenue: 0, color: '#000000' },
-        { name: 'Meta', traffic: 0, revenue: 0, color: '#1877F2' }
-      ]
+        { name: 'Meta', traffic: 0, revenue: 0, color: '#1877F2' },
+      ],
     },
     week2: {
       period: '06/11-06/14',
@@ -44,8 +49,8 @@ const ChannelPerformanceReport: React.FC = () => {
         { name: 'Official Website', traffic: 1680, revenue: 55.99, color: '#3B82F6' },
         { name: 'Amazon', traffic: 6411, revenue: 479.98, color: '#F59E0B' },
         { name: 'TikTok Shop', traffic: 1674, revenue: 0, color: '#000000' },
-        { name: 'Meta', traffic: 0, revenue: 3259.44, color: '#1877F2' }
-      ]
+        { name: 'Meta', traffic: 0, revenue: 3259.44, color: '#1877F2' },
+      ],
     },
     total: {
       period: '05/07-06/22',
@@ -54,9 +59,9 @@ const ChannelPerformanceReport: React.FC = () => {
         { name: 'Official Website', traffic: 1908, revenue: 55.99, color: '#3B82F6' },
         { name: 'Amazon', traffic: 8092, revenue: 479.98, color: '#F59E0B' },
         { name: 'TikTok Shop', traffic: 1874, revenue: 0, color: '#000000' },
-        { name: 'Meta', traffic: 0, revenue: 3259.44, color: '#1877F2' }
-      ]
-    }
+        { name: 'Meta', traffic: 0, revenue: 3259.44, color: '#1877F2' },
+      ],
+    },
   };
 
   const [selectedView, setSelectedView] = useState<'week1' | 'week2' | 'total'>('total');
@@ -67,25 +72,26 @@ const ChannelPerformanceReport: React.FC = () => {
     const totalTraffic = data.total.traffic;
     const totalRevenue = data.total.revenue;
     const avgRevenuePerVisit = totalTraffic > 0 ? totalRevenue / totalTraffic : 0;
-    
+
     return {
       totalTraffic,
       totalRevenue,
       avgRevenuePerVisit,
-      trafficGrowth: selectedView === 'week2' ? ((9765 - 8007) / 8007 * 100) : 0,
-      revenueGrowth: selectedView === 'week2' ? ((3795.41 - 535.97) / 535.97 * 100) : 0
+      trafficGrowth: selectedView === 'week2' ? ((9765 - 8007) / 8007) * 100 : 0,
+      revenueGrowth: selectedView === 'week2' ? ((3795.41 - 535.97) / 535.97) * 100 : 0,
     };
   };
 
   const metrics = calculateMetrics(currentData);
 
   // Traffic vs Revenue comparison
-  const comparisonData = currentData.channels.map(channel => ({
+  const comparisonData = currentData.channels.map((channel) => ({
     name: channel.name,
     traffic: channel.traffic,
     revenue: channel.revenue,
     trafficShare: ((channel.traffic / metrics.totalTraffic) * 100).toFixed(1),
-    revenueShare: channel.revenue > 0 ? ((channel.revenue / metrics.totalRevenue) * 100).toFixed(1) : '0'
+    revenueShare:
+      channel.revenue > 0 ? ((channel.revenue / metrics.totalRevenue) * 100).toFixed(1) : '0',
   }));
 
   // Weekly trend data
@@ -94,53 +100,53 @@ const ChannelPerformanceReport: React.FC = () => {
       week: 'Week 1',
       traffic: rawData.week1.total.traffic,
       revenue: rawData.week1.total.revenue,
-      avgPerVisit: rawData.week1.total.revenue / rawData.week1.total.traffic
+      avgPerVisit: rawData.week1.total.revenue / rawData.week1.total.traffic,
     },
     {
       week: 'Week 2',
       traffic: rawData.week2.total.traffic,
       revenue: rawData.week2.total.revenue,
-      avgPerVisit: rawData.week2.total.revenue / rawData.week2.total.traffic
-    }
+      avgPerVisit: rawData.week2.total.revenue / rawData.week2.total.traffic,
+    },
   ];
 
   // Channel effectiveness radar
   const radarData = [
     {
       metric: 'Traffic Volume',
-      'Official': 20,
-      'Amazon': 85,
-      'TikTok': 20,
-      'Meta': 0
+      Official: 20,
+      Amazon: 85,
+      TikTok: 20,
+      Meta: 0,
     },
     {
       metric: 'Revenue Share',
-      'Official': 2,
-      'Amazon': 13,
-      'TikTok': 0,
-      'Meta': 86
+      Official: 2,
+      Amazon: 13,
+      TikTok: 0,
+      Meta: 86,
     },
     {
       metric: 'Conversion',
-      'Official': 10,
-      'Amazon': 6,
-      'TikTok': 0,
-      'Meta': 100
+      Official: 10,
+      Amazon: 6,
+      TikTok: 0,
+      Meta: 100,
     },
     {
       metric: 'Growth Potential',
-      'Official': 40,
-      'Amazon': 60,
-      'TikTok': 90,
-      'Meta': 70
+      Official: 40,
+      Amazon: 60,
+      TikTok: 90,
+      Meta: 70,
     },
     {
       metric: 'ROI',
-      'Official': 30,
-      'Amazon': 40,
-      'TikTok': 0,
-      'Meta': 100
-    }
+      Official: 30,
+      Amazon: 40,
+      TikTok: 0,
+      Meta: 100,
+    },
   ];
 
   const COLORS = ['#3B82F6', '#F59E0B', '#000000', '#1877F2'];
@@ -236,12 +242,12 @@ const ChannelPerformanceReport: React.FC = () => {
               <Tooltip />
               <Legend />
               <Bar yAxisId="left" dataKey="traffic" name="Traffic" fill="#3B82F6" />
-              <Line 
-                yAxisId="right" 
-                type="monotone" 
-                dataKey="revenue" 
-                name="Revenue ($)" 
-                stroke="#10B981" 
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="revenue"
+                name="Revenue ($)"
+                stroke="#10B981"
                 strokeWidth={3}
               />
             </ComposedChart>
@@ -254,7 +260,7 @@ const ChannelPerformanceReport: React.FC = () => {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={currentData.channels.filter(c => c.revenue > 0)}
+                data={currentData.channels.filter((c) => c.revenue > 0)}
                 cx="50%"
                 cy="50%"
                 innerRadius={60}
@@ -284,27 +290,27 @@ const ChannelPerformanceReport: React.FC = () => {
             <YAxis yAxisId="right" orientation="right" />
             <Tooltip />
             <Legend />
-            <Line 
-              yAxisId="left" 
-              type="monotone" 
-              dataKey="traffic" 
-              stroke="#3B82F6" 
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="traffic"
+              stroke="#3B82F6"
               strokeWidth={2}
               name="Traffic"
             />
-            <Line 
-              yAxisId="right" 
-              type="monotone" 
-              dataKey="revenue" 
-              stroke="#10B981" 
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="revenue"
+              stroke="#10B981"
               strokeWidth={2}
               name="Revenue ($)"
             />
-            <Line 
-              yAxisId="right" 
-              type="monotone" 
-              dataKey="avgPerVisit" 
-              stroke="#F59E0B" 
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="avgPerVisit"
+              stroke="#F59E0B"
               strokeWidth={2}
               strokeDasharray="5 5"
               name="$/Visit"
@@ -322,9 +328,13 @@ const ChannelPerformanceReport: React.FC = () => {
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Channel</th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Traffic</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Traffic %</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Traffic %
+                </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Revenue</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Revenue %</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Revenue %
+                </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">$/Visit</th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Status</th>
               </tr>
@@ -333,7 +343,9 @@ const ChannelPerformanceReport: React.FC = () => {
               {comparisonData.map((channel, index) => (
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-sm font-medium">{channel.name}</td>
-                  <td className="px-4 py-3 text-sm text-right">{channel.traffic.toLocaleString()}</td>
+                  <td className="px-4 py-3 text-sm text-right">
+                    {channel.traffic.toLocaleString()}
+                  </td>
                   <td className="px-4 py-3 text-sm text-right">{channel.trafficShare}%</td>
                   <td className="px-4 py-3 text-sm text-right font-medium">
                     ${channel.revenue.toFixed(2)}
@@ -377,9 +389,27 @@ const ChannelPerformanceReport: React.FC = () => {
               <PolarGrid />
               <PolarAngleAxis dataKey="metric" />
               <PolarRadiusAxis angle={90} domain={[0, 100]} />
-              <Radar name="Official Website" dataKey="Official" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.6} />
-              <Radar name="Amazon" dataKey="Amazon" stroke="#F59E0B" fill="#F59E0B" fillOpacity={0.6} />
-              <Radar name="TikTok Shop" dataKey="TikTok" stroke="#000000" fill="#000000" fillOpacity={0.6} />
+              <Radar
+                name="Official Website"
+                dataKey="Official"
+                stroke="#3B82F6"
+                fill="#3B82F6"
+                fillOpacity={0.6}
+              />
+              <Radar
+                name="Amazon"
+                dataKey="Amazon"
+                stroke="#F59E0B"
+                fill="#F59E0B"
+                fillOpacity={0.6}
+              />
+              <Radar
+                name="TikTok Shop"
+                dataKey="TikTok"
+                stroke="#000000"
+                fill="#000000"
+                fillOpacity={0.6}
+              />
               <Radar name="Meta" dataKey="Meta" stroke="#1877F2" fill="#1877F2" fillOpacity={0.6} />
               <Legend />
             </RadarChart>
@@ -398,15 +428,24 @@ const ChannelPerformanceReport: React.FC = () => {
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start">
                   <span className="text-green-600 mr-2">1.</span>
-                  <span><strong>Scale Meta Campaigns:</strong> 85.9% of revenue with $0 direct traffic cost</span>
+                  <span>
+                    <strong>Scale Meta Campaigns:</strong> 85.9% of revenue with $0 direct traffic
+                    cost
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-yellow-600 mr-2">2.</span>
-                  <span><strong>Optimize Amazon:</strong> 68% traffic but only 12.6% revenue - improve conversion</span>
+                  <span>
+                    <strong>Optimize Amazon:</strong> 68% traffic but only 12.6% revenue - improve
+                    conversion
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-red-600 mr-2">3.</span>
-                  <span><strong>Activate TikTok Shop:</strong> 1,874 visits with $0 revenue - urgent setup needed</span>
+                  <span>
+                    <strong>Activate TikTok Shop:</strong> 1,874 visits with $0 revenue - urgent
+                    setup needed
+                  </span>
                 </li>
               </ul>
             </div>
@@ -415,11 +454,15 @@ const ChannelPerformanceReport: React.FC = () => {
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span>Week 2 showed 608% revenue growth - analyze and replicate success factors</span>
+                  <span>
+                    Week 2 showed 608% revenue growth - analyze and replicate success factors
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span>Official website has stable but low conversion - consider UX improvements</span>
+                  <span>
+                    Official website has stable but low conversion - consider UX improvements
+                  </span>
                 </li>
               </ul>
             </div>

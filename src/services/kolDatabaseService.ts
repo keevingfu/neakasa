@@ -38,7 +38,7 @@ class KOLDatabaseService {
       engagement: 12.5,
       totalVideos: 45,
       platform: 'TikTok',
-      status: 'active' as const
+      status: 'active' as const,
     },
     {
       id: '2',
@@ -50,7 +50,7 @@ class KOLDatabaseService {
       engagement: 15.2,
       totalVideos: 38,
       platform: 'TikTok',
-      status: 'active' as const
+      status: 'active' as const,
     },
     {
       id: '3',
@@ -62,7 +62,7 @@ class KOLDatabaseService {
       engagement: 18.9,
       totalVideos: 52,
       platform: 'TikTok',
-      status: 'active' as const
+      status: 'active' as const,
     },
     {
       id: '4',
@@ -74,7 +74,7 @@ class KOLDatabaseService {
       engagement: 9.8,
       totalVideos: 28,
       platform: 'TikTok',
-      status: 'active' as const
+      status: 'active' as const,
     },
     {
       id: '5',
@@ -86,8 +86,8 @@ class KOLDatabaseService {
       engagement: 14.3,
       totalVideos: 41,
       platform: 'TikTok',
-      status: 'active' as const
-    }
+      status: 'active' as const,
+    },
   ];
 
   // Performance data based on video_analysis table
@@ -103,7 +103,7 @@ class KOLDatabaseService {
         { month: 'Mar', value: 3800000 },
         { month: 'Apr', value: 4100000 },
         { month: 'May', value: 4500000 },
-        { month: 'Jun', value: 4800000 }
+        { month: 'Jun', value: 4800000 },
       ],
       engagement: [
         { month: 'Jan', value: 12.5 },
@@ -111,9 +111,9 @@ class KOLDatabaseService {
         { month: 'Mar', value: 13.8 },
         { month: 'Apr', value: 14.1 },
         { month: 'May', value: 14.5 },
-        { month: 'Jun', value: 14.8 }
-      ]
-    }
+        { month: 'Jun', value: 14.8 },
+      ],
+    },
   };
 
   // Category performance based on video analysis
@@ -122,7 +122,7 @@ class KOLDatabaseService {
     { category: 'Home & Garden', reach: 6200000, engagement: 16.8, revenue: 380000 },
     { category: 'Beauty', reach: 5800000, engagement: 18.5, revenue: 290000 },
     { category: 'Smart Home', reach: 3500000, engagement: 12.5, revenue: 150000 },
-    { category: 'Outdoor', reach: 1800000, engagement: 9.8, revenue: 45000 }
+    { category: 'Outdoor', reach: 1800000, engagement: 9.8, revenue: 45000 },
   ];
 
   // Brand analysis from video_analysis table
@@ -132,14 +132,14 @@ class KOLDatabaseService {
       { brand: 'Soundcore', videos: 38, avgViews: 720000, engagement: 14.2 },
       { brand: 'Tineco', videos: 28, avgViews: 680000, engagement: 13.5 },
       { brand: 'JBL', videos: 25, avgViews: 620000, engagement: 12.8 },
-      { brand: 'Tarte', videos: 22, avgViews: 1200000, engagement: 19.2 }
+      { brand: 'Tarte', videos: 22, avgViews: 1200000, engagement: 19.2 },
     ],
     competitorAnalysis: {
       neakasa: { marketShare: 8.5, growth: 12.3 },
       eufy: { marketShare: 24.5, growth: 18.5 },
       tineco: { marketShare: 15.2, growth: 9.8 },
-      others: { marketShare: 51.8, growth: 6.2 }
-    }
+      others: { marketShare: 51.8, growth: 6.2 },
+    },
   };
 
   // Content analysis from scenes and emotions data
@@ -149,21 +149,21 @@ class KOLDatabaseService {
       { tag: 'product_demo', count: 156, avgViews: 820000 },
       { tag: 'unboxing', count: 98, avgViews: 950000 },
       { tag: 'comparison', count: 76, avgViews: 1100000 },
-      { tag: 'lifestyle', count: 65, avgViews: 680000 }
+      { tag: 'lifestyle', count: 65, avgViews: 680000 },
     ],
     emotionDistribution: {
       excited: 35,
       happy: 28,
       satisfied: 22,
       curious: 10,
-      neutral: 5
+      neutral: 5,
     },
     contentTypes: {
       review: 45,
       tutorial: 28,
       unboxing: 15,
-      comparison: 12
-    }
+      comparison: 12,
+    },
   };
 
   // Video performance metrics
@@ -181,7 +181,7 @@ class KOLDatabaseService {
         likes: 285000,
         comments: 8500,
         brand: 'eufy',
-        kol: 'Home Cleaning Guru'
+        kol: 'Home Cleaning Guru',
       },
       {
         id: 2,
@@ -190,7 +190,7 @@ class KOLDatabaseService {
         likes: 195000,
         comments: 5200,
         brand: 'Soundcore',
-        kol: 'Tech Review Master'
+        kol: 'Tech Review Master',
       },
       {
         id: 3,
@@ -199,9 +199,9 @@ class KOLDatabaseService {
         likes: 320000,
         comments: 12000,
         brand: 'Tarte',
-        kol: 'Beauty Influencer Pro'
-      }
-    ]
+        kol: 'Beauty Influencer Pro',
+      },
+    ],
   };
 
   async getKOLs() {
@@ -252,14 +252,14 @@ class KOLDatabaseService {
         { stage: 'Views', value: 25800000 },
         { stage: 'Clicks', value: 1850000 },
         { stage: 'Add to Cart', value: 125000 },
-        { stage: 'Purchase', value: 8920 }
+        { stage: 'Purchase', value: 8920 },
       ],
       revenueByCategory: [
         { category: 'Technology', revenue: 420000, roi: 5.2 },
         { category: 'Home & Garden', revenue: 380000, roi: 4.8 },
         { category: 'Beauty', revenue: 290000, roi: 3.5 },
         { category: 'Smart Home', revenue: 150000, roi: 3.2 },
-        { category: 'Outdoor', revenue: 45000, roi: 2.1 }
+        { category: 'Outdoor', revenue: 45000, roi: 2.1 },
       ],
       monthlyRevenue: [
         { month: 'Jan', revenue: 165000, conversions: 1120 },
@@ -267,8 +267,8 @@ class KOLDatabaseService {
         { month: 'Mar', revenue: 198000, conversions: 1380 },
         { month: 'Apr', revenue: 215000, conversions: 1480 },
         { month: 'May', revenue: 238000, conversions: 1620 },
-        { month: 'Jun', revenue: 287000, conversions: 2070 }
-      ]
+        { month: 'Jun', revenue: 287000, conversions: 2070 },
+      ],
     };
   }
 }

@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
   PieChart,
   Pie,
   Cell,
@@ -18,21 +16,19 @@ import {
   RadialBarChart,
   RadialBar,
   AreaChart,
-  Area
+  Area,
 } from 'recharts';
-import { 
-  DollarSign, 
-  TrendingUp, 
-  Globe, 
+import {
+  DollarSign,
+  TrendingUp,
+  Globe,
   ShoppingCart,
   MousePointer,
   Target,
-  Package,
-  Users,
   Activity,
   ArrowRight,
   Zap,
-  Award
+  Award,
 } from 'lucide-react';
 
 const ContentAdsOverview: React.FC = () => {
@@ -45,23 +41,23 @@ const ContentAdsOverview: React.FC = () => {
     totalRevenue: 3795.41,
     bestChannel: 'Meta',
     channelEfficiency: 85.9,
-    
+
     // Campaign Detail Data
     totalCampaigns: 7,
     totalDPV: 21281,
     totalPurchases: 520,
     campaignROI: 356.7,
-    
+
     // Pricing Strategy Data
     avgDiscount: 34.5,
     primeRevenue: 859.97,
     bestDeal: 'Magic1 46.7%',
-    
+
     // Global Market Data
     globalMarkets: 9,
     totalSKUs: 22,
     regions: 3,
-    extendedReach: '2.5B'
+    extendedReach: '2.5B',
   };
 
   // Channel performance mini chart
@@ -69,28 +65,28 @@ const ContentAdsOverview: React.FC = () => {
     { name: 'Meta', value: 3259.44, percentage: 85.9 },
     { name: 'Amazon', value: 479.98, percentage: 12.6 },
     { name: 'Official', value: 55.99, percentage: 1.5 },
-    { name: 'TikTok', value: 0, percentage: 0 }
+    { name: 'TikTok', value: 0, percentage: 0 },
   ];
 
   // Product performance comparison
   const productPerformance = [
     { product: 'M1', sales: 535.97, units: 130, markets: 11 },
     { product: 'M1 Lite', sales: 399.99, units: 5, markets: 5 },
-    { product: 'Magic1', sales: 1984.77, units: 391, markets: 6 }
+    { product: 'Magic1', sales: 1984.77, units: 391, markets: 6 },
   ];
 
   // Regional distribution
   const regionalData = [
     { name: 'Americas', value: 5, revenue: 45000 },
     { name: 'Europe', value: 14, revenue: 120000 },
-    { name: 'APAC', value: 3, revenue: 35000 }
+    { name: 'APAC', value: 3, revenue: 35000 },
   ];
 
   // Weekly trend
   const weeklyTrend = [
     { week: 'W1', traffic: 8007, revenue: 535.97 },
     { week: 'W2', traffic: 9765, revenue: 3795.41 },
-    { week: 'W3 (Est)', traffic: 12000, revenue: 4500 }
+    { week: 'W3 (Est)', traffic: 12000, revenue: 4500 },
   ];
 
   // Campaign effectiveness
@@ -99,7 +95,7 @@ const ContentAdsOverview: React.FC = () => {
     { metric: 'Engagement', value: 72 },
     { metric: 'Conversion', value: 23.6 },
     { metric: 'ROI', value: 356.7 },
-    { metric: 'Efficiency', value: 91 }
+    { metric: 'Efficiency', value: 91 },
   ];
 
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
@@ -112,7 +108,7 @@ const ContentAdsOverview: React.FC = () => {
       icon: Activity,
       color: 'blue',
       path: '/content-ads/campaign-analytics',
-      metric: '18 active campaigns'
+      metric: '18 active campaigns',
     },
     {
       title: 'Channel Performance',
@@ -120,7 +116,7 @@ const ContentAdsOverview: React.FC = () => {
       icon: Target,
       color: 'green',
       path: '/content-ads/channel-performance',
-      metric: 'Meta 85.9% revenue'
+      metric: 'Meta 85.9% revenue',
     },
     {
       title: 'Campaign Details',
@@ -128,7 +124,7 @@ const ContentAdsOverview: React.FC = () => {
       icon: MousePointer,
       color: 'purple',
       path: '/content-ads/campaign-details',
-      metric: '520 total purchases'
+      metric: '520 total purchases',
     },
     {
       title: 'Pricing Strategy',
@@ -136,7 +132,7 @@ const ContentAdsOverview: React.FC = () => {
       icon: DollarSign,
       color: 'orange',
       path: '/content-ads/pricing-strategy',
-      metric: '34.5% avg discount'
+      metric: '34.5% avg discount',
     },
     {
       title: 'Global Prime Day',
@@ -144,7 +140,7 @@ const ContentAdsOverview: React.FC = () => {
       icon: Globe,
       color: 'indigo',
       path: '/content-ads/global-prime-day',
-      metric: '9 global markets'
+      metric: '9 global markets',
     },
     {
       title: 'Pricing Comparison',
@@ -152,8 +148,8 @@ const ContentAdsOverview: React.FC = () => {
       icon: Zap,
       color: 'red',
       path: '/content-ads/pricing-comparison',
-      metric: 'A/B test active'
-    }
+      metric: 'A/B test active',
+    },
   ];
 
   return (
@@ -238,8 +234,8 @@ const ContentAdsOverview: React.FC = () => {
             {channelData.map((channel, index) => (
               <div key={index} className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-full" 
+                  <div
+                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   />
                   <span>{channel.name}</span>
@@ -257,12 +253,12 @@ const ContentAdsOverview: React.FC = () => {
             <AreaChart data={weeklyTrend}>
               <defs>
                 <linearGradient id="colorTraffic" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" />
@@ -270,21 +266,21 @@ const ContentAdsOverview: React.FC = () => {
               <YAxis yAxisId="left" orientation="left" />
               <YAxis yAxisId="right" orientation="right" />
               <Tooltip />
-              <Area 
+              <Area
                 yAxisId="left"
-                type="monotone" 
-                dataKey="traffic" 
-                stroke="#3B82F6" 
-                fillOpacity={1} 
-                fill="url(#colorTraffic)" 
+                type="monotone"
+                dataKey="traffic"
+                stroke="#3B82F6"
+                fillOpacity={1}
+                fill="url(#colorTraffic)"
               />
-              <Area 
+              <Area
                 yAxisId="right"
-                type="monotone" 
-                dataKey="revenue" 
-                stroke="#10B981" 
-                fillOpacity={1} 
-                fill="url(#colorRevenue)" 
+                type="monotone"
+                dataKey="revenue"
+                stroke="#10B981"
+                fillOpacity={1}
+                fill="url(#colorRevenue)"
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -315,11 +311,11 @@ const ContentAdsOverview: React.FC = () => {
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4">Campaign Effectiveness</h3>
           <ResponsiveContainer width="100%" height={250}>
-            <RadialBarChart 
-              cx="50%" 
-              cy="50%" 
-              innerRadius="10%" 
-              outerRadius="80%" 
+            <RadialBarChart
+              cx="50%"
+              cy="50%"
+              innerRadius="10%"
+              outerRadius="80%"
               data={campaignEffectiveness}
             >
               <RadialBar
@@ -341,7 +337,7 @@ const ContentAdsOverview: React.FC = () => {
           {navigationCards.map((card, index) => {
             const Icon = card.icon;
             return (
-              <Card 
+              <Card
                 key={index}
                 className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
                 onClick={() => navigate(card.path)}

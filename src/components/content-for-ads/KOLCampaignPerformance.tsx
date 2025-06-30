@@ -3,7 +3,6 @@ import { Card } from '../ui/card';
 import {
   BarChart,
   Bar,
-  LineChart,
   Line,
   PieChart,
   Pie,
@@ -14,12 +13,12 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ComposedChart
+  ComposedChart,
 } from 'recharts';
-import { 
-  Package, 
-  DollarSign, 
-  TrendingUp, 
+import {
+  Package,
+  DollarSign,
+  TrendingUp,
   ShoppingCart,
   Instagram,
   Globe,
@@ -27,8 +26,9 @@ import {
   Target,
   Award,
   Calculator,
-  ArrowUpRight
+  ArrowUpRight,
 } from 'lucide-react';
+import { CustomTooltipProps } from '../../types/charts';
 
 interface WeekData {
   week: string;
@@ -45,7 +45,9 @@ interface WeekData {
 
 const KOLCampaignPerformance: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<'week1' | 'week2' | 'overall'>('overall');
-  const [selectedChannel, setSelectedChannel] = useState<'all' | 'amazon' | 'website' | 'tiktok'>('all');
+  const [selectedChannel, setSelectedChannel] = useState<'all' | 'amazon' | 'website' | 'tiktok'>(
+    'all'
+  );
 
   // Two-week overall data
   const overallData = {
@@ -55,7 +57,7 @@ const KOLCampaignPerformance: React.FC = () => {
     totalCost: 1913.34,
     roi: 6.97,
     m1Samples: 11,
-    marketingCost: 0
+    marketingCost: 0,
   };
 
   // Week 1 data
@@ -69,7 +71,7 @@ const KOLCampaignPerformance: React.FC = () => {
     websiteRevenue: 4887.35,
     tiktokRevenue: 0,
     totalCost: 956.67, // Estimated half of total cost
-    roi: 6.14
+    roi: 6.14,
   };
 
   // Week 2 data
@@ -82,7 +84,7 @@ const KOLCampaignPerformance: React.FC = () => {
     websiteRevenue: 5019.87,
     tiktokRevenue: 198,
     totalCost: 956.67,
-    roi: 7.79
+    roi: 7.79,
   };
 
   // Channel breakdown data
@@ -93,7 +95,7 @@ const KOLCampaignPerformance: React.FC = () => {
       steamerOrders: 34,
       revenue: 7418.56,
       percentage: 55.7,
-      color: '#FF9500'
+      color: '#FF9500',
     },
     {
       channel: 'Official Website',
@@ -101,7 +103,7 @@ const KOLCampaignPerformance: React.FC = () => {
       steamerOrders: 4,
       revenue: 11210.19,
       percentage: 42.1,
-      color: '#007AFF'
+      color: '#007AFF',
     },
     {
       channel: 'TikTok Shop',
@@ -109,8 +111,8 @@ const KOLCampaignPerformance: React.FC = () => {
       steamerOrders: 3,
       revenue: 287.99,
       percentage: 2.2,
-      color: '#000000'
-    }
+      color: '#000000',
+    },
   ];
 
   // Product performance comparison
@@ -120,22 +122,22 @@ const KOLCampaignPerformance: React.FC = () => {
       orders: 42,
       revenue: 16946.31,
       avgPrice: 403.48,
-      roi: 8.86
+      roi: 8.86,
     },
     {
       product: 'Garment Steamer',
       orders: 41,
       revenue: 3596.62,
       avgPrice: 87.72,
-      roi: 1.88
+      roi: 1.88,
     },
     {
       product: 'P1',
       orders: 1,
       revenue: 85.66,
       avgPrice: 85.66,
-      roi: 0.04
-    }
+      roi: 0.04,
+    },
   ];
 
   // Attribution breakdown
@@ -145,14 +147,14 @@ const KOLCampaignPerformance: React.FC = () => {
       m1Orders: 2,
       steamerOrders: 5,
       revenue: 899.98 + 419.96,
-      type: 'Direct'
+      type: 'Direct',
     },
     {
       source: 'CC (Click Card)',
       m1Orders: 7,
       steamerOrders: 29,
       revenue: 3411.02 + 2099.76,
-      type: 'Tracked'
+      type: 'Tracked',
     },
     {
       source: 'Instagram Reel',
@@ -160,15 +162,15 @@ const KOLCampaignPerformance: React.FC = () => {
       steamerOrders: 19,
       revenue: 2519.72,
       type: 'Social',
-      link: 'https://www.instagram.com/reel/DKUTKK4J3Ra/'
+      link: 'https://www.instagram.com/reel/DKUTKK4J3Ra/',
     },
     {
       source: 'Direct/Organic',
       m1Orders: 33,
       steamerOrders: 7,
       revenue: 11060.01,
-      type: 'Organic'
-    }
+      type: 'Organic',
+    },
   ];
 
   // Weekly trend data
@@ -177,26 +179,27 @@ const KOLCampaignPerformance: React.FC = () => {
   // Cost structure
   const costStructure = [
     { name: 'Product Samples', value: 1913.34, percentage: 100 },
-    { name: 'Marketing Spend', value: 0, percentage: 0 }
+    { name: 'Marketing Spend', value: 0, percentage: 0 },
   ];
 
   // ROI by channel
   const roiByChannel = [
     { channel: 'Amazon US', roi: 3.88, revenue: 7418.56, cost: 1913.34 * 0.557 },
     { channel: 'Official Website', roi: 13.91, revenue: 11210.19, cost: 1913.34 * 0.421 },
-    { channel: 'TikTok Shop', roi: 6.89, revenue: 287.99, cost: 1913.34 * 0.022 }
+    { channel: 'TikTok Shop', roi: 6.89, revenue: 287.99, cost: 1913.34 * 0.022 },
   ];
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-semibold text-sm">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <p key={index} className="text-xs" style={{ color: entry.color }}>
-              {entry.name}: {entry.dataKey.includes('revenue') || entry.dataKey.includes('Revenue') 
-                ? `$${entry.value.toFixed(2)}` 
+              {entry.name}:{' '}
+              {entry.dataKey.includes('revenue') || entry.dataKey.includes('Revenue')
+                ? `$${Number(entry.value).toFixed(2)}`
                 : entry.value}
             </p>
           ))}
@@ -209,9 +212,7 @@ const KOLCampaignPerformance: React.FC = () => {
   // Filter data based on selection
   const getFilteredChannelData = () => {
     if (selectedChannel === 'all') return channelBreakdown;
-    return channelBreakdown.filter(ch => 
-      ch.channel.toLowerCase().includes(selectedChannel)
-    );
+    return channelBreakdown.filter((ch) => ch.channel.toLowerCase().includes(selectedChannel));
   };
 
   return (
@@ -225,7 +226,7 @@ const KOLCampaignPerformance: React.FC = () => {
         <div className="flex gap-2">
           <select
             value={selectedPeriod}
-            onChange={(e) => setSelectedPeriod(e.target.value as any)}
+            onChange={(e) => setSelectedPeriod(e.target.value as 'week1' | 'week2' | 'overall')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="overall">Overall (2 Weeks)</option>
@@ -234,7 +235,7 @@ const KOLCampaignPerformance: React.FC = () => {
           </select>
           <select
             value={selectedChannel}
-            onChange={(e) => setSelectedChannel(e.target.value as any)}
+            onChange={(e) => setSelectedChannel(e.target.value as 'all' | 'amazon' | 'website' | 'tiktok')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All Channels</option>
@@ -313,7 +314,14 @@ const KOLCampaignPerformance: React.FC = () => {
               <Legend />
               <Bar yAxisId="left" dataKey="m1Orders" name="M1 Orders" fill="#10B981" />
               <Bar yAxisId="left" dataKey="steamerOrders" name="Steamer Orders" fill="#3B82F6" />
-              <Line yAxisId="right" type="monotone" dataKey="roi" name="ROI" stroke="#F59E0B" strokeWidth={2} />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="roi"
+                name="ROI"
+                stroke="#F59E0B"
+                strokeWidth={2}
+              />
             </ComposedChart>
           </ResponsiveContainer>
         </Card>
@@ -343,8 +351,8 @@ const KOLCampaignPerformance: React.FC = () => {
             {getFilteredChannelData().map((channel, index) => (
               <div key={index} className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-full" 
+                  <div
+                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: channel.color }}
                   />
                   <span>{channel.channel}</span>
@@ -369,7 +377,14 @@ const KOLCampaignPerformance: React.FC = () => {
             <Legend />
             <Bar yAxisId="left" dataKey="orders" name="Orders" fill="#3B82F6" />
             <Bar yAxisId="left" dataKey="revenue" name="Revenue ($)" fill="#10B981" />
-            <Line yAxisId="right" type="monotone" dataKey="roi" name="ROI" stroke="#F59E0B" strokeWidth={2} />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="roi"
+              name="ROI"
+              stroke="#F59E0B"
+              strokeWidth={2}
+            />
           </BarChart>
         </ResponsiveContainer>
       </Card>
@@ -402,9 +417,9 @@ const KOLCampaignPerformance: React.FC = () => {
                   </div>
                 </div>
                 {source.link && (
-                  <a 
-                    href={source.link} 
-                    target="_blank" 
+                  <a
+                    href={source.link}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 text-xs text-blue-600 hover:underline flex items-center gap-1"
                   >
@@ -423,9 +438,9 @@ const KOLCampaignPerformance: React.FC = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis type="number" />
               <YAxis dataKey="channel" type="category" width={100} />
-              <Tooltip formatter={(value: any) => 
-                typeof value === 'number' ? value.toFixed(2) : value
-              } />
+              <Tooltip
+                formatter={(value: number | string) => (typeof value === 'number' ? value.toFixed(2) : value)}
+              />
               <Bar dataKey="roi" name="ROI (x)" fill="#10B981" />
             </BarChart>
           </ResponsiveContainer>
@@ -468,7 +483,8 @@ const KOLCampaignPerformance: React.FC = () => {
               <div>
                 <p className="text-sm font-medium">Exceptional ROI Performance</p>
                 <p className="text-xs text-gray-600">
-                  6.97x overall ROI with zero marketing spend, driven by influencer sampling strategy
+                  6.97x overall ROI with zero marketing spend, driven by influencer sampling
+                  strategy
                 </p>
               </div>
             </div>

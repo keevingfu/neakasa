@@ -5,9 +5,6 @@ import {
   Bar,
   LineChart,
   Line,
-  PieChart,
-  Pie,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -20,19 +17,17 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   ComposedChart,
-  Area
 } from 'recharts';
-import { 
-  DollarSign, 
-  TrendingDown, 
-  Tag, 
-  Percent, 
-  ShoppingCart,
+import {
+  DollarSign,
+  TrendingDown,
+  Tag,
+  Percent,
   AlertCircle,
   Calendar,
-  Globe,
-  Calculator
+  Calculator,
 } from 'lucide-react';
+import { CustomTooltipProps } from '../../types/charts';
 
 interface ProductPricing {
   series: string;
@@ -65,7 +60,7 @@ const PricingStrategyAnalysis: React.FC = () => {
       summerPriceEur: 449.99,
       pdDiscount: 36.7,
       summerDiscount: 20.0,
-      maxDiscount: 36.7
+      maxDiscount: 36.7,
     },
     {
       series: 'Cat Litter Box',
@@ -78,7 +73,7 @@ const PricingStrategyAnalysis: React.FC = () => {
       summerPriceEur: 429.99,
       pdDiscount: 20.0,
       summerDiscount: 14.0,
-      maxDiscount: 20.0
+      maxDiscount: 20.0,
     },
     {
       series: 'Garment Steamer',
@@ -91,18 +86,19 @@ const PricingStrategyAnalysis: React.FC = () => {
       summerPriceEur: 99.99,
       pdDiscount: 46.7,
       summerDiscount: 40.0,
-      maxDiscount: 46.7
-    }
+      maxDiscount: 46.7,
+    },
   ];
 
   // Calculate metrics
   const calculateMetrics = () => {
     const avgPdDiscount = products.reduce((sum, p) => sum + p.pdDiscount, 0) / products.length;
-    const avgSummerDiscount = products.reduce((sum, p) => sum + p.summerDiscount, 0) / products.length;
+    const avgSummerDiscount =
+      products.reduce((sum, p) => sum + p.summerDiscount, 0) / products.length;
     const totalListValue = products.reduce((sum, p) => sum + p.listPrice, 0);
     const totalPdValue = products.reduce((sum, p) => sum + p.pdPrice, 0);
     const totalSummerValue = products.reduce((sum, p) => sum + p.summerPrice, 0);
-    
+
     return {
       avgPdDiscount,
       avgSummerDiscount,
@@ -110,42 +106,42 @@ const PricingStrategyAnalysis: React.FC = () => {
       totalPdValue,
       totalSummerValue,
       totalSavingsPd: totalListValue - totalPdValue,
-      totalSavingsSummer: totalListValue - totalSummerValue
+      totalSavingsSummer: totalListValue - totalSummerValue,
     };
   };
 
   const metrics = calculateMetrics();
 
   // Price comparison data
-  const priceComparisonData = products.map(product => ({
+  const priceComparisonData = products.map((product) => ({
     name: product.model,
     listPrice: product.listPrice,
     regularPrice: product.regularPrice,
     pdPrice: selectedCurrency === 'usd' ? product.pdPrice : product.pdPriceEur,
-    summerPrice: selectedCurrency === 'usd' ? product.summerPrice : product.summerPriceEur
+    summerPrice: selectedCurrency === 'usd' ? product.summerPrice : product.summerPriceEur,
   }));
 
   // Discount analysis data
-  const discountData = products.map(product => ({
+  const discountData = products.map((product) => ({
     name: product.model,
     pdDiscount: product.pdDiscount,
     summerDiscount: product.summerDiscount,
-    series: product.series
+    series: product.series,
   }));
 
   // Price timeline data
   const timelineData = [
     { date: 'Regular', M1: 499.99, 'M1 Lite': 449.99, Magic1: 99.99 },
     { date: 'PD (7/8-11)', M1: 379.99, 'M1 Lite': 399.99, Magic1: 79.99 },
-    { date: 'Summer (7/12-20)', M1: 479.99, 'M1 Lite': 429.99, Magic1: 89.99 }
+    { date: 'Summer (7/12-20)', M1: 479.99, 'M1 Lite': 429.99, Magic1: 89.99 },
   ];
 
   // Savings potential data
-  const savingsData = products.map(product => ({
+  const savingsData = products.map((product) => ({
     name: product.model,
     pdSavings: product.listPrice - product.pdPrice,
     summerSavings: product.listPrice - product.summerPrice,
-    regularSavings: product.listPrice - product.regularPrice
+    regularSavings: product.listPrice - product.regularPrice,
   }));
 
   // Category performance radar
@@ -153,41 +149,41 @@ const PricingStrategyAnalysis: React.FC = () => {
     {
       metric: 'Price Point',
       'Cat Litter Box': 80,
-      'Garment Steamer': 20
+      'Garment Steamer': 20,
     },
     {
       metric: 'Discount Depth',
       'Cat Litter Box': 28,
-      'Garment Steamer': 47
+      'Garment Steamer': 47,
     },
     {
       metric: 'Market Appeal',
       'Cat Litter Box': 85,
-      'Garment Steamer': 65
+      'Garment Steamer': 65,
     },
     {
       metric: 'Profit Margin',
       'Cat Litter Box': 60,
-      'Garment Steamer': 40
+      'Garment Steamer': 40,
     },
     {
       metric: 'Sales Volume',
       'Cat Litter Box': 45,
-      'Garment Steamer': 75
-    }
+      'Garment Steamer': 75,
+    },
   ];
 
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444'];
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-semibold text-sm">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <p key={index} className="text-xs" style={{ color: entry.color }}>
-              {entry.name}: ${entry.value.toFixed(2)}
+              {entry.name}: ${Number(entry.value).toFixed(2)}
             </p>
           ))}
         </div>
@@ -202,7 +198,9 @@ const PricingStrategyAnalysis: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Pricing Strategy Analysis</h2>
-          <p className="text-gray-600 mt-1">Prime Day & Summer Sale pricing optimization insights</p>
+          <p className="text-gray-600 mt-1">
+            Prime Day & Summer Sale pricing optimization insights
+          </p>
         </div>
         <div className="flex gap-2">
           <select
@@ -241,7 +239,9 @@ const PricingStrategyAnalysis: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Total PD Savings</p>
-              <p className="text-2xl font-bold text-green-600">${metrics.totalSavingsPd.toFixed(0)}</p>
+              <p className="text-2xl font-bold text-green-600">
+                ${metrics.totalSavingsPd.toFixed(0)}
+              </p>
               <p className="text-sm text-gray-600 mt-1">for bundle</p>
             </div>
             <Tag className="w-12 h-12 text-green-600" />
@@ -310,10 +310,10 @@ const PricingStrategyAnalysis: React.FC = () => {
               <Legend />
               <Bar dataKey="pdDiscount" name="Prime Day Discount" fill="#EF4444" />
               <Bar dataKey="summerDiscount" name="Summer Sale Discount" fill="#F59E0B" />
-              <Line 
-                type="monotone" 
-                dataKey="pdDiscount" 
-                stroke="#7C3AED" 
+              <Line
+                type="monotone"
+                dataKey="pdDiscount"
+                stroke="#7C3AED"
                 strokeWidth={2}
                 dot={{ fill: '#7C3AED', r: 6 }}
               />
@@ -364,13 +364,25 @@ const PricingStrategyAnalysis: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Product</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">List Price</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  List Price
+                </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Regular</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Prime Day</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">PD Discount</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Summer Sale</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Summer Discount</th>
-                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">Best Deal</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Prime Day
+                </th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  PD Discount
+                </th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Summer Sale
+                </th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Summer Discount
+                </th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">
+                  Best Deal
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -431,19 +443,19 @@ const PricingStrategyAnalysis: React.FC = () => {
               <PolarGrid />
               <PolarAngleAxis dataKey="metric" />
               <PolarRadiusAxis angle={90} domain={[0, 100]} />
-              <Radar 
-                name="Cat Litter Box" 
-                dataKey="Cat Litter Box" 
-                stroke="#10B981" 
-                fill="#10B981" 
-                fillOpacity={0.6} 
+              <Radar
+                name="Cat Litter Box"
+                dataKey="Cat Litter Box"
+                stroke="#10B981"
+                fill="#10B981"
+                fillOpacity={0.6}
               />
-              <Radar 
-                name="Garment Steamer" 
-                dataKey="Garment Steamer" 
-                stroke="#8B5CF6" 
-                fill="#8B5CF6" 
-                fillOpacity={0.6} 
+              <Radar
+                name="Garment Steamer"
+                dataKey="Garment Steamer"
+                stroke="#8B5CF6"
+                fill="#8B5CF6"
+                fillOpacity={0.6}
               />
               <Legend />
             </RadarChart>
@@ -462,15 +474,23 @@ const PricingStrategyAnalysis: React.FC = () => {
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start">
                   <span className="text-green-600 mr-2">•</span>
-                  <span><strong>Magic1 leads with 46.7% discount</strong> - aggressive pricing to drive volume</span>
+                  <span>
+                    <strong>Magic1 leads with 46.7% discount</strong> - aggressive pricing to drive
+                    volume
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span><strong>M1 at $379.99</strong> - 36.7% off creates strong value perception</span>
+                  <span>
+                    <strong>M1 at $379.99</strong> - 36.7% off creates strong value perception
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-yellow-600 mr-2">•</span>
-                  <span><strong>M1 Lite conservative at 20% off</strong> - protecting margin on newer model</span>
+                  <span>
+                    <strong>M1 Lite conservative at 20% off</strong> - protecting margin on newer
+                    model
+                  </span>
                 </li>
               </ul>
             </div>
@@ -507,15 +527,22 @@ const PricingStrategyAnalysis: React.FC = () => {
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
                 <span className="text-green-600 font-bold mr-2">1.</span>
-                <span><strong>Push Magic1 during Prime Day</strong> - Best margin opportunity at 46.7% off</span>
+                <span>
+                  <strong>Push Magic1 during Prime Day</strong> - Best margin opportunity at 46.7%
+                  off
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 font-bold mr-2">2.</span>
-                <span><strong>Bundle M1 + Magic1</strong> - Create value bundle at $459.98 (save $290)</span>
+                <span>
+                  <strong>Bundle M1 + Magic1</strong> - Create value bundle at $459.98 (save $290)
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-purple-600 font-bold mr-2">3.</span>
-                <span><strong>Flash sales for M1 Lite</strong> - Limited time offers to boost adoption</span>
+                <span>
+                  <strong>Flash sales for M1 Lite</strong> - Limited time offers to boost adoption
+                </span>
               </li>
             </ul>
           </div>
@@ -524,15 +551,22 @@ const PricingStrategyAnalysis: React.FC = () => {
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
                 <span className="text-orange-600 font-bold mr-2">4.</span>
-                <span><strong>Optimize EUR pricing</strong> - Current conversion rates leave money on table</span>
+                <span>
+                  <strong>Optimize EUR pricing</strong> - Current conversion rates leave money on
+                  table
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-red-600 font-bold mr-2">5.</span>
-                <span><strong>Test dynamic pricing</strong> - Adjust based on inventory and demand</span>
+                <span>
+                  <strong>Test dynamic pricing</strong> - Adjust based on inventory and demand
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-indigo-600 font-bold mr-2">6.</span>
-                <span><strong>Create urgency messaging</strong> - "Best price of the year" for PD deals</span>
+                <span>
+                  <strong>Create urgency messaging</strong> - "Best price of the year" for PD deals
+                </span>
               </li>
             </ul>
           </div>

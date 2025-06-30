@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import ReactECharts from 'echarts-for-react';
-import { TrendingUp, Users, Eye, Share2, MessageCircle, ThumbsUp, Video, Target } from 'lucide-react';
+import type { EChartsFormatterParams } from '../../types/charts';
+import type { TrendDataPoint, SceneTagData, PerformanceData, ContentAnalysisData, CategoryData } from '../../types/services';
+import {
+  TrendingUp,
+  Eye,
+  MessageCircle,
+  ThumbsUp,
+  Video,
+  Target,
+} from 'lucide-react';
 import { kolRealDataService } from '../../services/kolRealDataService';
 
 const KOLContentReachAnalysis: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [performanceData, setPerformanceData] = useState<any>(null);
-  const [categoryData, setCategoryData] = useState<any[]>([]);
-  const [contentAnalysis, setContentAnalysis] = useState<any>(null);
-  const [videoMetrics, setVideoMetrics] = useState<any>(null);
+  const [performanceData, setPerformanceData] = useState<PerformanceData | null>(null);
+  const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
+  const [contentAnalysis, setContentAnalysis] = useState<ContentAnalysisData | null>(null);
+  const [videoMetrics, setVideoMetrics] = useState<{ totalVideos: number; topVideos: Array<{ id: string; title: string; views: number; likes: number; comments: number; brand: string; kol: string }> } | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState<'7d' | '30d' | '90d'>('30d');
 
   useEffect(() => {
@@ -18,16 +27,14 @@ const KOLContentReachAnalysis: React.FC = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-      console.log('KOLContentReachAnalysis: Starting data load...');
       const [overview, platform, content, videos, brands] = await Promise.all([
         kolRealDataService.getOverviewMetrics(),
         kolRealDataService.getPlatformAnalytics(),
         kolRealDataService.getContentTypeAnalysis(),
         kolRealDataService.getVideoPerformanceMetrics(),
-        kolRealDataService.getBrandPerformance()
+        kolRealDataService.getBrandPerformance(),
       ]);
-      console.log('KOLContentReachAnalysis: Data loaded successfully', { overview, platform, content, videos, brands });
-      
+
       // Transform data to match component structure
       setPerformanceData({
         totalReach: overview.total_reach,
@@ -40,7 +47,7 @@ const KOLContentReachAnalysis: React.FC = () => {
             { month: 'Mar', value: 43500000 },
             { month: 'Apr', value: 45000000 },
             { month: 'May', value: 46500000 },
-            { month: 'Jun', value: 44500000 }
+            { month: 'Jun', value: 44500000 },
           ],
           engagement: [
             { month: 'Jan', value: 14.5 },
@@ -48,34 +55,43 @@ const KOLContentReachAnalysis: React.FC = () => {
             { month: 'Mar', value: 15.2 },
             { month: 'Apr', value: 15.5 },
             { month: 'May', value: 15.8 },
-            { month: 'Jun', value: 15.4 }
-          ]
-        }
+            { month: 'Jun', value: 15.4 },
+          ],
+        },
       });
-      
+
       // Transform category data from brands
-      setCategoryData(brands.map(brand => ({
-        category: brand.brand,
-        reach: brand.total_views,
-        engagement: brand.avg_engagement_rate,
-        revenue: brand.total_views * 0.01 // Estimate revenue
-      })));
-      
+      setCategoryData(
+        brands.map((brand) => ({
+          category: brand.brand,
+          reach: brand.total_views,
+          engagement: brand.avg_engagement_rate,
+          revenue: brand.total_views * 0.01, // Estimate revenue
+        }))
+      );
+
       // Transform content analysis
+      const contentTypesArray = Object.entries(content).map(([type, data]) => ({
+        type: type.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+        count: data.count,
+        avgEngagement: data.engagement,
+        avgViews: data.avg_views,
+      }));
+      
       setContentAnalysis({
         topSceneTags: await kolRealDataService.getSceneTagAnalysis(),
-        contentTypes: content
+        contentTypes: contentTypesArray,
       });
-      
+
       setVideoMetrics(videos);
     } catch (error) {
-      console.error('KOLContentReachAnalysis: Error loading data:', error);
+      // Error loading data
       // Set some default data to prevent blank page
       setPerformanceData({
         totalReach: 0,
         avgEngagement: 0,
         totalConversions: 0,
-        trends: { reach: [], engagement: [] }
+        trends: { reach: [], engagement: [] },
       });
       setCategoryData([]);
       setContentAnalysis(null);
@@ -88,31 +104,31 @@ const KOLContentReachAnalysis: React.FC = () => {
   // Reach trend chart
   const getReachTrendOption = () => {
     if (!performanceData?.trends) return {};
-    
+
     return {
       title: {
         text: 'Monthly Reach Trend',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
-        axisPointer: { type: 'cross' }
+        axisPointer: { type: 'cross' },
       },
       legend: {
         data: ['Total Reach', 'Engagement Rate'],
-        bottom: 0
+        bottom: 0,
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '15%',
         top: '15%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: performanceData.trends.reach.map((d: any) => d.month)
+        data: performanceData.trends.reach.map((d: TrendDataPoint) => d.month),
       },
       yAxis: [
         {
@@ -120,56 +136,56 @@ const KOLContentReachAnalysis: React.FC = () => {
           name: 'Reach',
           position: 'left',
           axisLabel: {
-            formatter: (value: number) => `${(value / 1000000).toFixed(1)}M`
-          }
+            formatter: (value: number) => `${(value / 1000000).toFixed(1)}M`,
+          },
         },
         {
           type: 'value',
           name: 'Engagement %',
           position: 'right',
           axisLabel: {
-            formatter: '{value}%'
-          }
-        }
+            formatter: '{value}%',
+          },
+        },
       ],
       series: [
         {
           name: 'Total Reach',
           type: 'bar',
-          data: performanceData.trends.reach.map((d: any) => d.value),
-          itemStyle: { color: '#3b82f6', borderRadius: [4, 4, 0, 0] }
+          data: performanceData.trends.reach.map((d: TrendDataPoint) => d.value),
+          itemStyle: { color: '#3b82f6', borderRadius: [4, 4, 0, 0] },
         },
         {
           name: 'Engagement Rate',
           type: 'line',
           yAxisIndex: 1,
-          data: performanceData.trends.engagement.map((d: any) => d.value),
+          data: performanceData.trends.engagement.map((d: TrendDataPoint) => d.value),
           smooth: true,
-          itemStyle: { color: '#10b981' }
-        }
-      ]
+          itemStyle: { color: '#10b981' },
+        },
+      ],
     };
   };
 
   // Platform distribution chart
   const getPlatformDistributionOption = () => {
     if (!videoMetrics) return {};
-    
+
     const platforms = [
       { name: 'YouTube', value: 35, color: '#ef4444' },
       { name: 'TikTok', value: 45, color: '#000000' },
-      { name: 'Instagram', value: 20, color: '#e4405f' }
+      { name: 'Instagram', value: 20, color: '#e4405f' },
     ];
-    
+
     return {
       title: {
         text: 'Platform Distribution',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c}%'
+        formatter: '{b}: {c}%',
       },
       series: [
         {
@@ -179,58 +195,58 @@ const KOLContentReachAnalysis: React.FC = () => {
           itemStyle: {
             borderRadius: 10,
             borderColor: '#fff',
-            borderWidth: 2
+            borderWidth: 2,
           },
           label: {
             show: false,
-            position: 'center'
+            position: 'center',
           },
           emphasis: {
             label: {
               show: true,
               fontSize: 20,
-              fontWeight: 'bold'
-            }
+              fontWeight: 'bold',
+            },
           },
           labelLine: { show: false },
-          data: platforms
-        }
-      ]
+          data: platforms,
+        },
+      ],
     };
   };
 
   // Category performance chart
   const getCategoryPerformanceOption = () => {
     if (!categoryData || categoryData.length === 0) return {};
-    
+
     return {
       title: {
         text: 'Category Performance',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
-        axisPointer: { type: 'shadow' }
+        axisPointer: { type: 'shadow' },
       },
       legend: {
         data: ['Reach', 'Engagement', 'Revenue'],
-        bottom: 0
+        bottom: 0,
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '15%',
         top: '15%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: categoryData.map(d => d.category),
+        data: categoryData.map((d) => d.category),
         axisLabel: {
           rotate: 45,
-          interval: 0
-        }
+          interval: 0,
+        },
       },
       yAxis: [
         {
@@ -238,54 +254,54 @@ const KOLContentReachAnalysis: React.FC = () => {
           name: 'Reach (M)',
           position: 'left',
           axisLabel: {
-            formatter: (value: number) => `${(value / 1000000).toFixed(1)}M`
-          }
+            formatter: (value: number) => `${(value / 1000000).toFixed(1)}M`,
+          },
         },
         {
           type: 'value',
           name: 'Engagement %',
           position: 'right',
           axisLabel: {
-            formatter: '{value}%'
-          }
-        }
+            formatter: '{value}%',
+          },
+        },
       ],
       series: [
         {
           name: 'Reach',
           type: 'bar',
-          data: categoryData.map(d => d.reach),
-          itemStyle: { color: '#6366f1' }
+          data: categoryData.map((d) => d.reach),
+          itemStyle: { color: '#6366f1' },
         },
         {
           name: 'Engagement',
           type: 'line',
           yAxisIndex: 1,
-          data: categoryData.map(d => d.engagement),
-          itemStyle: { color: '#10b981' }
-        }
-      ]
+          data: categoryData.map((d) => d.engagement),
+          itemStyle: { color: '#10b981' },
+        },
+      ],
     };
   };
 
   // Content type performance
   const getContentTypeOption = () => {
     if (!contentAnalysis?.contentTypes) return {};
-    
+
     const data = Object.entries(contentAnalysis.contentTypes).map(([type, value]) => ({
       name: type.charAt(0).toUpperCase() + type.slice(1),
-      value
+      value,
     }));
-    
+
     return {
       title: {
         text: 'Content Type Distribution',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c}%'
+        formatter: '{b}: {c}%',
       },
       series: [
         {
@@ -296,60 +312,60 @@ const KOLContentReachAnalysis: React.FC = () => {
             itemStyle: {
               shadowBlur: 10,
               shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
-        }
-      ]
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
+        },
+      ],
     };
   };
 
   // Scene tags performance
   const getSceneTagsOption = () => {
     if (!contentAnalysis?.topSceneTags) return {};
-    
+
     return {
       title: {
         text: 'Top Performing Content Themes',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
-        axisPointer: { type: 'shadow' }
+        axisPointer: { type: 'shadow' },
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
         top: '15%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'value',
         name: 'Avg Views',
         axisLabel: {
-          formatter: (value: number) => `${(value / 1000).toFixed(0)}K`
-        }
+          formatter: (value: number) => `${(value / 1000).toFixed(0)}K`,
+        },
       },
       yAxis: {
         type: 'category',
-        data: contentAnalysis.topSceneTags.map((tag: any) => tag.tag.replace(/_/g, ' '))
+        data: contentAnalysis.topSceneTags.map((tag: SceneTagData) => tag.tag.replace(/_/g, ' ')),
       },
       series: [
         {
           type: 'bar',
-          data: contentAnalysis.topSceneTags.map((tag: any) => tag.avgViews),
+          data: contentAnalysis.topSceneTags.map((tag: SceneTagData) => tag.avgViews),
           itemStyle: {
-            color: '#3b82f6'
+            color: '#3b82f6',
           },
           label: {
             show: true,
             position: 'right',
-            formatter: (params: any) => `${(params.value / 1000).toFixed(0)}K`
-          }
-        }
-      ]
+            formatter: (params: EChartsFormatterParams) => `${((params.value as number) / 1000).toFixed(0)}K`,
+          },
+        },
+      ],
     };
   };
 
@@ -373,7 +389,7 @@ const KOLContentReachAnalysis: React.FC = () => {
           </div>
           <select
             value={selectedPeriod}
-            onChange={(e) => setSelectedPeriod(e.target.value as any)}
+            onChange={(e) => setSelectedPeriod(e.target.value as '7d' | '30d' | '90d')}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="7d">Last 7 Days</option>
@@ -461,8 +477,11 @@ const KOLContentReachAnalysis: React.FC = () => {
             Top Performing Videos
           </h2>
           <div className="space-y-4">
-            {videoMetrics.topVideos.map((video: any, index: number) => (
-              <div key={video.id} className="border rounded-xl p-4 hover:shadow-sm transition-shadow">
+            {videoMetrics.topVideos.map((video, index: number) => (
+              <div
+                key={video.id}
+                className="border rounded-xl p-4 hover:shadow-sm transition-shadow"
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="font-semibold text-gray-900 mb-1">{video.title}</h3>

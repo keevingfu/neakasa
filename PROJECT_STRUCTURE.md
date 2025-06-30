@@ -23,9 +23,9 @@ neakasa/
 │   ├── neakasa_catbox_selfkoc_ins.csv   # 猫砂盆Instagram数据
 │   ├── neakasa_catbox_selfkoc_tk.csv    # 猫砂盆TikTok数据
 │   ├── neakasa_catbox_selfkoc_ytb.csv   # 猫砂盆YouTube数据
-│   ├── neakasa_gyj_selfkoc_ins.csv      # 宠物梳Instagram数据
-│   ├── neakasa_gyj_selfkoc_tk.csv       # 宠物梳TikTok数据
-│   ├── neakasa_gyj_selfkoc_ytb.csv      # 宠物梳YouTube数据
+│   ├── neakasa_gyj_selfkoc_ins.csv      # 挂熨机Instagram数据
+│   ├── neakasa_gyj_selfkoc_tk.csv       # 挂熨机TikTok数据
+│   ├── neakasa_gyj_selfkoc_ytb.csv      # 挂熨机YouTube数据
 │   └── neakasa_selfkoc_accounts.csv     # KOC账号数据
 │
 ├── public/                      # 公共资源目录

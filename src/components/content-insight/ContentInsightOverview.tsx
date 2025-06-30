@@ -1,6 +1,16 @@
 import React from 'react';
 import { Card } from '../ui/card';
-import { TrendingUp, Users, Search, Video, BarChart3, ThumbsUp, MessageSquare, Share2, Package } from 'lucide-react';
+import {
+  TrendingUp,
+  Users,
+  Search,
+  Video,
+  BarChart3,
+  ThumbsUp,
+  MessageSquare,
+  Share2,
+  Package,
+} from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { commentAnalysisService } from '../../services/commentAnalysisService';
 import { domainMockData } from '../../services/domainMockData';
@@ -30,11 +40,12 @@ const ContentInsightOverview: React.FC = () => {
   });
 
   // Calculate key metrics
-  const totalEngagement = viralVideos?.reduce((sum, video) => 
-    sum + video.likes + video.comments + video.shares, 0) || 0;
+  const totalEngagement =
+    viralVideos?.reduce((sum, video) => sum + video.likes + video.comments + video.shares, 0) || 0;
 
-  const avgViralityScore = viralVideos ? 
-    viralVideos.reduce((sum, video) => sum + (video.views / 1000000), 0) / viralVideos.length : 0;
+  const avgViralityScore = viralVideos
+    ? viralVideos.reduce((sum, video) => sum + video.views / 1000000, 0) / viralVideos.length
+    : 0;
 
   const topKeywords = domainMockData['neakasa.com'].keywords
     .sort((a, b) => b.search_volume - a.search_volume)
@@ -42,12 +53,13 @@ const ContentInsightOverview: React.FC = () => {
 
   const totalSearchVolume = topKeywords.reduce((sum, kw) => sum + kw.search_volume, 0);
 
-  const activeTests = testResults?.filter(test => test.status === 'active').length || 0;
-  const avgTestUplift = testResults ? 
-    testResults.reduce((sum, test) => {
-      const maxUplift = Math.max(...test.variants.map(v => v.uplift || 0));
-      return sum + maxUplift;
-    }, 0) / testResults.length : 0;
+  const activeTests = testResults?.filter((test) => test.status === 'active').length || 0;
+  const avgTestUplift = testResults
+    ? testResults.reduce((sum, test) => {
+        const maxUplift = Math.max(...test.variants.map((v) => v.uplift || 0));
+        return sum + maxUplift;
+      }, 0) / testResults.length
+    : 0;
 
   return (
     <div className="space-y-6">
@@ -55,7 +67,8 @@ const ContentInsightOverview: React.FC = () => {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Content Insight Overview</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Comprehensive analysis across consumer voice, search trends, viral content, and growth factors
+          Comprehensive analysis across consumer voice, search trends, viral content, and growth
+          factors
         </p>
       </div>
 
@@ -70,7 +83,8 @@ const ContentInsightOverview: React.FC = () => {
                 {sentiment ? (sentiment.averageSentimentScore * 100).toFixed(1) : 0}%
               </p>
               <p className="mt-1 text-sm text-green-600">
-                +{((sentiment?.positive || 0) / (sentiment?.total || 1) * 100).toFixed(0)}% positive
+                +{(((sentiment?.positive || 0) / (sentiment?.total || 1)) * 100).toFixed(0)}%
+                positive
               </p>
             </div>
             <div className="p-3 bg-blue-100 rounded-lg">
@@ -87,9 +101,7 @@ const ContentInsightOverview: React.FC = () => {
               <p className="mt-2 text-3xl font-bold text-gray-900">
                 {(totalSearchVolume / 1000).toFixed(1)}K
               </p>
-              <p className="mt-1 text-sm text-gray-500">
-                Across {topKeywords.length} keywords
-              </p>
+              <p className="mt-1 text-sm text-gray-500">Across {topKeywords.length} keywords</p>
             </div>
             <div className="p-3 bg-purple-100 rounded-lg">
               <Search className="w-6 h-6 text-purple-600" />
@@ -105,9 +117,7 @@ const ContentInsightOverview: React.FC = () => {
               <p className="mt-2 text-3xl font-bold text-gray-900">
                 {avgViralityScore.toFixed(1)}M
               </p>
-              <p className="mt-1 text-sm text-gray-500">
-                {viralVideos?.length || 0} viral videos
-              </p>
+              <p className="mt-1 text-sm text-gray-500">{viralVideos?.length || 0} viral videos</p>
             </div>
             <div className="p-3 bg-green-100 rounded-lg">
               <Video className="w-6 h-6 text-green-600" />
@@ -120,12 +130,8 @@ const ContentInsightOverview: React.FC = () => {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Avg Test Uplift</p>
-              <p className="mt-2 text-3xl font-bold text-gray-900">
-                +{avgTestUplift.toFixed(1)}%
-              </p>
-              <p className="mt-1 text-sm text-gray-500">
-                {activeTests} active tests
-              </p>
+              <p className="mt-2 text-3xl font-bold text-gray-900">+{avgTestUplift.toFixed(1)}%</p>
+              <p className="mt-1 text-sm text-gray-500">{activeTests} active tests</p>
             </div>
             <div className="p-3 bg-orange-100 rounded-lg">
               <TrendingUp className="w-6 h-6 text-orange-600" />
@@ -146,36 +152,48 @@ const ContentInsightOverview: React.FC = () => {
             <div>
               <div className="flex justify-between text-sm mb-1">
                 <span className="text-gray-600">Positive Sentiment</span>
-                <span className="font-medium">{((sentiment?.positive || 0) / (sentiment?.total || 1) * 100).toFixed(0)}%</span>
+                <span className="font-medium">
+                  {(((sentiment?.positive || 0) / (sentiment?.total || 1)) * 100).toFixed(0)}%
+                </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-green-500 h-2 rounded-full" 
-                  style={{ width: `${(sentiment?.positive || 0) / (sentiment?.total || 1) * 100}%` }}
+                <div
+                  className="bg-green-500 h-2 rounded-full"
+                  style={{
+                    width: `${((sentiment?.positive || 0) / (sentiment?.total || 1)) * 100}%`,
+                  }}
                 />
               </div>
             </div>
             <div>
               <div className="flex justify-between text-sm mb-1">
                 <span className="text-gray-600">Neutral Sentiment</span>
-                <span className="font-medium">{((sentiment?.neutral || 0) / (sentiment?.total || 1) * 100).toFixed(0)}%</span>
+                <span className="font-medium">
+                  {(((sentiment?.neutral || 0) / (sentiment?.total || 1)) * 100).toFixed(0)}%
+                </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-gray-500 h-2 rounded-full" 
-                  style={{ width: `${(sentiment?.neutral || 0) / (sentiment?.total || 1) * 100}%` }}
+                <div
+                  className="bg-gray-500 h-2 rounded-full"
+                  style={{
+                    width: `${((sentiment?.neutral || 0) / (sentiment?.total || 1)) * 100}%`,
+                  }}
                 />
               </div>
             </div>
             <div>
               <div className="flex justify-between text-sm mb-1">
                 <span className="text-gray-600">Negative Sentiment</span>
-                <span className="font-medium">{((sentiment?.negative || 0) / (sentiment?.total || 1) * 100).toFixed(0)}%</span>
+                <span className="font-medium">
+                  {(((sentiment?.negative || 0) / (sentiment?.total || 1)) * 100).toFixed(0)}%
+                </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-red-500 h-2 rounded-full" 
-                  style={{ width: `${(sentiment?.negative || 0) / (sentiment?.total || 1) * 100}%` }}
+                <div
+                  className="bg-red-500 h-2 rounded-full"
+                  style={{
+                    width: `${((sentiment?.negative || 0) / (sentiment?.total || 1)) * 100}%`,
+                  }}
                 />
               </div>
             </div>
@@ -199,7 +217,9 @@ const ContentInsightOverview: React.FC = () => {
                   <p className="text-xs text-gray-500">Position: #{keyword.position}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-medium">{(keyword.search_volume / 1000).toFixed(1)}K</p>
+                  <p className="text-sm font-medium">
+                    {(keyword.search_volume / 1000).toFixed(1)}K
+                  </p>
                   <p className="text-xs text-gray-500">CPC: ${keyword.cpc}</p>
                 </div>
               </div>
@@ -222,15 +242,11 @@ const ContentInsightOverview: React.FC = () => {
                 <p className="text-xs text-gray-500">Total Engagement</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {viralVideos?.length || 0}
-                </p>
+                <p className="text-2xl font-bold text-gray-900">{viralVideos?.length || 0}</p>
                 <p className="text-xs text-gray-500">Viral Videos</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {avgViralityScore.toFixed(1)}M
-                </p>
+                <p className="text-2xl font-bold text-gray-900">{avgViralityScore.toFixed(1)}M</p>
                 <p className="text-xs text-gray-500">Avg Views</p>
               </div>
             </div>
@@ -268,12 +284,14 @@ const ContentInsightOverview: React.FC = () => {
               <p className="text-sm font-medium text-gray-700 mb-2">Active A/B Tests</p>
               <div className="flex items-center gap-2">
                 <div className="flex-1 bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-blue-500 h-2 rounded-full" 
+                  <div
+                    className="bg-blue-500 h-2 rounded-full"
                     style={{ width: `${(activeTests / (testResults?.length || 1)) * 100}%` }}
                   />
                 </div>
-                <span className="text-sm font-medium">{activeTests}/{testResults?.length || 0}</span>
+                <span className="text-sm font-medium">
+                  {activeTests}/{testResults?.length || 0}
+                </span>
               </div>
             </div>
             <div>
@@ -281,13 +299,15 @@ const ContentInsightOverview: React.FC = () => {
               <div className="grid grid-cols-2 gap-2 mt-2">
                 <div className="text-center p-2 bg-green-50 rounded">
                   <p className="text-lg font-bold text-green-600">
-                    {testResults?.filter(t => t.variants.some(v => (v.uplift || 0) > 10)).length || 0}
+                    {testResults?.filter((t) => t.variants.some((v) => (v.uplift || 0) > 10))
+                      .length || 0}
                   </p>
                   <p className="text-xs text-green-600">Successful</p>
                 </div>
                 <div className="text-center p-2 bg-gray-50 rounded">
                   <p className="text-lg font-bold text-gray-600">
-                    {testResults?.filter(t => !t.variants.some(v => (v.uplift || 0) > 10)).length || 0}
+                    {testResults?.filter((t) => !t.variants.some((v) => (v.uplift || 0) > 10))
+                      .length || 0}
                   </p>
                   <p className="text-xs text-gray-600">Learning</p>
                 </div>
@@ -295,7 +315,8 @@ const ContentInsightOverview: React.FC = () => {
             </div>
             <div className="pt-3 border-t">
               <p className="text-sm text-gray-600">
-                Average uplift from successful tests: <span className="font-medium text-gray-900">+{avgTestUplift.toFixed(1)}%</span>
+                Average uplift from successful tests:{' '}
+                <span className="font-medium text-gray-900">+{avgTestUplift.toFixed(1)}%</span>
               </p>
             </div>
           </div>
@@ -369,7 +390,9 @@ const ContentInsightOverview: React.FC = () => {
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">Leverage YouTube Engagement</p>
-                <p className="text-xs text-gray-500">Despite lower views, engagement rate is highest</p>
+                <p className="text-xs text-gray-500">
+                  Despite lower views, engagement rate is highest
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -378,7 +401,9 @@ const ContentInsightOverview: React.FC = () => {
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">Review Garment Steamer Strategy</p>
-                <p className="text-xs text-gray-500">Consider repositioning or reducing investment</p>
+                <p className="text-xs text-gray-500">
+                  Consider repositioning or reducing investment
+                </p>
               </div>
             </div>
           </div>
@@ -389,40 +414,40 @@ const ContentInsightOverview: React.FC = () => {
       <Card className="p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          <button 
-            onClick={() => window.location.href = '/content-insight/consumer-voice'}
+          <button
+            onClick={() => (window.location.href = '/content-insight/consumer-voice')}
             className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
           >
             <MessageSquare className="w-5 h-5 text-blue-600 mb-2" />
             <p className="font-medium text-gray-900">Analyze Comments</p>
             <p className="text-sm text-gray-500">Deep dive into consumer sentiment</p>
           </button>
-          <button 
-            onClick={() => window.location.href = '/content-insight/search'}
+          <button
+            onClick={() => (window.location.href = '/content-insight/search')}
             className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
           >
             <Search className="w-5 h-5 text-purple-600 mb-2" />
             <p className="font-medium text-gray-900">Keyword Research</p>
             <p className="text-sm text-gray-500">Discover trending search terms</p>
           </button>
-          <button 
-            onClick={() => window.location.href = '/content-insight/viral-video'}
+          <button
+            onClick={() => (window.location.href = '/content-insight/viral-video')}
             className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
           >
             <Video className="w-5 h-5 text-green-600 mb-2" />
             <p className="font-medium text-gray-900">Find Viral Content</p>
             <p className="text-sm text-gray-500">Explore top performing videos</p>
           </button>
-          <button 
-            onClick={() => window.location.href = '/content-testing/self-koc'}
+          <button
+            onClick={() => (window.location.href = '/content-testing/self-koc')}
             className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
           >
             <Package className="w-5 h-5 text-indigo-600 mb-2" />
             <p className="font-medium text-gray-900">Self-KOC Analysis</p>
             <p className="text-sm text-gray-500">Track owned accounts performance</p>
           </button>
-          <button 
-            onClick={() => window.location.href = '/content-testing'}
+          <button
+            onClick={() => (window.location.href = '/content-testing')}
             className="p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors"
           >
             <BarChart3 className="w-5 h-5 text-orange-600 mb-2" />

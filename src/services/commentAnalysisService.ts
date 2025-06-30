@@ -162,9 +162,7 @@ class CommentAnalysisService {
       }
       if (filters.dateRange) {
         const { start, end } = filters.dateRange;
-        comments = comments.filter(
-          (c) => c.timestamp >= start && c.timestamp <= end
-        );
+        comments = comments.filter((c) => c.timestamp >= start && c.timestamp <= end);
       }
       if (filters.sentiment) {
         comments = comments.filter((c) => c.sentiment === filters.sentiment);

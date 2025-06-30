@@ -1,23 +1,40 @@
 import React, { useState } from 'react';
 import ReactECharts from 'echarts-for-react';
-import { TrendingUp, Users, Video, BarChart3, Calendar, Eye, Heart, Share2, MessageCircle } from 'lucide-react';
+import {
+  TrendingUp,
+  Users,
+  Video,
+  BarChart3,
+  Eye,
+  Heart,
+} from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { EChartsFormatterParams } from '../../types/charts';
 import { mockSelfKOCData } from '../../services/selfKOCService';
 
+// Platform data interface
 interface PlatformData {
-  platform: string;
-  product: string;
   totalPosts: number;
   totalViews: number;
   totalLikes: number;
-  totalComments: number;
-  totalShares?: number;
   avgEngagementRate: number;
+}
+
+interface PerformanceData {
+  platforms: {
+    youtube: PlatformData;
+    tiktok: PlatformData;
+    instagram: PlatformData;
+  };
+  totalContent?: number;
+  overallEngagement?: number;
 }
 
 const SelfKOCPerformanceAnalysis: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<'7d' | '30d' | '90d'>('30d');
-  const [selectedProduct, setSelectedProduct] = useState<'all' | 'catbox' | 'garmentsteamer'>('all');
+  const [selectedProduct, setSelectedProduct] = useState<'all' | 'catbox' | 'garmentsteamer'>(
+    'all'
+  );
 
   // Fetch data
   const { data: performanceData, isLoading } = useQuery({
@@ -31,27 +48,27 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
     const dates = [];
     const viewsData = [];
     const engagementData = [];
-    
+
     for (let i = days - 1; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
       dates.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
-      
+
       // Mock data with some variation
       const baseViews = selectedProduct === 'catbox' ? 50000 : 30000;
       const baseEngagement = selectedProduct === 'catbox' ? 2000 : 1500;
-      
+
       viewsData.push(baseViews + Math.random() * 20000 - 10000);
       engagementData.push(baseEngagement + Math.random() * 500 - 250);
     }
-    
+
     return { dates, viewsData, engagementData };
   };
 
   // Performance Trend Chart
   const getPerformanceTrendOption = () => {
     const { dates, viewsData, engagementData } = generateTimeSeriesData();
-    
+
     return {
       title: {
         text: 'Performance Trend Analysis',
@@ -134,10 +151,10 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
   // Platform Performance Comparison
   const getPlatformComparisonOption = () => {
     if (!performanceData || selectedProduct === 'all') return {};
-    
-    const data = performanceData as any;
+
+    const data = performanceData as PerformanceData;
     const platforms = ['youtube', 'tiktok', 'instagram'];
-    
+
     return {
       title: {
         text: 'Platform Performance Breakdown',
@@ -182,20 +199,20 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
         {
           name: 'Posts',
           type: 'bar',
-          data: platforms.map(p => data.platforms[p].totalPosts),
+          data: ['youtube', 'tiktok', 'instagram'].map((p) => data.platforms[p as keyof typeof data.platforms].totalPosts),
           itemStyle: { color: '#6366f1' },
         },
         {
           name: 'Avg Views',
           type: 'bar',
-          data: platforms.map(p => data.platforms[p].totalViews / data.platforms[p].totalPosts),
+          data: ['youtube', 'tiktok', 'instagram'].map((p) => data.platforms[p as keyof typeof data.platforms].totalViews / data.platforms[p as keyof typeof data.platforms].totalPosts),
           itemStyle: { color: '#8b5cf6' },
         },
         {
           name: 'Engagement Rate',
           type: 'line',
           yAxisIndex: 1,
-          data: platforms.map(p => data.platforms[p].avgEngagementRate),
+          data: ['youtube', 'tiktok', 'instagram'].map((p) => data.platforms[p as keyof typeof data.platforms].avgEngagementRate),
           itemStyle: { color: '#ef4444' },
           symbolSize: 8,
         },
@@ -207,7 +224,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
   const getContentHeatmapOption = () => {
     const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    
+
     // Generate mock heatmap data
     const data: Array<[number, number, number]> = [];
     days.forEach((_, dayIndex) => {
@@ -220,7 +237,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
         data.push([hourIndex, dayIndex, Math.floor(value)]);
       });
     });
-    
+
     return {
       title: {
         text: 'Optimal Posting Times Heatmap',
@@ -229,8 +246,9 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
       },
       tooltip: {
         position: 'top',
-        formatter: (params: any) => {
-          return `${days[params.data[1]]} ${hours[params.data[0]]}<br/>Engagement Score: ${params.data[2]}`;
+        formatter: (params: EChartsFormatterParams) => {
+          const data = params.data as [number, number, number];
+          return `${days[data[1]]} ${hours[data[0]]}<br/>Engagement Score: ${data[2]}`;
         },
       },
       grid: {
@@ -276,9 +294,9 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
   // ROI Analysis Chart
   const getROIAnalysisOption = () => {
     if (!performanceData || selectedProduct === 'all') return {};
-    
-    const data = performanceData as any;
-    
+
+    const data = performanceData as PerformanceData;
+
     return {
       title: {
         text: 'ROI & Efficiency Analysis',
@@ -365,7 +383,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
           <div className="flex gap-2">
             <select
               value={selectedProduct}
-              onChange={(e) => setSelectedProduct(e.target.value as any)}
+              onChange={(e) => setSelectedProduct(e.target.value as 'all' | 'catbox' | 'garmentsteamer')}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Products</option>
@@ -374,7 +392,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
             </select>
             <select
               value={selectedPeriod}
-              onChange={(e) => setSelectedPeriod(e.target.value as any)}
+              onChange={(e) => setSelectedPeriod(e.target.value as '7d' | '30d' | '90d')}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="7d">Last 7 Days</option>
@@ -392,7 +410,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
                 <Video className="w-5 h-5 text-blue-500" />
                 <span className="text-xs text-gray-500">Total</span>
               </div>
-              <div className="text-2xl font-bold">{(performanceData as any).totalContent}</div>
+              <div className="text-2xl font-bold">{(performanceData as PerformanceData).totalContent}</div>
               <div className="text-sm text-gray-600">Content Pieces</div>
             </div>
             <div className="bg-gray-50 p-4 rounded-xl">
@@ -401,7 +419,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
                 <span className="text-xs text-gray-500">Total</span>
               </div>
               <div className="text-2xl font-bold">
-                {((performanceData as any).platforms.instagram.totalViews / 1000000).toFixed(1)}M
+                {((performanceData as PerformanceData).platforms.instagram.totalViews / 1000000).toFixed(1)}M
               </div>
               <div className="text-sm text-gray-600">Total Views</div>
             </div>
@@ -411,7 +429,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
                 <span className="text-xs text-gray-500">Total</span>
               </div>
               <div className="text-2xl font-bold">
-                {((performanceData as any).overallEngagement / 1000).toFixed(0)}K
+                {performanceData && 'overallEngagement' in performanceData ? (performanceData.overallEngagement / 1000).toFixed(0) : 0}K
               </div>
               <div className="text-sm text-gray-600">Engagements</div>
             </div>
@@ -464,7 +482,7 @@ const SelfKOCPerformanceAnalysis: React.FC = () => {
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-0.5">•</span>
                 <span className="text-sm">
-                  {selectedProduct === 'catbox' 
+                  {selectedProduct === 'catbox'
                     ? 'Cat litter box content shows 4x better performance than garment steamer'
                     : 'Garment steamer content needs repositioning for better engagement'}
                 </span>

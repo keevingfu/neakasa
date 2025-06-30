@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '../ui/card';
-import { Package, TrendingUp, Users, BarChart3 } from 'lucide-react';
+import { TrendingUp, BarChart3 } from 'lucide-react';
 import {
   BarChart,
   Bar,
@@ -14,7 +14,7 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
+  Cell,
 } from 'recharts';
 
 const SelfKOCReport: React.FC = () => {
@@ -23,30 +23,30 @@ const SelfKOCReport: React.FC = () => {
     {
       metric: 'Total Content',
       catLitterBox: 4167,
-      garmentSteamer: 1041
+      garmentSteamer: 1041,
     },
     {
       metric: 'Avg Views (K)',
       catLitterBox: 93,
-      garmentSteamer: 1.8
+      garmentSteamer: 1.8,
     },
     {
       metric: 'Engagement Rate (%)',
       catLitterBox: 2.3,
-      garmentSteamer: 1.2
+      garmentSteamer: 1.2,
     },
     {
       metric: 'Active Accounts',
       catLitterBox: 35,
-      garmentSteamer: 44
-    }
+      garmentSteamer: 44,
+    },
   ];
 
   // Platform distribution
   const platformDistribution = [
     { platform: 'Instagram', catLitterBox: 1872, garmentSteamer: 312 },
     { platform: 'YouTube', catLitterBox: 1456, garmentSteamer: 304 },
-    { platform: 'TikTok', catLitterBox: 839, garmentSteamer: 425 }
+    { platform: 'TikTok', catLitterBox: 839, garmentSteamer: 425 },
   ];
 
   // Monthly trend data
@@ -56,16 +56,14 @@ const SelfKOCReport: React.FC = () => {
     { month: 'Mar', catLitterBox: 66125, garmentSteamer: 4512 },
     { month: 'Apr', catLitterBox: 76044, garmentSteamer: 4287 },
     { month: 'May', catLitterBox: 87450, garmentSteamer: 4072 },
-    { month: 'Jun', catLitterBox: 100568, garmentSteamer: 3869 }
+    { month: 'Jun', catLitterBox: 100568, garmentSteamer: 3869 },
   ];
 
   // ROI comparison
   const roiData = [
     { name: 'Cat Litter Box', value: 85, color: '#10B981' },
-    { name: 'Garment Steamer', value: 15, color: '#3B82F6' }
+    { name: 'Garment Steamer', value: 15, color: '#3B82F6' },
   ];
-
-  const COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'];
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6 bg-gray-50">
@@ -97,19 +95,22 @@ const SelfKOCReport: React.FC = () => {
           <div className="bg-green-50 rounded-lg p-4">
             <h3 className="font-semibold text-green-700">Key Finding #1</h3>
             <p className="text-sm text-gray-700 mt-2">
-              Cat Litter Box content performs 52x better than Garment Steamer on Instagram (93K vs 1.8K avg views)
+              Cat Litter Box content performs 52x better than Garment Steamer on Instagram (93K vs
+              1.8K avg views)
             </p>
           </div>
           <div className="bg-blue-50 rounded-lg p-4">
             <h3 className="font-semibold text-blue-700">Key Finding #2</h3>
             <p className="text-sm text-gray-700 mt-2">
-              Despite lower views, YouTube delivers highest engagement rate (4.15%) for Cat Litter Box content
+              Despite lower views, YouTube delivers highest engagement rate (4.15%) for Cat Litter
+              Box content
             </p>
           </div>
           <div className="bg-yellow-50 rounded-lg p-4">
             <h3 className="font-semibold text-yellow-700">Key Finding #3</h3>
             <p className="text-sm text-gray-700 mt-2">
-              Cat Litter Box shows 15% monthly growth while Garment Steamer declines 5% month-over-month
+              Cat Litter Box shows 15% monthly growth while Garment Steamer declines 5%
+              month-over-month
             </p>
           </div>
         </div>
@@ -166,18 +167,18 @@ const SelfKOCReport: React.FC = () => {
             <YAxis />
             <Tooltip formatter={(value) => value.toLocaleString()} />
             <Legend />
-            <Line 
-              type="monotone" 
-              dataKey="catLitterBox" 
-              name="Cat Litter Box Views" 
-              stroke="#10B981" 
+            <Line
+              type="monotone"
+              dataKey="catLitterBox"
+              name="Cat Litter Box Views"
+              stroke="#10B981"
               strokeWidth={2}
             />
-            <Line 
-              type="monotone" 
-              dataKey="garmentSteamer" 
-              name="Garment Steamer Views" 
-              stroke="#3B82F6" 
+            <Line
+              type="monotone"
+              dataKey="garmentSteamer"
+              name="Garment Steamer Views"
+              stroke="#3B82F6"
               strokeWidth={2}
             />
           </LineChart>
@@ -259,15 +260,21 @@ const SelfKOCReport: React.FC = () => {
             <ul className="space-y-2">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">1.</span>
-                <span className="text-sm">Double down on Cat Litter Box Instagram content - allocate 60% of resources</span>
+                <span className="text-sm">
+                  Double down on Cat Litter Box Instagram content - allocate 60% of resources
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">2.</span>
-                <span className="text-sm">Create YouTube long-form content strategy for Cat Litter Box</span>
+                <span className="text-sm">
+                  Create YouTube long-form content strategy for Cat Litter Box
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">3.</span>
-                <span className="text-sm">Audit and potentially sunset underperforming Garment Steamer accounts</span>
+                <span className="text-sm">
+                  Audit and potentially sunset underperforming Garment Steamer accounts
+                </span>
               </li>
             </ul>
           </div>
@@ -276,15 +283,21 @@ const SelfKOCReport: React.FC = () => {
             <ul className="space-y-2">
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">1.</span>
-                <span className="text-sm">Develop pet-focused product line based on Cat Litter Box success</span>
+                <span className="text-sm">
+                  Develop pet-focused product line based on Cat Litter Box success
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">2.</span>
-                <span className="text-sm">Build Instagram-first content strategy with platform-specific optimization</span>
+                <span className="text-sm">
+                  Build Instagram-first content strategy with platform-specific optimization
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">3.</span>
-                <span className="text-sm">Establish KOC community program to amplify successful accounts</span>
+                <span className="text-sm">
+                  Establish KOC community program to amplify successful accounts
+                </span>
               </li>
             </ul>
           </div>
@@ -302,8 +315,12 @@ const SelfKOCReport: React.FC = () => {
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Account</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Platform</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Product</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Avg Views</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Engagement</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Avg Views
+                </th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Engagement
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">

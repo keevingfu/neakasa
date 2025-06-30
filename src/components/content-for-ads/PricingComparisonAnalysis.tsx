@@ -16,17 +16,17 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-  ComposedChart
+  ComposedChart,
 } from 'recharts';
-import { 
-  DollarSign, 
-  TrendingDown, 
+import {
+  TrendingDown,
   Tag,
   AlertCircle,
   ArrowUpDown,
   Calculator,
-  Target
+  Target,
 } from 'lucide-react';
+import { CustomTooltipProps } from '../../types/charts';
 
 interface ProductPricing {
   product: string;
@@ -42,20 +42,23 @@ interface ProductPricing {
 }
 
 const PricingComparisonAnalysis: React.FC = () => {
-  const [selectedView, setSelectedView] = useState<'comparison' | 'abtest' | 'strategy'>('comparison');
+  const [selectedView, setSelectedView] = useState<'comparison' | 'abtest' | 'strategy'>(
+    'comparison'
+  );
 
   // Product pricing data
   const pricingData: ProductPricing[] = [
     {
       product: 'M1',
       activity: 518.98,
-      discountAmount: 40.00,
+      discountAmount: 40.0,
       actualPayment: 478.98,
       neakasaPrice: 486.98,
       amazonPrice: 379.99,
       pagePrice: 138.99,
       landedPrice: 106.99,
-      remarks: 'Group B maintains 4 days, Group A $379.99 consistent with Amazon, after PO activity Bundle restores to $499.99'
+      remarks:
+        'Group B maintains 4 days, Group A $379.99 consistent with Amazon, after PO activity Bundle restores to $499.99',
     },
     {
       product: 'Magic 1',
@@ -67,28 +70,30 @@ const PricingComparisonAnalysis: React.FC = () => {
       amazonPrice: 69.99,
       pagePrice: 14.56,
       landedPrice: 1.03,
-      remarks: 'Group B maintains 4 days, Group A $69.99 consistent with Amazon, after PO activity restores to $99'
+      remarks:
+        'Group B maintains 4 days, Group A $69.99 consistent with Amazon, after PO activity restores to $99',
     },
     {
       product: 'M1 Lite',
       activity: 449.98,
-      discountAmount: 40.00,
+      discountAmount: 40.0,
       actualPayment: 409.98,
       neakasaPrice: 417.98,
       amazonPrice: 382.49,
       pagePrice: 67.49,
       landedPrice: 35.49,
-      remarks: 'Normal price'
-    }
+      remarks: 'Normal price',
+    },
   ];
 
   // Calculate pricing metrics
-  const pricingMetrics = pricingData.map(item => ({
+  const pricingMetrics = pricingData.map((item) => ({
     product: item.product,
-    neakasaPremium: ((item.neakasaPrice - item.amazonPrice) / item.amazonPrice * 100).toFixed(1),
-    discountPercentage: item.discountRatio || ((item.discountAmount / item.activity) * 100).toFixed(1) + '%',
+    neakasaPremium: (((item.neakasaPrice - item.amazonPrice) / item.amazonPrice) * 100).toFixed(1),
+    discountPercentage:
+      item.discountRatio || ((item.discountAmount / item.activity) * 100).toFixed(1) + '%',
     priceDifference: item.neakasaPrice - item.amazonPrice,
-    competitiveGap: ((item.amazonPrice / item.neakasaPrice) * 100).toFixed(1)
+    competitiveGap: ((item.amazonPrice / item.neakasaPrice) * 100).toFixed(1),
   }));
 
   // A/B Test Groups data
@@ -99,7 +104,7 @@ const PricingComparisonAnalysis: React.FC = () => {
       groupB: 478.98,
       amazonMatch: true,
       testDuration: 4,
-      postPromoPrice: 499.99
+      postPromoPrice: 499.99,
     },
     {
       product: 'Magic 1',
@@ -107,7 +112,7 @@ const PricingComparisonAnalysis: React.FC = () => {
       groupB: 67.64,
       amazonMatch: true,
       testDuration: 4,
-      postPromoPrice: 99.00
+      postPromoPrice: 99.0,
     },
     {
       product: 'M1 Lite',
@@ -115,26 +120,26 @@ const PricingComparisonAnalysis: React.FC = () => {
       groupB: 409.98,
       amazonMatch: false,
       testDuration: 0,
-      postPromoPrice: 449.98
-    }
+      postPromoPrice: 449.98,
+    },
   ];
 
   // Price comparison chart data
-  const comparisonData = pricingData.map(item => ({
+  const comparisonData = pricingData.map((item) => ({
     product: item.product,
     Neakasa: item.neakasaPrice,
     Amazon: item.amazonPrice,
     'Actual Payment': item.actualPayment,
-    gap: item.neakasaPrice - item.amazonPrice
+    gap: item.neakasaPrice - item.amazonPrice,
   }));
 
   // Discount analysis
-  const discountAnalysis = pricingData.map(item => ({
+  const discountAnalysis = pricingData.map((item) => ({
     product: item.product,
     originalPrice: item.activity,
     discount: item.discountAmount,
     finalPrice: item.actualPayment,
-    savingsRate: ((item.discountAmount / item.activity) * 100).toFixed(1)
+    savingsRate: ((item.discountAmount / item.activity) * 100).toFixed(1),
   }));
 
   // Strategy effectiveness radar
@@ -143,20 +148,20 @@ const PricingComparisonAnalysis: React.FC = () => {
     { metric: 'Margin Protection', M1: 85, 'Magic 1': 65, 'M1 Lite': 90 },
     { metric: 'Market Positioning', M1: 92, 'Magic 1': 88, 'M1 Lite': 85 },
     { metric: 'Discount Depth', M1: 77, 'Magic 1': 80, 'M1 Lite': 89 },
-    { metric: 'Amazon Alignment', M1: 100, 'Magic 1': 100, 'M1 Lite': 0 }
+    { metric: 'Amazon Alignment', M1: 100, 'Magic 1': 100, 'M1 Lite': 0 },
   ];
 
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-semibold text-sm">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <p key={index} className="text-xs" style={{ color: entry.color }}>
-              {entry.name}: ${entry.value.toFixed(2)}
+              {entry.name}: ${Number(entry.value).toFixed(2)}
             </p>
           ))}
         </div>
@@ -171,14 +176,16 @@ const PricingComparisonAnalysis: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Pricing Comparison Analysis</h2>
-          <p className="text-gray-600 mt-1">Neakasa vs Amazon pricing strategy and A/B testing insights</p>
+          <p className="text-gray-600 mt-1">
+            Neakasa vs Amazon pricing strategy and A/B testing insights
+          </p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setSelectedView('comparison')}
             className={`px-4 py-2 rounded-lg ${
-              selectedView === 'comparison' 
-                ? 'bg-blue-600 text-white' 
+              selectedView === 'comparison'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -187,8 +194,8 @@ const PricingComparisonAnalysis: React.FC = () => {
           <button
             onClick={() => setSelectedView('abtest')}
             className={`px-4 py-2 rounded-lg ${
-              selectedView === 'abtest' 
-                ? 'bg-blue-600 text-white' 
+              selectedView === 'abtest'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -197,8 +204,8 @@ const PricingComparisonAnalysis: React.FC = () => {
           <button
             onClick={() => setSelectedView('strategy')}
             className={`px-4 py-2 rounded-lg ${
-              selectedView === 'strategy' 
-                ? 'bg-blue-600 text-white' 
+              selectedView === 'strategy'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -283,7 +290,14 @@ const PricingComparisonAnalysis: React.FC = () => {
                   <Legend />
                   <Bar yAxisId="left" dataKey="originalPrice" name="Original" fill="#E5E7EB" />
                   <Bar yAxisId="left" dataKey="finalPrice" name="Final" fill="#10B981" />
-                  <Line yAxisId="right" type="monotone" dataKey="savingsRate" name="Savings %" stroke="#EF4444" strokeWidth={2} />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="savingsRate"
+                    name="Savings %"
+                    stroke="#EF4444"
+                    strokeWidth={2}
+                  />
                 </ComposedChart>
               </ResponsiveContainer>
             </Card>
@@ -296,13 +310,27 @@ const PricingComparisonAnalysis: React.FC = () => {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Product</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Activity Price</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Discount</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Neakasa Price</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Amazon Price</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Premium</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Strategy</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">
+                      Product
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Activity Price
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Discount
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Neakasa Price
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Amazon Price
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Premium
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">
+                      Strategy
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -312,18 +340,24 @@ const PricingComparisonAnalysis: React.FC = () => {
                       <td className="px-4 py-3 text-right">${item.activity.toFixed(2)}</td>
                       <td className="px-4 py-3 text-right">
                         <span className="text-green-600">
-                          -${item.discountAmount.toFixed(2)} 
+                          -${item.discountAmount.toFixed(2)}
                           {item.discountRatio && ` (${item.discountRatio})`}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-right font-medium">${item.neakasaPrice.toFixed(2)}</td>
-                      <td className="px-4 py-3 text-right font-medium">${item.amazonPrice.toFixed(2)}</td>
+                      <td className="px-4 py-3 text-right font-medium">
+                        ${item.neakasaPrice.toFixed(2)}
+                      </td>
+                      <td className="px-4 py-3 text-right font-medium">
+                        ${item.amazonPrice.toFixed(2)}
+                      </td>
                       <td className="px-4 py-3 text-right">
-                        <span className={`font-medium ${
-                          item.neakasaPrice > item.amazonPrice ? 'text-red-600' : 'text-green-600'
-                        }`}>
-                          {item.neakasaPrice > item.amazonPrice ? '+' : ''}
-                          ${(item.neakasaPrice - item.amazonPrice).toFixed(2)}
+                        <span
+                          className={`font-medium ${
+                            item.neakasaPrice > item.amazonPrice ? 'text-red-600' : 'text-green-600'
+                          }`}
+                        >
+                          {item.neakasaPrice > item.amazonPrice ? '+' : ''}$
+                          {(item.neakasaPrice - item.amazonPrice).toFixed(2)}
                         </span>
                       </td>
                       <td className="px-4 py-3">
@@ -359,7 +393,9 @@ const PricingComparisonAnalysis: React.FC = () => {
                   <div className="pt-3 border-t">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">Amazon Match</span>
-                      <span className={`font-medium ${test.amazonMatch ? 'text-green-600' : 'text-gray-400'}`}>
+                      <span
+                        className={`font-medium ${test.amazonMatch ? 'text-green-600' : 'text-gray-400'}`}
+                      >
                         {test.amazonMatch ? 'Yes' : 'No'}
                       </span>
                     </div>
@@ -387,9 +423,27 @@ const PricingComparisonAnalysis: React.FC = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="groupA" name="Group A (Amazon Match)" stroke="#3B82F6" strokeWidth={2} />
-                <Line type="monotone" dataKey="groupB" name="Group B" stroke="#10B981" strokeWidth={2} />
-                <Line type="monotone" dataKey="postPromoPrice" name="Post-Promo Price" stroke="#F59E0B" strokeDasharray="5 5" />
+                <Line
+                  type="monotone"
+                  dataKey="groupA"
+                  name="Group A (Amazon Match)"
+                  stroke="#3B82F6"
+                  strokeWidth={2}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="groupB"
+                  name="Group B"
+                  stroke="#10B981"
+                  strokeWidth={2}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="postPromoPrice"
+                  name="Post-Promo Price"
+                  stroke="#F59E0B"
+                  strokeDasharray="5 5"
+                />
               </LineChart>
             </ResponsiveContainer>
           </Card>
@@ -407,8 +461,20 @@ const PricingComparisonAnalysis: React.FC = () => {
                 <PolarAngleAxis dataKey="metric" />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} />
                 <Radar name="M1" dataKey="M1" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.6} />
-                <Radar name="Magic 1" dataKey="Magic 1" stroke="#10B981" fill="#10B981" fillOpacity={0.6} />
-                <Radar name="M1 Lite" dataKey="M1 Lite" stroke="#F59E0B" fill="#F59E0B" fillOpacity={0.6} />
+                <Radar
+                  name="Magic 1"
+                  dataKey="Magic 1"
+                  stroke="#10B981"
+                  fill="#10B981"
+                  fillOpacity={0.6}
+                />
+                <Radar
+                  name="M1 Lite"
+                  dataKey="M1 Lite"
+                  stroke="#F59E0B"
+                  fill="#F59E0B"
+                  fillOpacity={0.6}
+                />
                 <Legend />
               </RadarChart>
             </ResponsiveContainer>
@@ -427,7 +493,8 @@ const PricingComparisonAnalysis: React.FC = () => {
                   <div>
                     <p className="text-sm font-medium">Amazon Price Matching</p>
                     <p className="text-xs text-gray-600">
-                      M1 and Magic 1 Group A prices match Amazon exactly, showing competitive alignment strategy
+                      M1 and Magic 1 Group A prices match Amazon exactly, showing competitive
+                      alignment strategy
                     </p>
                   </div>
                 </div>
@@ -436,7 +503,8 @@ const PricingComparisonAnalysis: React.FC = () => {
                   <div>
                     <p className="text-sm font-medium">Premium Positioning</p>
                     <p className="text-xs text-gray-600">
-                      Neakasa maintains 21.8% average premium over Amazon, justified by direct service value
+                      Neakasa maintains 21.8% average premium over Amazon, justified by direct
+                      service value
                     </p>
                   </div>
                 </div>
@@ -445,7 +513,8 @@ const PricingComparisonAnalysis: React.FC = () => {
                   <div>
                     <p className="text-sm font-medium">Promotional Depth</p>
                     <p className="text-xs text-gray-600">
-                      Fixed $40 discount on M1 series, percentage-based (20%) on Magic 1 for price point optimization
+                      Fixed $40 discount on M1 series, percentage-based (20%) on Magic 1 for price
+                      point optimization
                     </p>
                   </div>
                 </div>
@@ -454,7 +523,8 @@ const PricingComparisonAnalysis: React.FC = () => {
                   <div>
                     <p className="text-sm font-medium">Post-Promotion Strategy</p>
                     <p className="text-xs text-gray-600">
-                      Clear return to higher prices after 4-day test period, maximizing margin recovery
+                      Clear return to higher prices after 4-day test period, maximizing margin
+                      recovery
                     </p>
                   </div>
                 </div>

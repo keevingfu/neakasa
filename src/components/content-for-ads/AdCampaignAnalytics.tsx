@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import ReactECharts from 'echarts-for-react';
-import { TrendingUp, DollarSign, Users, Target, ShoppingCart, Globe, BarChart3, PieChart, Activity } from 'lucide-react';
+import {
+  TrendingUp,
+  DollarSign,
+  Users,
+  Target,
+  ShoppingCart,
+  PieChart,
+  Activity,
+} from 'lucide-react';
+import { EChartsFormatterParams } from '../../types/charts';
 
 // Updated data based on the provided sales report
 const campaignData = {
@@ -9,7 +18,7 @@ const campaignData = {
     totalRevenue: 3795.41,
     totalPurchases: 28,
     avgConversionRate: 0.236,
-    avgOrderValue: 135.55
+    avgOrderValue: 135.55,
   },
   products: {
     m1: {
@@ -18,7 +27,7 @@ const campaignData = {
       purchases: 1,
       revenue: 55.99,
       conversionRate: 0.052,
-      avgOrderValue: 55.99
+      avgOrderValue: 55.99,
     },
     magic1: {
       name: 'Garment Steamer (Magic1)',
@@ -26,26 +35,26 @@ const campaignData = {
       purchases: 17,
       revenue: 1821.24,
       conversionRate: 0.167,
-      avgOrderValue: 107.13
-    }
+      avgOrderValue: 107.13,
+    },
   },
   channels: {
-    official: { users: 1908, purchases: 2, revenue: 111.98, conversionRate: 0.10 },
+    official: { users: 1908, purchases: 2, revenue: 111.98, conversionRate: 0.1 },
     amazon: { users: 8092, purchases: 2, revenue: 959.96, conversionRate: 0.025 },
     tiktok: { users: 1874, purchases: 0, revenue: 0, conversionRate: 0 },
-    meta: { users: 0, purchases: 24, revenue: 3259.44, conversionRate: 0 }
+    meta: { users: 0, purchases: 24, revenue: 3259.44, conversionRate: 0 },
   },
   monthlyData: [
     { month: 'Week 1 (06/03-06/10)', users: 8007, revenue: 535.97, purchases: 8 },
     { month: 'Week 2 (06/11-06/14)', users: 9765, revenue: 3795.41, purchases: 20 },
-    { month: 'Total (05/07-06/22)', users: 11874, revenue: 3795.41, purchases: 28 }
+    { month: 'Total (05/07-06/22)', users: 11874, revenue: 3795.41, purchases: 28 },
   ],
   landingPages: {
     '/products/n...': { users: 11480, purchases: 18, revenue: 1877.23 },
     '/products/neakasa': { users: 1817, purchases: 1, revenue: 55.99 },
     '/': { users: 8, purchases: 0, revenue: 0 },
-    '/dp/...': { users: 0, purchases: 0, revenue: 0 }
-  }
+    '/dp/...': { users: 0, purchases: 0, revenue: 0 },
+  },
 };
 
 const AdCampaignAnalytics: React.FC = () => {
@@ -58,74 +67,74 @@ const AdCampaignAnalytics: React.FC = () => {
       name: channel.charAt(0).toUpperCase() + channel.slice(1),
       users: data.users,
       purchases: data.purchases,
-      conversionRate: (data.conversionRate * 100).toFixed(2)
+      conversionRate: (data.conversionRate * 100).toFixed(2),
     }));
 
     return {
       title: {
         text: 'Channel Conversion Funnel',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'shadow' },
-        formatter: (params: any) => {
-          const data = params[0];
+        formatter: (params: EChartsFormatterParams | EChartsFormatterParams[]) => {
+          const data = Array.isArray(params) ? params[0] : params;
           const channel = channels[data.dataIndex];
           return `${channel.name}<br/>Users: ${channel.users.toLocaleString()}<br/>Purchases: ${channel.purchases}<br/>Conversion: ${channel.conversionRate}%`;
-        }
+        },
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
         top: '10%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: channels.map(c => c.name)
+        data: channels.map((c) => c.name),
       },
       yAxis: [
         {
           type: 'value',
           name: 'Users',
-          position: 'left'
+          position: 'left',
         },
         {
           type: 'value',
           name: 'Conversion Rate (%)',
           position: 'right',
           axisLabel: {
-            formatter: '{value}%'
-          }
-        }
+            formatter: '{value}%',
+          },
+        },
       ],
       series: [
         {
           name: 'Users',
           type: 'bar',
-          data: channels.map(c => c.users),
+          data: channels.map((c) => c.users),
           itemStyle: { color: '#3b82f6' },
           label: {
             show: true,
             position: 'top',
-            formatter: '{c}'
-          }
+            formatter: '{c}',
+          },
         },
         {
           name: 'Conversion Rate',
           type: 'line',
           yAxisIndex: 1,
-          data: channels.map(c => parseFloat(c.conversionRate)),
+          data: channels.map((c) => parseFloat(c.conversionRate)),
           itemStyle: { color: '#ef4444' },
           label: {
             show: true,
-            formatter: '{c}%'
-          }
-        }
-      ]
+            formatter: '{c}%',
+          },
+        },
+      ],
     };
   };
 
@@ -138,12 +147,12 @@ const AdCampaignAnalytics: React.FC = () => {
       title: {
         text: 'Product Performance Comparison',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {},
       legend: {
         data: ['M1 (Cat Litter Box)', 'Magic1 (Garment Steamer)'],
-        bottom: 0
+        bottom: 0,
       },
       radar: {
         indicator: [
@@ -151,24 +160,18 @@ const AdCampaignAnalytics: React.FC = () => {
           { name: 'Conversion Rate', max: 0.2 },
           { name: 'Total Revenue', max: 2000 },
           { name: 'Avg Order Value', max: 150 },
-          { name: 'Market Response', max: 100 }
-        ]
+          { name: 'Market Response', max: 100 },
+        ],
       },
       series: [
         {
           type: 'radar',
           data: [
             {
-              value: [
-                m1.users,
-                m1.conversionRate,
-                m1.revenue,
-                m1.avgOrderValue,
-                20
-              ],
+              value: [m1.users, m1.conversionRate, m1.revenue, m1.avgOrderValue, 20],
               name: 'M1 (Cat Litter Box)',
               itemStyle: { color: '#10b981' },
-              areaStyle: { opacity: 0.3 }
+              areaStyle: { opacity: 0.3 },
             },
             {
               value: [
@@ -176,15 +179,15 @@ const AdCampaignAnalytics: React.FC = () => {
                 magic1.conversionRate,
                 magic1.revenue,
                 magic1.avgOrderValue,
-                85
+                85,
               ],
               name: 'Magic1 (Garment Steamer)',
               itemStyle: { color: '#8b5cf6' },
-              areaStyle: { opacity: 0.3 }
-            }
-          ]
-        }
-      ]
+              areaStyle: { opacity: 0.3 },
+            },
+          ],
+        },
+      ],
     };
   };
 
@@ -193,58 +196,59 @@ const AdCampaignAnalytics: React.FC = () => {
     const channelROI = Object.entries(campaignData.channels).map(([channel, data]) => ({
       name: channel.charAt(0).toUpperCase() + channel.slice(1),
       revenue: data.revenue,
-      roi: data.revenue > 0 ? (data.revenue / (data.users * 0.1)).toFixed(2) : 0
+      roi: data.revenue > 0 ? (data.revenue / (data.users * 0.1)).toFixed(2) : 0,
     }));
 
     return {
       title: {
         text: 'Channel ROI Analysis',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'shadow' },
-        formatter: (params: any) => {
-          const data = params[0];
-          return `${data.name}<br/>Revenue: $${data.value.toFixed(2)}<br/>ROI: ${channelROI[data.dataIndex].roi}x`;
-        }
+        formatter: (params: EChartsFormatterParams | EChartsFormatterParams[]) => {
+          const data = Array.isArray(params) ? params[0] : params;
+          const value = typeof data.value === 'number' ? data.value : 0;
+          return `${data.name}<br/>Revenue: $${value.toFixed(2)}<br/>ROI: ${channelROI[data.dataIndex].roi}x`;
+        },
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
         top: '10%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: channelROI.map(c => c.name)
+        data: channelROI.map((c) => c.name),
       },
       yAxis: {
         type: 'value',
         name: 'Revenue ($)',
         axisLabel: {
-          formatter: '${value}'
-        }
+          formatter: (value: number) => `$${value}`,
+        },
       },
       series: [
         {
           type: 'bar',
-          data: channelROI.map(c => c.revenue),
+          data: channelROI.map((c) => c.revenue),
           itemStyle: {
-            color: (params: any) => {
+            color: (params: EChartsFormatterParams) => {
               const colors = ['#e4405f', '#000000', '#ff0000', '#c13584'];
               return colors[params.dataIndex];
-            }
+            },
           },
           label: {
             show: true,
             position: 'top',
-            formatter: (params: any) => `$${params.value.toFixed(0)}`
-          }
-        }
-      ]
+            formatter: (params: EChartsFormatterParams) => `$${(params.value as number).toFixed(0)}`,
+          },
+        },
+      ],
     };
   };
 
@@ -254,65 +258,65 @@ const AdCampaignAnalytics: React.FC = () => {
       title: {
         text: 'Campaign Performance Trend',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
-        axisPointer: { type: 'cross' }
+        axisPointer: { type: 'cross' },
       },
       legend: {
         data: ['Users', 'Revenue', 'Purchases'],
-        bottom: 0
+        bottom: 0,
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '15%',
         top: '15%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: campaignData.monthlyData.map(d => d.month)
+        data: campaignData.monthlyData.map((d) => d.month),
       },
       yAxis: [
         {
           type: 'value',
           name: 'Users',
-          position: 'left'
+          position: 'left',
         },
         {
           type: 'value',
           name: 'Revenue ($)',
           position: 'right',
           axisLabel: {
-            formatter: '${value}'
-          }
-        }
+            formatter: (value: number) => `$${value}`,
+          },
+        },
       ],
       series: [
         {
           name: 'Users',
           type: 'bar',
-          data: campaignData.monthlyData.map(d => d.users),
-          itemStyle: { color: '#3b82f6' }
+          data: campaignData.monthlyData.map((d) => d.users),
+          itemStyle: { color: '#3b82f6' },
         },
         {
           name: 'Revenue',
           type: 'line',
           yAxisIndex: 1,
-          data: campaignData.monthlyData.map(d => d.revenue),
+          data: campaignData.monthlyData.map((d) => d.revenue),
           itemStyle: { color: '#10b981' },
-          smooth: true
+          smooth: true,
         },
         {
           name: 'Purchases',
           type: 'line',
-          data: campaignData.monthlyData.map(d => d.purchases * 100),
+          data: campaignData.monthlyData.map((d) => d.purchases * 100),
           itemStyle: { color: '#ef4444' },
-          smooth: true
-        }
-      ]
+          smooth: true,
+        },
+      ],
     };
   };
 
@@ -323,18 +327,18 @@ const AdCampaignAnalytics: React.FC = () => {
       .map(([page, data]) => ({
         name: page,
         users: data.users,
-        conversionRate: data.users > 0 ? ((data.purchases / data.users) * 100).toFixed(2) : '0'
+        conversionRate: data.users > 0 ? ((data.purchases / data.users) * 100).toFixed(2) : '0',
       }));
 
     return {
       title: {
         text: 'Landing Page Performance',
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c} users ({d}%)'
+        formatter: '{b}: {c} users ({d}%)',
       },
       series: [
         {
@@ -344,21 +348,21 @@ const AdCampaignAnalytics: React.FC = () => {
           itemStyle: {
             borderRadius: 10,
             borderColor: '#fff',
-            borderWidth: 2
+            borderWidth: 2,
           },
           label: {
             show: true,
-            formatter: '{b}\n{d}%'
+            formatter: '{b}\n{d}%',
           },
           data: pages.map((page, index) => ({
             name: page.name,
             value: page.users,
             itemStyle: {
-              color: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'][index]
-            }
-          }))
-        }
-      ]
+              color: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'][index],
+            },
+          })),
+        },
+      ],
     };
   };
 
@@ -376,7 +380,7 @@ const AdCampaignAnalytics: React.FC = () => {
           <div className="flex gap-2">
             <select
               value={selectedProduct}
-              onChange={(e) => setSelectedProduct(e.target.value as any)}
+              onChange={(e) => setSelectedProduct(e.target.value as 'all' | 'm1' | 'magic1')}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Products</option>
@@ -385,7 +389,7 @@ const AdCampaignAnalytics: React.FC = () => {
             </select>
             <select
               value={selectedPeriod}
-              onChange={(e) => setSelectedPeriod(e.target.value as any)}
+              onChange={(e) => setSelectedPeriod(e.target.value as 'all' | '30d' | '90d')}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Time</option>
@@ -507,7 +511,9 @@ const AdCampaignAnalytics: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Conv. Rate</p>
-                  <p className="font-semibold">{(campaignData.products.m1.conversionRate * 100).toFixed(2)}%</p>
+                  <p className="font-semibold">
+                    {(campaignData.products.m1.conversionRate * 100).toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>
@@ -526,15 +532,21 @@ const AdCampaignAnalytics: React.FC = () => {
               <div className="grid grid-cols-3 gap-4 mt-3">
                 <div>
                   <p className="text-xs text-gray-500">Users</p>
-                  <p className="font-semibold">{campaignData.products.magic1.users.toLocaleString()}</p>
+                  <p className="font-semibold">
+                    {campaignData.products.magic1.users.toLocaleString()}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Revenue</p>
-                  <p className="font-semibold">${campaignData.products.magic1.revenue.toFixed(2)}</p>
+                  <p className="font-semibold">
+                    ${campaignData.products.magic1.revenue.toFixed(2)}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Conv. Rate</p>
-                  <p className="font-semibold">{(campaignData.products.magic1.conversionRate * 100).toFixed(2)}%</p>
+                  <p className="font-semibold">
+                    {(campaignData.products.magic1.conversionRate * 100).toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>
@@ -560,13 +572,15 @@ const AdCampaignAnalytics: React.FC = () => {
                 <li className="flex items-start gap-2">
                   <span className="text-yellow-500 mt-0.5">•</span>
                   <span className="text-sm">
-                    <strong>Amazon</strong> has 68% of traffic but only 25.3% of revenue - needs optimization
+                    <strong>Amazon</strong> has 68% of traffic but only 25.3% of revenue - needs
+                    optimization
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-red-500 mt-0.5">•</span>
                   <span className="text-sm">
-                    <strong>TikTok Shop</strong> shows 0% conversion from 1,874 visits - urgent activation needed
+                    <strong>TikTok Shop</strong> shows 0% conversion from 1,874 visits - urgent
+                    activation needed
                   </span>
                 </li>
               </ul>
@@ -577,7 +591,8 @@ const AdCampaignAnalytics: React.FC = () => {
                 <li className="flex items-start gap-2">
                   <span className="text-blue-500 mt-0.5">→</span>
                   <span className="text-sm">
-                    Focus 70% budget on <strong>Magic1 (Garment Steamer)</strong> - 3.2x better conversion
+                    Focus 70% budget on <strong>Magic1 (Garment Steamer)</strong> - 3.2x better
+                    conversion
                   </span>
                 </li>
                 <li className="flex items-start gap-2">

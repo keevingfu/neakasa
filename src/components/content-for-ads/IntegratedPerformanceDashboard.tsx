@@ -3,8 +3,8 @@ import { Card } from '../ui/card';
 import {
   BarChart,
   Bar,
-  LineChart,
   Line,
+  LineChart,
   PieChart,
   Pie,
   Cell,
@@ -16,21 +16,24 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Area,
-  Treemap
+  Treemap,
 } from 'recharts';
-import { 
-  DollarSign, 
-  TrendingUp, 
+import {
+  DollarSign,
+  TrendingUp,
   Target,
   Instagram,
   Calculator,
   Package,
   AlertCircle,
-  Zap
+  Zap,
 } from 'lucide-react';
+import { CustomTooltipProps } from '../../types/charts';
 
 const IntegratedPerformanceDashboard: React.FC = () => {
-  const [selectedMetric, setSelectedMetric] = useState<'pricing' | 'conversion' | 'channel' | 'attribution'>('pricing');
+  const [selectedMetric, setSelectedMetric] = useState<
+    'pricing' | 'conversion' | 'channel' | 'attribution'
+  >('pricing');
   const [timeRange, setTimeRange] = useState<'week1' | 'week2' | 'overall'>('overall');
 
   // Pricing discount effectiveness analysis
@@ -38,14 +41,14 @@ const IntegratedPerformanceDashboard: React.FC = () => {
     {
       product: 'M1',
       listPrice: 518.98,
-      discount: 40.00,
+      discount: 40.0,
       discountRate: 7.7,
       finalPrice: 478.98,
       amazonPrice: 379.99,
       pricePremium: 98.99,
       premiumRate: 26.1,
       conversionRate: 3.2,
-      revenue: 10548.56
+      revenue: 10548.56,
     },
     {
       product: 'Magic 1',
@@ -57,20 +60,20 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       pricePremium: -2.35,
       premiumRate: -3.4,
       conversionRate: 8.7,
-      revenue: 2096.84
+      revenue: 2096.84,
     },
     {
       product: 'M1 Lite',
       listPrice: 449.98,
-      discount: 40.00,
+      discount: 40.0,
       discountRate: 8.9,
       finalPrice: 409.98,
       amazonPrice: 382.49,
       pricePremium: 27.49,
       premiumRate: 7.2,
       conversionRate: 0,
-      revenue: 0
-    }
+      revenue: 0,
+    },
   ];
 
   // Channel ROI analysis with cost allocation
@@ -82,16 +85,16 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       costAllocation: 1066.12,
       roi: 7.04,
       avgOrderValue: 170.65,
-      conversionCost: 24.23
+      conversionCost: 24.23,
     },
     {
       channel: 'Official Website',
       orders: 28,
-      revenue: 11446.70,
+      revenue: 11446.7,
       costAllocation: 796.41,
       roi: 14.37,
       avgOrderValue: 408.81,
-      conversionCost: 28.44
+      conversionCost: 28.44,
     },
     {
       channel: 'TikTok Shop',
@@ -99,9 +102,9 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       revenue: 287.99,
       costAllocation: 50.81,
       roi: 5.67,
-      avgOrderValue: 96.00,
-      conversionCost: 16.94
-    }
+      avgOrderValue: 96.0,
+      conversionCost: 16.94,
+    },
   ];
 
   // Attribution source effectiveness
@@ -115,7 +118,7 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       ctr: 2.28,
       conversionRate: 0.67,
       roas: 'Infinite',
-      highlight: true
+      highlight: true,
     },
     {
       source: 'Attribution Link',
@@ -125,7 +128,7 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       revenue: 1319.94,
       ctr: 1.98,
       conversionRate: 0.79,
-      roas: 'Infinite'
+      roas: 'Infinite',
     },
     {
       source: 'CC (Click Card)',
@@ -133,9 +136,9 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       clicks: 1560,
       conversions: 36,
       revenue: 5510.78,
-      ctr: 2.00,
+      ctr: 2.0,
       conversionRate: 2.31,
-      roas: 'Infinite'
+      roas: 'Infinite',
     },
     {
       source: 'Direct/Organic',
@@ -145,8 +148,8 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       revenue: 3976.79,
       ctr: 0,
       conversionRate: 0,
-      roas: 'N/A'
-    }
+      roas: 'N/A',
+    },
   ];
 
   // Conversion funnel by week
@@ -155,32 +158,32 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       stage: 'Samples Sent',
       week1: 11,
       week2: 0,
-      total: 11
+      total: 11,
     },
     {
       stage: 'Content Created',
       week1: 8,
       week2: 12,
-      total: 20
+      total: 20,
     },
     {
       stage: 'Impressions',
       week1: 125000,
       week2: 123000,
-      total: 248000
+      total: 248000,
     },
     {
       stage: 'Clicks',
       week1: 2650,
       week2: 3650,
-      total: 6300
+      total: 6300,
     },
     {
       stage: 'Orders',
       week1: 14,
       week2: 39,
-      total: 53
-    }
+      total: 53,
+    },
   ];
 
   // Price optimization matrix
@@ -190,7 +193,7 @@ const IntegratedPerformanceDashboard: React.FC = () => {
     { price: 410, demand: 28, revenue: 11480, profit: 10088 },
     { price: 440, demand: 18, revenue: 7920, profit: 6956 },
     { price: 470, demand: 10, revenue: 4700, profit: 4130 },
-    { price: 500, demand: 5, revenue: 2500, profit: 2195 }
+    { price: 500, demand: 5, revenue: 2500, profit: 2195 },
   ];
 
   // Product mix performance
@@ -199,22 +202,22 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       product: 'M1',
       weeklyTrend: [
         { week: 'W1', orders: 12, revenue: 5100 },
-        { week: 'W2', orders: 10, revenue: 4200 }
+        { week: 'W2', orders: 10, revenue: 4200 },
       ],
       totalOrders: 22,
       avgPrice: 479.48,
-      marginRate: 65.2
+      marginRate: 65.2,
     },
     {
       product: 'Magic 1',
       weeklyTrend: [
         { week: 'W1', orders: 1, revenue: 90 },
-        { week: 'W2', orders: 30, revenue: 2700 }
+        { week: 'W2', orders: 30, revenue: 2700 },
       ],
       totalOrders: 31,
       avgPrice: 87.06,
-      marginRate: 48.5
-    }
+      marginRate: 48.5,
+    },
   ];
 
   // Custom gradient colors
@@ -222,24 +225,26 @@ const IntegratedPerformanceDashboard: React.FC = () => {
     primary: ['#3B82F6', '#60A5FA', '#93BBFC'],
     success: ['#10B981', '#34D399', '#6EE7B7'],
     warning: ['#F59E0B', '#FBBF24', '#FCD34D'],
-    danger: ['#EF4444', '#F87171', '#FCA5A5']
+    danger: ['#EF4444', '#F87171', '#FCA5A5'],
   };
 
   // Advanced tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-4 border rounded-lg shadow-lg">
           <p className="font-semibold text-sm mb-2">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <div key={index} className="flex justify-between items-center gap-4 text-xs">
               <span style={{ color: entry.color }}>{entry.name}:</span>
               <span className="font-medium">
-                {entry.dataKey.includes('revenue') || entry.dataKey.includes('Price') || entry.dataKey.includes('price')
+                {entry.dataKey.includes('revenue') ||
+                entry.dataKey.includes('Price') ||
+                entry.dataKey.includes('price')
                   ? `$${Number(entry.value).toFixed(2)}`
                   : entry.dataKey.includes('rate') || entry.dataKey.includes('Rate')
-                  ? `${Number(entry.value).toFixed(1)}%`
-                  : entry.value}
+                    ? `${Number(entry.value).toFixed(1)}%`
+                    : entry.value}
               </span>
             </div>
           ))}
@@ -255,12 +260,14 @@ const IntegratedPerformanceDashboard: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Integrated Performance Dashboard</h2>
-          <p className="text-gray-600 mt-1">Comprehensive pricing, conversion, and attribution analysis</p>
+          <p className="text-gray-600 mt-1">
+            Comprehensive pricing, conversion, and attribution analysis
+          </p>
         </div>
         <div className="flex gap-2">
           <select
             value={selectedMetric}
-            onChange={(e) => setSelectedMetric(e.target.value as any)}
+            onChange={(e) => setSelectedMetric(e.target.value as 'pricing' | 'conversion' | 'channel' | 'attribution')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="pricing">Pricing Analysis</option>
@@ -270,7 +277,7 @@ const IntegratedPerformanceDashboard: React.FC = () => {
           </select>
           <select
             value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value as any)}
+            onChange={(e) => setTimeRange(e.target.value as 'week1' | 'week2' | 'overall')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="overall">Overall</option>
@@ -360,7 +367,14 @@ const IntegratedPerformanceDashboard: React.FC = () => {
                   <Legend />
                   <Bar yAxisId="left" dataKey="finalPrice" name="Neakasa Price" fill="#3B82F6" />
                   <Bar yAxisId="left" dataKey="amazonPrice" name="Amazon Price" fill="#10B981" />
-                  <Line yAxisId="right" type="monotone" dataKey="premiumRate" name="Premium %" stroke="#F59E0B" strokeWidth={2} />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="premiumRate"
+                    name="Premium %"
+                    stroke="#F59E0B"
+                    strokeWidth={2}
+                  />
                 </ComposedChart>
               </ResponsiveContainer>
             </Card>
@@ -376,7 +390,12 @@ const IntegratedPerformanceDashboard: React.FC = () => {
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Bar yAxisId="left" dataKey="discountRate" name="Discount %" fill="#10B981" />
-                  <Bar yAxisId="right" dataKey="conversionRate" name="Conversion %" fill="#F59E0B" />
+                  <Bar
+                    yAxisId="right"
+                    dataKey="conversionRate"
+                    name="Conversion %"
+                    fill="#F59E0B"
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </Card>
@@ -393,9 +412,31 @@ const IntegratedPerformanceDashboard: React.FC = () => {
                 <YAxis yAxisId="right" orientation="right" />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend />
-                <Area yAxisId="left" type="monotone" dataKey="revenue" name="Revenue" fill="#3B82F6" fillOpacity={0.6} />
-                <Line yAxisId="right" type="monotone" dataKey="demand" name="Demand" stroke="#10B981" strokeWidth={2} />
-                <Line yAxisId="left" type="monotone" dataKey="profit" name="Profit" stroke="#F59E0B" strokeWidth={2} strokeDasharray="5 5" />
+                <Area
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="revenue"
+                  name="Revenue"
+                  fill="#3B82F6"
+                  fillOpacity={0.6}
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="demand"
+                  name="Demand"
+                  stroke="#10B981"
+                  strokeWidth={2}
+                />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="profit"
+                  name="Profit"
+                  stroke="#F59E0B"
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                />
               </ComposedChart>
             </ResponsiveContainer>
           </Card>
@@ -433,8 +474,22 @@ const IntegratedPerformanceDashboard: React.FC = () => {
                     <YAxis yAxisId="right" orientation="right" />
                     <Tooltip />
                     <Legend />
-                    <Line yAxisId="left" type="monotone" dataKey="orders" name="Orders" stroke="#3B82F6" strokeWidth={2} />
-                    <Line yAxisId="right" type="monotone" dataKey="revenue" name="Revenue" stroke="#10B981" strokeWidth={2} />
+                    <Line
+                      yAxisId="left"
+                      type="monotone"
+                      dataKey="orders"
+                      name="Orders"
+                      stroke="#3B82F6"
+                      strokeWidth={2}
+                    />
+                    <Line
+                      yAxisId="right"
+                      type="monotone"
+                      dataKey="revenue"
+                      name="Revenue"
+                      stroke="#10B981"
+                      strokeWidth={2}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
                 <div className="mt-4 grid grid-cols-3 gap-4 text-center">
@@ -472,7 +527,14 @@ const IntegratedPerformanceDashboard: React.FC = () => {
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Bar yAxisId="left" dataKey="roi" name="ROI (x)" fill="#10B981" />
-                  <Line yAxisId="right" type="monotone" dataKey="conversionCost" name="Cost per Order" stroke="#EF4444" strokeWidth={2} />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="conversionCost"
+                    name="Cost per Order"
+                    stroke="#EF4444"
+                    strokeWidth={2}
+                  />
                 </ComposedChart>
               </ResponsiveContainer>
             </Card>
@@ -481,19 +543,20 @@ const IntegratedPerformanceDashboard: React.FC = () => {
               <h3 className="text-lg font-semibold mb-4">Channel Revenue & Order Distribution</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <Treemap
-                  data={channelROI.map(ch => ({
+                  data={channelROI.map((ch) => ({
                     name: ch.channel,
                     size: ch.revenue,
                     orders: ch.orders,
-                    aov: ch.avgOrderValue
+                    aov: ch.avgOrderValue,
                   }))}
                   dataKey="size"
-                  aspectRatio={4/3}
+                  aspectRatio={4 / 3}
                   stroke="#fff"
                   fill="#8884d8"
                 >
-                  <Tooltip 
-                    content={({ active, payload }: any) => {
+                  <Tooltip
+                    content={(props: { active?: boolean; payload?: Array<{ payload: { name: string; size: number; orders: number; aov: number } }> }) => {
+                      const { active, payload } = props;
                       if (active && payload && payload.length) {
                         const data = payload[0].payload;
                         return (
@@ -524,31 +587,56 @@ const IntegratedPerformanceDashboard: React.FC = () => {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Source</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Impressions</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">
+                      Source
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Impressions
+                    </th>
                     <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">CTR</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Conversions</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Conv. Rate</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Revenue</th>
-                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">ROAS</th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Conversions
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Conv. Rate
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                      Revenue
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">
+                      ROAS
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {attributionEffectiveness.map((source, index) => (
-                    <tr key={index} className={`hover:bg-gray-50 ${source.highlight ? 'bg-yellow-50' : ''}`}>
+                    <tr
+                      key={index}
+                      className={`hover:bg-gray-50 ${source.highlight ? 'bg-yellow-50' : ''}`}
+                    >
                       <td className="px-4 py-3 font-medium flex items-center gap-2">
-                        {source.source === 'Instagram Reel' && <Instagram className="w-4 h-4 text-pink-600" />}
+                        {source.source === 'Instagram Reel' && (
+                          <Instagram className="w-4 h-4 text-pink-600" />
+                        )}
                         {source.source}
                       </td>
-                      <td className="px-4 py-3 text-right">{source.impressions.toLocaleString()}</td>
-                      <td className="px-4 py-3 text-right">{source.ctr > 0 ? `${source.ctr}%` : '-'}</td>
+                      <td className="px-4 py-3 text-right">
+                        {source.impressions.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        {source.ctr > 0 ? `${source.ctr}%` : '-'}
+                      </td>
                       <td className="px-4 py-3 text-right font-medium">{source.conversions}</td>
                       <td className="px-4 py-3 text-right">
-                        <span className={`font-medium ${source.conversionRate > 1 ? 'text-green-600' : ''}`}>
+                        <span
+                          className={`font-medium ${source.conversionRate > 1 ? 'text-green-600' : ''}`}
+                        >
                           {source.conversionRate > 0 ? `${source.conversionRate}%` : '-'}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-right font-medium">${source.revenue.toFixed(2)}</td>
+                      <td className="px-4 py-3 text-right font-medium">
+                        ${source.revenue.toFixed(2)}
+                      </td>
                       <td className="px-4 py-3 text-center">
                         <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
                           {source.roas}
@@ -568,7 +656,7 @@ const IntegratedPerformanceDashboard: React.FC = () => {
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={attributionEffectiveness.filter(s => s.revenue > 0)}
+                    data={attributionEffectiveness.filter((s) => s.revenue > 0)}
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
@@ -579,7 +667,10 @@ const IntegratedPerformanceDashboard: React.FC = () => {
                     label={({ source, percent }) => `${source}: ${(percent * 100).toFixed(1)}%`}
                   >
                     {attributionEffectiveness.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS.primary[index % COLORS.primary.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS.primary[index % COLORS.primary.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip formatter={(value) => `$${Number(value).toFixed(2)}`} />

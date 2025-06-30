@@ -17,7 +17,7 @@ import {
   Radar,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis
+  PolarRadiusAxis,
 } from 'recharts';
 import { Eye, TrendingUp, Package, Sparkles, User, Play, ExternalLink } from 'lucide-react';
 
@@ -28,34 +28,51 @@ interface PerformanceData {
 }
 
 const SelfKOCAnalysis: React.FC = () => {
-  const [selectedProduct, setSelectedProduct] = useState<'all' | 'catLitterBox' | 'garmentSteamer'>('all');
+  const [selectedProduct, setSelectedProduct] = useState<'all' | 'catLitterBox' | 'garmentSteamer'>(
+    'all'
+  );
 
   // Average views by platform and product
   const viewsData: PerformanceData[] = [
     { platform: 'Instagram', catLitterBox: 93038, garmentSteamer: 1761 },
     { platform: 'YouTube', catLitterBox: 11797, garmentSteamer: 750 },
-    { platform: 'TikTok', catLitterBox: 8500, garmentSteamer: 1339 }
+    { platform: 'TikTok', catLitterBox: 8500, garmentSteamer: 1339 },
   ];
 
   // Content volume comparison
   const contentVolumeData = [
     { name: 'Cat Litter Box', value: 4167, color: '#10B981' },
-    { name: 'Garment Steamer', value: 1041, color: '#3B82F6' }
+    { name: 'Garment Steamer', value: 1041, color: '#3B82F6' },
   ];
 
   // Platform engagement rates
   const engagementRateData = [
     { platform: 'YouTube', catLitterBox: 4.15, garmentSteamer: 1.46 },
     { platform: 'Instagram', catLitterBox: 0.6, garmentSteamer: 0.52 },
-    { platform: 'TikTok', catLitterBox: 2.1, garmentSteamer: 1.8 }
+    { platform: 'TikTok', catLitterBox: 2.1, garmentSteamer: 1.8 },
   ];
 
   // Top performing accounts
   const topAccounts = [
-    { account: '@barmanpsicologa', platform: 'YouTube', avgViews: 14025, product: 'Cat Litter Box' },
-    { account: '@neakasa_official', platform: 'Instagram', avgViews: 93038, product: 'Cat Litter Box' },
+    {
+      account: '@barmanpsicologa',
+      platform: 'YouTube',
+      avgViews: 14025,
+      product: 'Cat Litter Box',
+    },
+    {
+      account: '@neakasa_official',
+      platform: 'Instagram',
+      avgViews: 93038,
+      product: 'Cat Litter Box',
+    },
     { account: '@catlovers_daily', platform: 'TikTok', avgViews: 12000, product: 'Cat Litter Box' },
-    { account: '@homeclean_tips', platform: 'Instagram', avgViews: 2100, product: 'Garment Steamer' }
+    {
+      account: '@homeclean_tips',
+      platform: 'Instagram',
+      avgViews: 2100,
+      product: 'Garment Steamer',
+    },
   ];
 
   // Platform effectiveness radar
@@ -64,7 +81,7 @@ const SelfKOCAnalysis: React.FC = () => {
     { metric: 'Engagement', Instagram: 40, YouTube: 85, TikTok: 65 },
     { metric: 'Conversion', Instagram: 70, YouTube: 80, TikTok: 55 },
     { metric: 'Growth', Instagram: 85, YouTube: 65, TikTok: 80 },
-    { metric: 'ROI', Instagram: 75, YouTube: 70, TikTok: 60 }
+    { metric: 'ROI', Instagram: 75, YouTube: 70, TikTok: 60 },
   ];
 
   return (
@@ -73,14 +90,16 @@ const SelfKOCAnalysis: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Self-Operated KOC Analysis</h2>
-          <p className="text-gray-600 mt-1">Performance analysis of Neakasa's self-operated content accounts</p>
+          <p className="text-gray-600 mt-1">
+            Performance analysis of Neakasa's self-operated content accounts
+          </p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setSelectedProduct('all')}
             className={`px-4 py-2 rounded-lg ${
-              selectedProduct === 'all' 
-                ? 'bg-blue-600 text-white' 
+              selectedProduct === 'all'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -89,8 +108,8 @@ const SelfKOCAnalysis: React.FC = () => {
           <button
             onClick={() => setSelectedProduct('catLitterBox')}
             className={`px-4 py-2 rounded-lg ${
-              selectedProduct === 'catLitterBox' 
-                ? 'bg-green-600 text-white' 
+              selectedProduct === 'catLitterBox'
+                ? 'bg-green-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -99,8 +118,8 @@ const SelfKOCAnalysis: React.FC = () => {
           <button
             onClick={() => setSelectedProduct('garmentSteamer')}
             className={`px-4 py-2 rounded-lg ${
-              selectedProduct === 'garmentSteamer' 
-                ? 'bg-blue-600 text-white' 
+              selectedProduct === 'garmentSteamer'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -216,9 +235,27 @@ const SelfKOCAnalysis: React.FC = () => {
                   <PolarGrid />
                   <PolarAngleAxis dataKey="metric" />
                   <PolarRadiusAxis angle={90} domain={[0, 100]} />
-                  <Radar name="Instagram" dataKey="Instagram" stroke="#EC4899" fill="#EC4899" fillOpacity={0.6} />
-                  <Radar name="YouTube" dataKey="YouTube" stroke="#EF4444" fill="#EF4444" fillOpacity={0.6} />
-                  <Radar name="TikTok" dataKey="TikTok" stroke="#000000" fill="#000000" fillOpacity={0.6} />
+                  <Radar
+                    name="Instagram"
+                    dataKey="Instagram"
+                    stroke="#EC4899"
+                    fill="#EC4899"
+                    fillOpacity={0.6}
+                  />
+                  <Radar
+                    name="YouTube"
+                    dataKey="YouTube"
+                    stroke="#EF4444"
+                    fill="#EF4444"
+                    fillOpacity={0.6}
+                  />
+                  <Radar
+                    name="TikTok"
+                    dataKey="TikTok"
+                    stroke="#000000"
+                    fill="#000000"
+                    fillOpacity={0.6}
+                  />
                   <Legend />
                 </RadarChart>
               </ResponsiveContainer>
@@ -231,19 +268,22 @@ const SelfKOCAnalysis: React.FC = () => {
                 <div className="border-l-4 border-pink-500 pl-4">
                   <h4 className="font-semibold text-pink-700">Instagram - Best Reach</h4>
                   <p className="text-sm text-gray-600 mt-1">
-                    Highest average views (93K for cat litter box), ideal for brand awareness and visual storytelling
+                    Highest average views (93K for cat litter box), ideal for brand awareness and
+                    visual storytelling
                   </p>
                 </div>
                 <div className="border-l-4 border-red-500 pl-4">
                   <h4 className="font-semibold text-red-700">YouTube - Best Engagement</h4>
                   <p className="text-sm text-gray-600 mt-1">
-                    4.15% engagement rate for cat litter box content, perfect for in-depth product demos
+                    4.15% engagement rate for cat litter box content, perfect for in-depth product
+                    demos
                   </p>
                 </div>
                 <div className="border-l-4 border-gray-800 pl-4">
                   <h4 className="font-semibold text-gray-700">TikTok - Growing Potential</h4>
                   <p className="text-sm text-gray-600 mt-1">
-                    Moderate performance but high growth rate, good for reaching younger demographics
+                    Moderate performance but high growth rate, good for reaching younger
+                    demographics
                   </p>
                 </div>
               </div>
@@ -258,7 +298,9 @@ const SelfKOCAnalysis: React.FC = () => {
               <BarChart data={engagementRateData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="platform" />
-                <YAxis label={{ value: 'Engagement Rate (%)', angle: -90, position: 'insideLeft' }} />
+                <YAxis
+                  label={{ value: 'Engagement Rate (%)', angle: -90, position: 'insideLeft' }}
+                />
                 <Tooltip formatter={(value) => `${value}%`} />
                 <Legend />
                 <Bar dataKey="catLitterBox" name="Cat Litter Box" fill="#10B981" />
@@ -287,11 +329,15 @@ const SelfKOCAnalysis: React.FC = () => {
                     <tr key={index} className="border-b hover:bg-gray-50">
                       <td className="py-3 px-4 font-medium">{account.account}</td>
                       <td className="py-3 px-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          account.platform === 'YouTube' ? 'bg-red-100 text-red-800' :
-                          account.platform === 'Instagram' ? 'bg-pink-100 text-pink-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            account.platform === 'YouTube'
+                              ? 'bg-red-100 text-red-800'
+                              : account.platform === 'Instagram'
+                                ? 'bg-pink-100 text-pink-800'
+                                : 'bg-gray-100 text-gray-800'
+                          }`}
+                        >
                           {account.platform}
                         </span>
                       </td>
@@ -300,9 +346,11 @@ const SelfKOCAnalysis: React.FC = () => {
                       <td className="py-3 px-4 text-right">
                         <div className="flex items-center justify-end">
                           <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
-                            <div 
-                              className="bg-green-600 h-2 rounded-full" 
-                              style={{ width: `${Math.min((account.avgViews / 100000) * 100, 100)}%` }}
+                            <div
+                              className="bg-green-600 h-2 rounded-full"
+                              style={{
+                                width: `${Math.min((account.avgViews / 100000) * 100, 100)}%`,
+                              }}
                             />
                           </div>
                           <span className="text-sm text-green-600">
@@ -321,16 +369,18 @@ const SelfKOCAnalysis: React.FC = () => {
         <TabsContent value="persona" className="space-y-6">
           <div>
             <h3 className="text-lg font-semibold mb-4">KOC Account Personas</h3>
-            <p className="text-gray-600 mb-6">Analysis of self-operated Key Opinion Consumer accounts across platforms</p>
-            
+            <p className="text-gray-600 mb-6">
+              Analysis of self-operated Key Opinion Consumer accounts across platforms
+            </p>
+
             {/* Account Persona Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* TikTok Accounts */}
               <Card className="overflow-hidden">
                 <div className="relative aspect-[9/16] bg-gray-100">
                   <div className="relative w-full h-full group">
-                    <img 
-                      src="https://picsum.photos/360/640?random=1" 
+                    <img
+                      src="https://picsum.photos/360/640?random=1"
                       alt="@lf6ai8wvknt TikTok preview"
                       className="w-full h-full object-cover"
                     />
@@ -361,9 +411,9 @@ const SelfKOCAnalysis: React.FC = () => {
                       <span className="font-medium text-green-600">3.8%</span>
                     </div>
                   </div>
-                  <a 
-                    href="https://www.tiktok.com/@lf6ai8wvknt" 
-                    target="_blank" 
+                  <a
+                    href="https://www.tiktok.com/@lf6ai8wvknt"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg transition-colors"
                   >
@@ -376,8 +426,8 @@ const SelfKOCAnalysis: React.FC = () => {
               <Card className="overflow-hidden">
                 <div className="relative aspect-[9/16] bg-gray-100">
                   <div className="relative w-full h-full group">
-                    <img 
-                      src="https://picsum.photos/360/640?random=2" 
+                    <img
+                      src="https://picsum.photos/360/640?random=2"
                       alt="@n3k4s4c4t TikTok preview"
                       className="w-full h-full object-cover"
                     />
@@ -408,9 +458,9 @@ const SelfKOCAnalysis: React.FC = () => {
                       <span className="font-medium text-green-600">5.2%</span>
                     </div>
                   </div>
-                  <a 
-                    href="https://www.tiktok.com/@n3k4s4c4t" 
-                    target="_blank" 
+                  <a
+                    href="https://www.tiktok.com/@n3k4s4c4t"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg transition-colors"
                   >
@@ -424,8 +474,8 @@ const SelfKOCAnalysis: React.FC = () => {
               <Card className="overflow-hidden">
                 <div className="relative aspect-[16/9] bg-gray-100">
                   <div className="relative w-full h-full group">
-                    <img 
-                      src="https://picsum.photos/640/360?random=3" 
+                    <img
+                      src="https://picsum.photos/640/360?random=3"
                       alt="@neakasapetcare YouTube preview"
                       className="w-full h-full object-cover"
                     />
@@ -456,9 +506,9 @@ const SelfKOCAnalysis: React.FC = () => {
                       <span className="font-medium text-green-600">4.5%</span>
                     </div>
                   </div>
-                  <a 
-                    href="https://www.youtube.com/@neakasapetcare" 
-                    target="_blank" 
+                  <a
+                    href="https://www.youtube.com/@neakasapetcare"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg transition-colors"
                   >
@@ -471,8 +521,8 @@ const SelfKOCAnalysis: React.FC = () => {
               <Card className="overflow-hidden">
                 <div className="relative aspect-[16/9] bg-gray-100">
                   <div className="relative w-full h-full group">
-                    <img 
-                      src="https://picsum.photos/640/360?random=4" 
+                    <img
+                      src="https://picsum.photos/640/360?random=4"
                       alt="@catslifestylehub YouTube preview"
                       className="w-full h-full object-cover"
                     />
@@ -503,9 +553,9 @@ const SelfKOCAnalysis: React.FC = () => {
                       <span className="font-medium text-green-600">6.1%</span>
                     </div>
                   </div>
-                  <a 
-                    href="https://www.youtube.com/@catslifestylehub" 
-                    target="_blank" 
+                  <a
+                    href="https://www.youtube.com/@catslifestylehub"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg transition-colors"
                   >
@@ -519,8 +569,8 @@ const SelfKOCAnalysis: React.FC = () => {
               <Card className="overflow-hidden">
                 <div className="relative aspect-square bg-gray-100">
                   <div className="relative w-full h-full group">
-                    <img 
-                      src="https://picsum.photos/400/400?random=5" 
+                    <img
+                      src="https://picsum.photos/400/400?random=5"
                       alt="@neakasa_official Instagram preview"
                       className="w-full h-full object-cover"
                     />
@@ -534,7 +584,9 @@ const SelfKOCAnalysis: React.FC = () => {
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-gray-900">@neakasa_official</h4>
-                    <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs px-2 py-1 rounded">Instagram</span>
+                    <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs px-2 py-1 rounded">
+                      Instagram
+                    </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-3">Official Brand Content & Stories</p>
                   <div className="space-y-2">
@@ -551,9 +603,9 @@ const SelfKOCAnalysis: React.FC = () => {
                       <span className="font-medium text-green-600">7.8%</span>
                     </div>
                   </div>
-                  <a 
-                    href="https://www.instagram.com/neakasa_official" 
-                    target="_blank" 
+                  <a
+                    href="https://www.instagram.com/neakasa_official"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg transition-colors"
                   >
@@ -566,8 +618,8 @@ const SelfKOCAnalysis: React.FC = () => {
               <Card className="overflow-hidden">
                 <div className="relative aspect-square bg-gray-100">
                   <div className="relative w-full h-full group">
-                    <img 
-                      src="https://picsum.photos/400/400?random=6" 
+                    <img
+                      src="https://picsum.photos/400/400?random=6"
                       alt="@petlife_neakasa Instagram preview"
                       className="w-full h-full object-cover"
                     />
@@ -581,7 +633,9 @@ const SelfKOCAnalysis: React.FC = () => {
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-gray-900">@petlife_neakasa</h4>
-                    <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs px-2 py-1 rounded">Instagram</span>
+                    <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs px-2 py-1 rounded">
+                      Instagram
+                    </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-3">Pet Lifestyle & User Stories</p>
                   <div className="space-y-2">
@@ -598,9 +652,9 @@ const SelfKOCAnalysis: React.FC = () => {
                       <span className="font-medium text-green-600">6.3%</span>
                     </div>
                   </div>
-                  <a 
-                    href="https://www.instagram.com/petlife_neakasa" 
-                    target="_blank" 
+                  <a
+                    href="https://www.instagram.com/petlife_neakasa"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg transition-colors"
                   >
@@ -676,13 +730,15 @@ const SelfKOCAnalysis: React.FC = () => {
                   <div className="border-l-4 border-pink-500 pl-4">
                     <h5 className="font-semibold text-pink-700">Instagram Strategy</h5>
                     <p className="text-sm text-gray-600 mt-1">
-                      Focus on visual storytelling with high-quality product shots. Official account drives 60% of total IG traffic.
+                      Focus on visual storytelling with high-quality product shots. Official account
+                      drives 60% of total IG traffic.
                     </p>
                   </div>
                   <div className="border-l-4 border-red-500 pl-4">
                     <h5 className="font-semibold text-red-700">YouTube Optimization</h5>
                     <p className="text-sm text-gray-600 mt-1">
-                      Long-form tutorials and comparisons work best. Average watch time is 3.5 minutes.
+                      Long-form tutorials and comparisons work best. Average watch time is 3.5
+                      minutes.
                     </p>
                   </div>
                   <div className="border-l-4 border-gray-800 pl-4">

@@ -13,63 +13,64 @@ const SelfKOCDetailedReport: React.FC<DetailedReportProps> = ({ product }) => {
       strengths: [
         {
           title: 'High TikTok Engagement',
-          description: 'Average engagement rate of 8.5% significantly exceeds industry average (1-3%)',
+          description:
+            'Average engagement rate of 8.5% significantly exceeds industry average (1-3%)',
           impact: 'high',
-          metrics: '371K likes, 62K shares across 1.8K videos'
+          metrics: '371K likes, 62K shares across 1.8K videos',
         },
         {
           title: 'Viral Content Success',
           description: 'Multiple videos achieving 100K+ likes demonstrate strong viral potential',
           impact: 'high',
-          metrics: 'Top video: 111.7K likes, 15.9K shares'
+          metrics: 'Top video: 111.7K likes, 15.9K shares',
         },
         {
           title: 'YouTube Authority Building',
           description: 'Consistent long-form content establishing product expertise',
           impact: 'medium',
-          metrics: '10.2M total views, 4.15% engagement rate'
-        }
+          metrics: '10.2M total views, 4.15% engagement rate',
+        },
       ],
       weaknesses: [
         {
           title: 'Low Instagram Conversion',
           description: 'Despite 148M views, engagement rate only 0.52%',
           impact: 'high',
-          suggestion: 'Implement Instagram-specific content strategy with Stories and Reels'
+          suggestion: 'Implement Instagram-specific content strategy with Stories and Reels',
         },
         {
           title: 'Limited Account Diversification',
           description: 'Only 35 accounts across all platforms',
           impact: 'medium',
-          suggestion: 'Expand KOC network to 50+ accounts for better reach'
-        }
+          suggestion: 'Expand KOC network to 50+ accounts for better reach',
+        },
       ],
       opportunities: [
         'Pet influencer collaborations on TikTok',
         'YouTube Shorts to capture mobile audience',
         'Instagram pet community engagement campaigns',
-        'Cross-platform content repurposing strategy'
+        'Cross-platform content repurposing strategy',
       ],
       recommendations: [
         {
           priority: 'high',
           action: 'Scale TikTok content production',
           timeline: 'Immediate',
-          expectedImpact: '+25% engagement within 3 months'
+          expectedImpact: '+25% engagement within 3 months',
         },
         {
           priority: 'high',
           action: 'Revamp Instagram content strategy',
           timeline: '1-2 months',
-          expectedImpact: 'Increase engagement rate to 2%+'
+          expectedImpact: 'Increase engagement rate to 2%+',
         },
         {
           priority: 'medium',
           action: 'Launch YouTube Shorts program',
           timeline: '2-3 months',
-          expectedImpact: 'Capture additional 5M views/month'
-        }
-      ]
+          expectedImpact: 'Capture additional 5M views/month',
+        },
+      ],
     },
     garmentsteamer: {
       strengths: [
@@ -77,62 +78,62 @@ const SelfKOCDetailedReport: React.FC<DetailedReportProps> = ({ product }) => {
           title: 'Larger KOC Network',
           description: '44 accounts providing broader market coverage',
           impact: 'medium',
-          metrics: '79 total accounts, 44 for garment steamer'
+          metrics: '79 total accounts, 44 for garment steamer',
         },
         {
           title: 'Consistent Content Volume',
           description: 'Over 5,000 pieces of content across platforms',
           impact: 'medium',
-          metrics: '5,156 total posts, averaging 117 per account'
+          metrics: '5,156 total posts, averaging 117 per account',
         },
         {
           title: 'Strong TikTok Performance',
           description: 'Maintaining 7.2% engagement rate on TikTok',
           impact: 'high',
-          metrics: '425K likes, 71K shares'
-        }
+          metrics: '425K likes, 71K shares',
+        },
       ],
       weaknesses: [
         {
           title: 'Lower Overall Engagement',
           description: 'Average engagement rate (3.83%) below cat litter box (4.39%)',
           impact: 'high',
-          suggestion: 'Develop more emotionally engaging content angles'
+          suggestion: 'Develop more emotionally engaging content angles',
         },
         {
           title: 'Instagram Underperformance',
           description: 'Even lower engagement (0.48%) than cat litter box',
           impact: 'high',
-          suggestion: 'Focus on lifestyle and fashion content for Instagram'
-        }
+          suggestion: 'Focus on lifestyle and fashion content for Instagram',
+        },
       ],
       opportunities: [
         'Fashion and lifestyle influencer partnerships',
         'Before/after transformation content',
         'Travel and convenience-focused messaging',
-        'Seasonal campaigns (wedding, holiday seasons)'
+        'Seasonal campaigns (wedding, holiday seasons)',
       ],
       recommendations: [
         {
           priority: 'high',
           action: 'Create emotional storytelling content',
           timeline: 'Immediate',
-          expectedImpact: 'Increase engagement by 20%'
+          expectedImpact: 'Increase engagement by 20%',
         },
         {
           priority: 'medium',
           action: 'Launch fashion influencer program',
           timeline: '1-2 months',
-          expectedImpact: 'Reach fashion-conscious audience segment'
+          expectedImpact: 'Reach fashion-conscious audience segment',
         },
         {
           priority: 'medium',
           action: 'Seasonal content calendar',
           timeline: '2-3 months',
-          expectedImpact: 'Capitalize on peak demand periods'
-        }
-      ]
-    }
+          expectedImpact: 'Capitalize on peak demand periods',
+        },
+      ],
+    },
   };
 
   const currentInsights = insights[product];
@@ -207,9 +208,13 @@ const SelfKOCDetailedReport: React.FC<DetailedReportProps> = ({ product }) => {
         <div className="space-y-4">
           {currentInsights.recommendations.map((rec, index) => (
             <div key={index} className="flex items-start gap-4 p-4 border rounded-lg">
-              <div className={`px-3 py-1 rounded text-sm font-medium ${
-                rec.priority === 'high' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
-              }`}>
+              <div
+                className={`px-3 py-1 rounded text-sm font-medium ${
+                  rec.priority === 'high'
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-yellow-100 text-yellow-700'
+                }`}
+              >
                 {rec.priority.toUpperCase()}
               </div>
               <div className="flex-1">
@@ -231,16 +236,12 @@ const SelfKOCDetailedReport: React.FC<DetailedReportProps> = ({ product }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-gray-50 rounded">
             <p className="text-sm text-gray-600">Cost per Engagement</p>
-            <p className="text-2xl font-bold mt-2">
-              ${product === 'catbox' ? '0.043' : '0.052'}
-            </p>
+            <p className="text-2xl font-bold mt-2">${product === 'catbox' ? '0.043' : '0.052'}</p>
             <p className="text-xs text-gray-500 mt-1">Industry avg: $0.08</p>
           </div>
           <div className="text-center p-4 bg-gray-50 rounded">
             <p className="text-sm text-gray-600">Content Efficiency</p>
-            <p className="text-2xl font-bold mt-2">
-              {product === 'catbox' ? '270' : '214'}
-            </p>
+            <p className="text-2xl font-bold mt-2">{product === 'catbox' ? '270' : '214'}</p>
             <p className="text-xs text-gray-500 mt-1">Engagements per post</p>
           </div>
           <div className="text-center p-4 bg-gray-50 rounded">

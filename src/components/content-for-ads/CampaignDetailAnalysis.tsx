@@ -3,10 +3,6 @@ import { Card } from '../ui/card';
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
   Cell,
   XAxis,
   YAxis,
@@ -16,22 +12,20 @@ import {
   ResponsiveContainer,
   ScatterChart,
   Scatter,
-  Treemap,
-  ComposedChart,
-  Area
 } from 'recharts';
-import { 
-  MousePointer, 
-  Eye, 
-  ShoppingCart, 
-  DollarSign, 
-  TrendingUp, 
+import {
+  MousePointer,
+  Eye,
+  ShoppingCart,
+  DollarSign,
+  TrendingUp,
   Award,
   Instagram,
   Youtube,
   Music,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react';
+import { CustomTooltipProps } from '../../types/charts';
 
 interface CampaignData {
   name: string;
@@ -50,7 +44,9 @@ interface CampaignData {
 
 const CampaignDetailAnalysis: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<'all' | 'm1' | 'magic1'>('all');
-  const [selectedPlatform, setSelectedPlatform] = useState<'all' | 'instagram' | 'youtube' | 'tiktok'>('all');
+  const [selectedPlatform, setSelectedPlatform] = useState<
+    'all' | 'instagram' | 'youtube' | 'tiktok'
+  >('all');
 
   // Parse campaign data
   const campaignData: CampaignData[] = [
@@ -66,7 +62,7 @@ const CampaignDetailAnalysis: React.FC = () => {
       brandReferralBonus: 0,
       conversionRate: 0,
       atcRate: 100,
-      purchaseRate: 0
+      purchaseRate: 0,
     },
     {
       name: 'pheobe_magic1_leap_ig_2nd',
@@ -80,7 +76,7 @@ const CampaignDetailAnalysis: React.FC = () => {
       brandReferralBonus: 112.94,
       conversionRate: 4.2,
       atcRate: 99.4,
-      purchaseRate: 4.2
+      purchaseRate: 4.2,
     },
     {
       name: 'pheobe_magic1_leap_ytb_2nd',
@@ -94,7 +90,7 @@ const CampaignDetailAnalysis: React.FC = () => {
       brandReferralBonus: 9.44,
       conversionRate: 6.9,
       atcRate: 96.6,
-      purchaseRate: 7.1
+      purchaseRate: 7.1,
     },
     {
       name: 'pheobe_m1_leap_tk_2nd',
@@ -108,7 +104,7 @@ const CampaignDetailAnalysis: React.FC = () => {
       brandReferralBonus: 0,
       conversionRate: 0,
       atcRate: 99.4,
-      purchaseRate: 0.7
+      purchaseRate: 0.7,
     },
     {
       name: 'pheobe_m1_leap_ytb_2nd',
@@ -122,7 +118,7 @@ const CampaignDetailAnalysis: React.FC = () => {
       brandReferralBonus: 0,
       conversionRate: 0,
       atcRate: 151.5,
-      purchaseRate: 2.0
+      purchaseRate: 2.0,
     },
     {
       name: 'pheobe_m1_leap_ig_2nd',
@@ -136,7 +132,7 @@ const CampaignDetailAnalysis: React.FC = () => {
       brandReferralBonus: 50.04,
       conversionRate: 2.0,
       atcRate: 99.6,
-      purchaseRate: 2.0
+      purchaseRate: 2.0,
     },
     {
       name: 'pheobe_magic1_leap_tk_2nd',
@@ -150,12 +146,12 @@ const CampaignDetailAnalysis: React.FC = () => {
       brandReferralBonus: 84.07,
       conversionRate: 2.1,
       atcRate: 94.8,
-      purchaseRate: 2.2
-    }
+      purchaseRate: 2.2,
+    },
   ];
 
   // Filter data based on selections
-  const filteredData = campaignData.filter(campaign => {
+  const filteredData = campaignData.filter((campaign) => {
     const productMatch = selectedProduct === 'all' || campaign.product === selectedProduct;
     const platformMatch = selectedPlatform === 'all' || campaign.platform === selectedPlatform;
     return productMatch && platformMatch;
@@ -168,92 +164,125 @@ const CampaignDetailAnalysis: React.FC = () => {
     totalPurchases: filteredData.reduce((sum, c) => sum + c.totalPurchases, 0),
     totalRevenue: filteredData.reduce((sum, c) => sum + c.productSales, 0),
     totalBonus: filteredData.reduce((sum, c) => sum + c.brandReferralBonus, 0),
-    avgConversionRate: filteredData.length > 0 
-      ? filteredData.reduce((sum, c) => sum + c.conversionRate, 0) / filteredData.length 
-      : 0
+    avgConversionRate:
+      filteredData.length > 0
+        ? filteredData.reduce((sum, c) => sum + c.conversionRate, 0) / filteredData.length
+        : 0,
   };
 
   // Platform performance comparison
   const platformPerformance = [
     {
       platform: 'Instagram',
-      campaigns: campaignData.filter(c => c.platform === 'instagram').length,
-      dpv: campaignData.filter(c => c.platform === 'instagram').reduce((sum, c) => sum + c.totalDPV, 0),
-      purchases: campaignData.filter(c => c.platform === 'instagram').reduce((sum, c) => sum + c.totalPurchases, 0),
-      revenue: campaignData.filter(c => c.platform === 'instagram').reduce((sum, c) => sum + c.productSales, 0),
-      color: '#E4405F'
+      campaigns: campaignData.filter((c) => c.platform === 'instagram').length,
+      dpv: campaignData
+        .filter((c) => c.platform === 'instagram')
+        .reduce((sum, c) => sum + c.totalDPV, 0),
+      purchases: campaignData
+        .filter((c) => c.platform === 'instagram')
+        .reduce((sum, c) => sum + c.totalPurchases, 0),
+      revenue: campaignData
+        .filter((c) => c.platform === 'instagram')
+        .reduce((sum, c) => sum + c.productSales, 0),
+      color: '#E4405F',
     },
     {
       platform: 'YouTube',
-      campaigns: campaignData.filter(c => c.platform === 'youtube').length,
-      dpv: campaignData.filter(c => c.platform === 'youtube').reduce((sum, c) => sum + c.totalDPV, 0),
-      purchases: campaignData.filter(c => c.platform === 'youtube').reduce((sum, c) => sum + c.totalPurchases, 0),
-      revenue: campaignData.filter(c => c.platform === 'youtube').reduce((sum, c) => sum + c.productSales, 0),
-      color: '#FF0000'
+      campaigns: campaignData.filter((c) => c.platform === 'youtube').length,
+      dpv: campaignData
+        .filter((c) => c.platform === 'youtube')
+        .reduce((sum, c) => sum + c.totalDPV, 0),
+      purchases: campaignData
+        .filter((c) => c.platform === 'youtube')
+        .reduce((sum, c) => sum + c.totalPurchases, 0),
+      revenue: campaignData
+        .filter((c) => c.platform === 'youtube')
+        .reduce((sum, c) => sum + c.productSales, 0),
+      color: '#FF0000',
     },
     {
       platform: 'TikTok',
-      campaigns: campaignData.filter(c => c.platform === 'tiktok').length,
-      dpv: campaignData.filter(c => c.platform === 'tiktok').reduce((sum, c) => sum + c.totalDPV, 0),
-      purchases: campaignData.filter(c => c.platform === 'tiktok').reduce((sum, c) => sum + c.totalPurchases, 0),
-      revenue: campaignData.filter(c => c.platform === 'tiktok').reduce((sum, c) => sum + c.productSales, 0),
-      color: '#000000'
-    }
+      campaigns: campaignData.filter((c) => c.platform === 'tiktok').length,
+      dpv: campaignData
+        .filter((c) => c.platform === 'tiktok')
+        .reduce((sum, c) => sum + c.totalDPV, 0),
+      purchases: campaignData
+        .filter((c) => c.platform === 'tiktok')
+        .reduce((sum, c) => sum + c.totalPurchases, 0),
+      revenue: campaignData
+        .filter((c) => c.platform === 'tiktok')
+        .reduce((sum, c) => sum + c.productSales, 0),
+      color: '#000000',
+    },
   ];
 
   // Product performance comparison
   const productPerformance = [
     {
       product: 'M1 (Cat Litter Box)',
-      campaigns: campaignData.filter(c => c.product === 'm1').length,
-      dpv: campaignData.filter(c => c.product === 'm1').reduce((sum, c) => sum + c.totalDPV, 0),
-      purchases: campaignData.filter(c => c.product === 'm1').reduce((sum, c) => sum + c.totalPurchases, 0),
-      revenue: campaignData.filter(c => c.product === 'm1').reduce((sum, c) => sum + c.productSales, 0),
-      color: '#10B981'
+      campaigns: campaignData.filter((c) => c.product === 'm1').length,
+      dpv: campaignData.filter((c) => c.product === 'm1').reduce((sum, c) => sum + c.totalDPV, 0),
+      purchases: campaignData
+        .filter((c) => c.product === 'm1')
+        .reduce((sum, c) => sum + c.totalPurchases, 0),
+      revenue: campaignData
+        .filter((c) => c.product === 'm1')
+        .reduce((sum, c) => sum + c.productSales, 0),
+      color: '#10B981',
     },
     {
       product: 'Magic1 (Garment Steamer)',
-      campaigns: campaignData.filter(c => c.product === 'magic1').length,
-      dpv: campaignData.filter(c => c.product === 'magic1').reduce((sum, c) => sum + c.totalDPV, 0),
-      purchases: campaignData.filter(c => c.product === 'magic1').reduce((sum, c) => sum + c.totalPurchases, 0),
-      revenue: campaignData.filter(c => c.product === 'magic1').reduce((sum, c) => sum + c.productSales, 0),
-      color: '#8B5CF6'
-    }
+      campaigns: campaignData.filter((c) => c.product === 'magic1').length,
+      dpv: campaignData
+        .filter((c) => c.product === 'magic1')
+        .reduce((sum, c) => sum + c.totalDPV, 0),
+      purchases: campaignData
+        .filter((c) => c.product === 'magic1')
+        .reduce((sum, c) => sum + c.totalPurchases, 0),
+      revenue: campaignData
+        .filter((c) => c.product === 'magic1')
+        .reduce((sum, c) => sum + c.productSales, 0),
+      color: '#8B5CF6',
+    },
   ];
 
   // Conversion funnel data
-  const funnelData = filteredData.map(campaign => ({
+  const funnelData = filteredData.map((campaign) => ({
     name: campaign.name.split('_')[0],
     dpv: campaign.totalDPV,
     atc: campaign.totalATC,
     purchases: campaign.totalPurchases,
     dpvToAtc: campaign.atcRate,
-    atcToPurchase: campaign.purchaseRate
+    atcToPurchase: campaign.purchaseRate,
   }));
 
   // Scatter plot data for DPV vs Revenue
-  const scatterData = campaignData.map(campaign => ({
+  const scatterData = campaignData.map((campaign) => ({
     x: campaign.totalDPV,
     y: campaign.productSales,
     name: campaign.name,
     platform: campaign.platform,
-    product: campaign.product
+    product: campaign.product,
   }));
 
   // Get platform icon
   const getPlatformIcon = (platform: string) => {
-    switch(platform) {
-      case 'instagram': return <Instagram className="w-4 h-4" />;
-      case 'youtube': return <Youtube className="w-4 h-4" />;
-      case 'tiktok': return <Music className="w-4 h-4" />;
-      default: return null;
+    switch (platform) {
+      case 'instagram':
+        return <Instagram className="w-4 h-4" />;
+      case 'youtube':
+        return <Youtube className="w-4 h-4" />;
+      case 'tiktok':
+        return <Music className="w-4 h-4" />;
+      default:
+        return null;
     }
   };
 
   // Custom tooltip for scatter chart
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload;
+      const data = payload[0].payload as { name: string; platform: string; product: string; x: number; y: number };
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-semibold text-sm">{data.name}</p>
@@ -273,12 +302,14 @@ const CampaignDetailAnalysis: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Campaign Detail Analysis</h2>
-          <p className="text-gray-600 mt-1">Deep dive into individual campaign performance metrics</p>
+          <p className="text-gray-600 mt-1">
+            Deep dive into individual campaign performance metrics
+          </p>
         </div>
         <div className="flex gap-2">
           <select
             value={selectedProduct}
-            onChange={(e) => setSelectedProduct(e.target.value as any)}
+            onChange={(e) => setSelectedProduct(e.target.value as 'all' | 'm1' | 'magic1')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All Products</option>
@@ -287,7 +318,7 @@ const CampaignDetailAnalysis: React.FC = () => {
           </select>
           <select
             value={selectedPlatform}
-            onChange={(e) => setSelectedPlatform(e.target.value as any)}
+            onChange={(e) => setSelectedPlatform(e.target.value as 'all' | 'instagram' | 'youtube' | 'tiktok')}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All Platforms</option>
@@ -367,7 +398,11 @@ const CampaignDetailAnalysis: React.FC = () => {
               <XAxis dataKey="platform" />
               <YAxis yAxisId="left" orientation="left" />
               <YAxis yAxisId="right" orientation="right" />
-              <Tooltip formatter={(value: any) => typeof value === 'number' ? value.toLocaleString() : value} />
+              <Tooltip
+                formatter={(value: number | string) =>
+                  typeof value === 'number' ? value.toLocaleString() : value
+                }
+              />
               <Legend />
               <Bar yAxisId="left" dataKey="dpv" name="DPV" fill="#3B82F6" />
               <Bar yAxisId="right" dataKey="revenue" name="Revenue ($)" fill="#10B981" />
@@ -384,7 +419,11 @@ const CampaignDetailAnalysis: React.FC = () => {
               <XAxis dataKey="product" angle={-15} textAnchor="end" height={60} />
               <YAxis yAxisId="left" orientation="left" />
               <YAxis yAxisId="right" orientation="right" />
-              <Tooltip formatter={(value: any) => typeof value === 'number' ? value.toLocaleString() : value} />
+              <Tooltip
+                formatter={(value: number | string) =>
+                  typeof value === 'number' ? value.toLocaleString() : value
+                }
+              />
               <Legend />
               <Bar yAxisId="left" dataKey="purchases" name="Purchases" fill="#8B5CF6" />
               <Bar yAxisId="right" dataKey="revenue" name="Revenue ($)" fill="#10B981" />
@@ -399,29 +438,22 @@ const CampaignDetailAnalysis: React.FC = () => {
         <ResponsiveContainer width="100%" height={400}>
           <ScatterChart>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              type="number" 
-              dataKey="x" 
-              name="DPV" 
+            <XAxis
+              type="number"
+              dataKey="x"
+              name="DPV"
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`}
             />
-            <YAxis 
-              type="number" 
-              dataKey="y" 
-              name="Revenue" 
+            <YAxis
+              type="number"
+              dataKey="y"
+              name="Revenue"
               tickFormatter={(value) => `$${value}`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Scatter 
-              name="Campaigns" 
-              data={scatterData} 
-              fill="#8884d8"
-            >
+            <Scatter name="Campaigns" data={scatterData} fill="#8884d8">
               {scatterData.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={entry.product === 'm1' ? '#10B981' : '#8B5CF6'} 
-                />
+                <Cell key={`cell-${index}`} fill={entry.product === 'm1' ? '#10B981' : '#8B5CF6'} />
               ))}
             </Scatter>
           </ScatterChart>
@@ -446,12 +478,18 @@ const CampaignDetailAnalysis: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Campaign</th>
-                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">Platform</th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">
+                  Platform
+                </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">DPV</th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">ATC</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Purchases</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Purchases
+                </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Revenue</th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">Conv. Rate</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-600">
+                  Conv. Rate
+                </th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-600">Status</th>
               </tr>
             </thead>
@@ -469,9 +507,15 @@ const CampaignDetailAnalysis: React.FC = () => {
                   <td className="px-4 py-3 text-center">
                     <div className="flex justify-center">{getPlatformIcon(campaign.platform)}</div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-right">{campaign.totalDPV.toLocaleString()}</td>
-                  <td className="px-4 py-3 text-sm text-right">{campaign.totalATC.toLocaleString()}</td>
-                  <td className="px-4 py-3 text-sm text-right font-medium">{campaign.totalPurchases}</td>
+                  <td className="px-4 py-3 text-sm text-right">
+                    {campaign.totalDPV.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-right">
+                    {campaign.totalATC.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-right font-medium">
+                    {campaign.totalPurchases}
+                  </td>
                   <td className="px-4 py-3 text-sm text-right font-medium text-green-600">
                     ${campaign.productSales.toFixed(2)}
                   </td>

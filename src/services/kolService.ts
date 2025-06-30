@@ -1,6 +1,5 @@
 // Service for KOL management
 import { KOL, KOLFilter, KOLMetrics, PlatformAccount } from '../types/kol';
-import { kolDatabaseService } from './kolDatabaseService';
 import { kolRealDataService } from './kolRealDataService';
 
 // Mock data generation for 189 KOLs
@@ -246,21 +245,28 @@ class KOLService {
     // Get KOLs from real data service and generate additional ones
     if (!this.isInitialized) {
       const realKOLs = await kolRealDataService.getTopKOLs();
-      
+
       // Convert real KOLs to full KOL objects
       const convertedKOLs = realKOLs.map((realKOL, index) => {
         const followerCount = realKOL.total_views / 3; // Estimate followers from views
-        const platformAccounts: PlatformAccount[] = [{
-          platform: realKOL.platform.toLowerCase() as 'youtube' | 'tiktok' | 'instagram' | 'twitter' | 'facebook',
-          username: `@${realKOL.kol_name.toLowerCase().replace(/\s+/g, '_')}`,
-          followers: Math.floor(followerCount),
-          followersGrowth: 15.5,
-          avgViews: realKOL.avg_views,
-          avgEngagement: realKOL.engagement_rate,
-          verified: followerCount > 1000000,
-          url: `https://${realKOL.platform.toLowerCase()}.com/user`,
-        }];
-        
+        const platformAccounts: PlatformAccount[] = [
+          {
+            platform: realKOL.platform.toLowerCase() as
+              | 'youtube'
+              | 'tiktok'
+              | 'instagram'
+              | 'twitter'
+              | 'facebook',
+            username: `@${realKOL.kol_name.toLowerCase().replace(/\s+/g, '_')}`,
+            followers: Math.floor(followerCount),
+            followersGrowth: 15.5,
+            avgViews: realKOL.avg_views,
+            avgEngagement: realKOL.engagement_rate,
+            verified: followerCount > 1000000,
+            url: `https://${realKOL.platform.toLowerCase()}.com/user`,
+          },
+        ];
+
         return {
           id: `kol_${index + 1}`,
           name: realKOL.kol_name,
@@ -272,8 +278,12 @@ class KOLService {
           avgEngagementRate: realKOL.engagement_rate,
           totalVideos: realKOL.total_videos,
           totalViews: realKOL.total_views,
-          joinedDate: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000 * 3).toISOString(),
-          lastActiveDate: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+          joinedDate: new Date(
+            Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000 * 3
+          ).toISOString(),
+          lastActiveDate: new Date(
+            Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
+          ).toISOString(),
           status: 'active' as const,
           tags: ['product-review', 'unboxing', 'tutorial'],
           performanceScore: Math.floor(realKOL.engagement_rate * 5) + 60,
@@ -301,13 +311,13 @@ class KOLService {
           },
         } as KOL;
       });
-      
+
       // Generate additional KOLs to reach 189 total
       const additionalCount = 189 - convertedKOLs.length;
-      const additionalKOLs = Array.from({ length: additionalCount }, (_, i) => 
+      const additionalKOLs = Array.from({ length: additionalCount }, (_, i) =>
         this.generateKOL(convertedKOLs.length + i)
       );
-      
+
       this.kols = [...convertedKOLs, ...additionalKOLs];
       this.isInitialized = true;
     }

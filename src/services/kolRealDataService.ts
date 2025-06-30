@@ -43,7 +43,7 @@ class KOLRealDataService {
   // Based on database analysis: 790 total videos, 205 analyzed videos
   private totalVideos = 790;
   private analyzedVideos = 205;
-  
+
   // Top brands from database
   private topBrands: BrandPerformance[] = [
     {
@@ -53,7 +53,7 @@ class KOLRealDataService {
       total_engagement: 6968000,
       avg_engagement_rate: 15.8,
       top_products: ['Robot Vacuum', 'Security Camera', 'Smart Lock'],
-      market_share: 25.4
+      market_share: 25.4,
     },
     {
       brand: 'Soundcore',
@@ -62,7 +62,7 @@ class KOLRealDataService {
       total_engagement: 3887520,
       avg_engagement_rate: 14.2,
       top_products: ['Wireless Earbuds', 'Bluetooth Speaker', 'Headphones'],
-      market_share: 18.5
+      market_share: 18.5,
     },
     {
       brand: 'Tineco',
@@ -71,7 +71,7 @@ class KOLRealDataService {
       total_engagement: 2570400,
       avg_engagement_rate: 13.5,
       top_products: ['Floor Washer', 'Vacuum Cleaner', 'Carpet Cleaner'],
-      market_share: 13.7
+      market_share: 13.7,
     },
     {
       brand: 'JBL',
@@ -80,7 +80,7 @@ class KOLRealDataService {
       total_engagement: 1984000,
       avg_engagement_rate: 12.8,
       top_products: ['Portable Speaker', 'Headphones', 'Soundbar'],
-      market_share: 12.2
+      market_share: 12.2,
     },
     {
       brand: 'Tarte',
@@ -89,7 +89,7 @@ class KOLRealDataService {
       total_engagement: 5068800,
       avg_engagement_rate: 19.2,
       top_products: ['Shape Tape', 'Amazonian Clay', 'Maracuja Oil'],
-      market_share: 10.7
+      market_share: 10.7,
     },
     {
       brand: 'Neakasa',
@@ -98,8 +98,8 @@ class KOLRealDataService {
       total_engagement: 1072500,
       avg_engagement_rate: 13.0,
       top_products: ['Pet Grooming Kit', 'Pet Hair Vacuum', 'Smart Feeder'],
-      market_share: 7.3
-    }
+      market_share: 7.3,
+    },
   ];
 
   // Platform distribution based on database
@@ -108,30 +108,30 @@ class KOLRealDataService {
       videos: 425,
       total_views: 127500000,
       avg_engagement: 16.5,
-      top_categories: ['Home & Garden', 'Tech', 'Beauty']
+      top_categories: ['Home & Garden', 'Tech', 'Beauty'],
     },
     youtube: {
       videos: 215,
       total_views: 86000000,
       avg_engagement: 12.8,
-      top_categories: ['Tech Reviews', 'Unboxing', 'Tutorials']
+      top_categories: ['Tech Reviews', 'Unboxing', 'Tutorials'],
     },
     instagram: {
       videos: 150,
       total_views: 45000000,
       avg_engagement: 18.2,
-      top_categories: ['Lifestyle', 'Beauty', 'Home Decor']
-    }
+      top_categories: ['Lifestyle', 'Beauty', 'Home Decor'],
+    },
   };
 
   // Content type analysis from database
   private contentTypes = {
-    'product_demo': { count: 185, avg_views: 750000, engagement: 15.8 },
-    'unboxing': { count: 98, avg_views: 950000, engagement: 17.2 },
-    'comparison': { count: 76, avg_views: 1100000, engagement: 14.5 },
-    'tutorial': { count: 65, avg_views: 680000, engagement: 16.9 },
-    'review': { count: 156, avg_views: 820000, engagement: 15.2 },
-    'lifestyle': { count: 45, avg_views: 580000, engagement: 19.8 }
+    product_demo: { count: 185, avg_views: 750000, engagement: 15.8 },
+    unboxing: { count: 98, avg_views: 950000, engagement: 17.2 },
+    comparison: { count: 76, avg_views: 1100000, engagement: 14.5 },
+    tutorial: { count: 65, avg_views: 680000, engagement: 16.9 },
+    review: { count: 156, avg_views: 820000, engagement: 15.2 },
+    lifestyle: { count: 45, avg_views: 580000, engagement: 19.8 },
   };
 
   // Scene tags from video analysis
@@ -140,7 +140,7 @@ class KOLRealDataService {
     { tag: 'tech_gadget', count: 156, avgViews: 920000, brands: ['Soundcore', 'JBL'] },
     { tag: 'beauty_routine', count: 98, avgViews: 1250000, brands: ['Tarte', 'Too Faced'] },
     { tag: 'pet_care', count: 45, avgViews: 680000, brands: ['Neakasa', 'Furbo'] },
-    { tag: 'outdoor_activity', count: 38, avgViews: 520000, brands: ['GoPro', 'DJI'] }
+    { tag: 'outdoor_activity', count: 38, avgViews: 520000, brands: ['GoPro', 'DJI'] },
   ];
 
   // Mock KOLs based on real data patterns
@@ -154,7 +154,7 @@ class KOLRealDataService {
       total_engagement: 2025000,
       engagement_rate: 15.0,
       top_categories: ['Tech', 'Smart Home'],
-      brand_collaborations: ['eufy', 'Soundcore', 'Anker']
+      brand_collaborations: ['eufy', 'Soundcore', 'Anker'],
     },
     {
       kol_name: 'CleanWithMe',
@@ -165,7 +165,7 @@ class KOLRealDataService {
       total_engagement: 2166000,
       engagement_rate: 19.0,
       top_categories: ['Home & Garden', 'Cleaning'],
-      brand_collaborations: ['eufy', 'Tineco', 'Dyson']
+      brand_collaborations: ['eufy', 'Tineco', 'Dyson'],
     },
     {
       kol_name: 'BeautyGuru2025',
@@ -176,7 +176,7 @@ class KOLRealDataService {
       total_engagement: 2912000,
       engagement_rate: 13.0,
       top_categories: ['Beauty', 'Skincare'],
-      brand_collaborations: ['Tarte', 'Urban Decay', 'Benefit']
+      brand_collaborations: ['Tarte', 'Urban Decay', 'Benefit'],
     },
     {
       kol_name: 'PetLoverDaily',
@@ -187,7 +187,7 @@ class KOLRealDataService {
       total_engagement: 1056000,
       engagement_rate: 16.0,
       top_categories: ['Pet Care', 'Lifestyle'],
-      brand_collaborations: ['Neakasa', 'Chewy', 'PetSmart']
+      brand_collaborations: ['Neakasa', 'Chewy', 'PetSmart'],
     },
     {
       kol_name: 'SmartHomePro',
@@ -198,8 +198,8 @@ class KOLRealDataService {
       total_engagement: 1925000,
       engagement_rate: 11.0,
       top_categories: ['Tech', 'DIY'],
-      brand_collaborations: ['eufy', 'Ring', 'Nest']
-    }
+      brand_collaborations: ['eufy', 'Ring', 'Nest'],
+    },
   ];
 
   // Revenue and conversion data
@@ -211,13 +211,13 @@ class KOLRealDataService {
     revenue_by_platform: {
       tiktok: { revenue: 1425000, conversions: 8500, aov: 167.65 },
       youtube: { revenue: 855000, conversions: 4200, aov: 203.57 },
-      instagram: { revenue: 570000, conversions: 2980, aov: 191.28 }
+      instagram: { revenue: 570000, conversions: 2980, aov: 191.28 },
     },
     revenue_by_category: {
       'Home & Garden': { revenue: 1140000, roi: 4.8 },
       'Tech & Electronics': { revenue: 855000, roi: 5.2 },
       'Beauty & Personal Care': { revenue: 570000, roi: 3.5 },
-      'Pet Care': { revenue: 285000, roi: 3.2 }
+      'Pet Care': { revenue: 285000, roi: 3.2 },
     },
     monthly_trend: [
       { month: 'Jan 2025', revenue: 380000, conversions: 2100 },
@@ -225,8 +225,8 @@ class KOLRealDataService {
       { month: 'Mar 2025', revenue: 485000, conversions: 2680 },
       { month: 'Apr 2025', revenue: 520000, conversions: 2850 },
       { month: 'May 2025', revenue: 545000, conversions: 2980 },
-      { month: 'Jun 2025', revenue: 495000, conversions: 2720 }
-    ]
+      { month: 'Jun 2025', revenue: 495000, conversions: 2720 },
+    ],
   };
 
   async getOverviewMetrics() {
@@ -238,7 +238,7 @@ class KOLRealDataService {
       total_videos: this.totalVideos,
       analyzed_videos: this.analyzedVideos,
       top_performing_category: 'Beauty & Personal Care',
-      fastest_growing_brand: 'Neakasa'
+      fastest_growing_brand: 'Neakasa',
     };
   }
 
@@ -283,7 +283,7 @@ class KOLRealDataService {
           likes: 525000,
           comments: 35000,
           kol: 'TechLifeStyle',
-          platform: 'TikTok'
+          platform: 'TikTok',
         },
         {
           id: 'v2',
@@ -293,7 +293,7 @@ class KOLRealDataService {
           likes: 448000,
           comments: 56000,
           kol: 'BeautyGuru2025',
-          platform: 'YouTube'
+          platform: 'YouTube',
         },
         {
           id: 'v3',
@@ -303,9 +303,9 @@ class KOLRealDataService {
           likes: 264000,
           comments: 22000,
           kol: 'TechLifeStyle',
-          platform: 'YouTube'
-        }
-      ]
+          platform: 'YouTube',
+        },
+      ],
     };
   }
 
@@ -317,14 +317,14 @@ class KOLRealDataService {
       roi_by_platform: {
         tiktok: { investment: 260000, return: 1425000, roi: 5.48 },
         youtube: { investment: 195000, return: 855000, roi: 4.38 },
-        instagram: { investment: 195000, return: 570000, roi: 2.92 }
+        instagram: { investment: 195000, return: 570000, roi: 2.92 },
       },
       roi_by_brand: {
         eufy: { investment: 162500, return: 855000, roi: 5.26 },
         soundcore: { investment: 130000, return: 570000, roi: 4.38 },
         tineco: { investment: 97500, return: 427500, roi: 4.38 },
-        neakasa: { investment: 65000, return: 285000, roi: 4.38 }
-      }
+        neakasa: { investment: 65000, return: 285000, roi: 4.38 },
+      },
     };
   }
 }

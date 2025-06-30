@@ -6,7 +6,7 @@ import ContentInsight from '../content-insight/ContentInsight';
 import ContentTest from '../content-testing/ContentTest';
 import KOLDashboard from '../content-for-kol/KOLDashboard';
 import ContentForAds from '../content-for-ads/ContentForAds';
-import ContentEmpowermentPrivate from '../content-for-private/ContentEmpowermentPrivate';
+import ContentForPrivate from '../content-for-private/ContentForPrivate';
 import ContentManagement from '../content-management/ContentManagement';
 import SystemSettings from '../Settings/SystemSettings';
 
@@ -23,7 +23,7 @@ const MainLayout: React.FC = () => {
             <Route path="/content-testing/*" element={<ContentTest />} />
             <Route path="/content-kol/*" element={<KOLDashboard />} />
             <Route path="/content-ads/*" element={<ContentForAds />} />
-            <Route path="/content-private/*" element={<ContentEmpowermentPrivate />} />
+            <Route path="/content-private/*" element={<ContentForPrivate />} />
             <Route path="/content-management" element={<ContentManagement />} />
             <Route path="/settings" element={<SystemSettings />} />
           </Routes>

@@ -350,7 +350,7 @@ const ContentTestingHub: React.FC = () => {
           <h3 className="font-semibold mb-1">Self-KOC Analysis</h3>
           <p className="text-sm text-gray-600">Analyze owned accounts</p>
         </Link>
-        
+
         <Link
           to="/content-testing/ideation"
           className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl hover:shadow-md transition-shadow"
