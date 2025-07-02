@@ -1,40 +1,44 @@
-# Husky
-.husky
-
-# Git
-.git
-.gitignore
-
-# Testing
-cypress
-coverage
-__tests__
-*.test.ts
-*.test.tsx
-*.spec.ts
-*.spec.tsx
-
 # Development files
+dev-server.log
+server.log
+server-*.log
+*.log
+
+# Test files
+test-*.html
+debug-*.html
+kol-debug.html
+test-react-render.js
+
+# Server files not needed for deployment
+server.js
+simple-server.js
+
+# Database files (should use cloud database in production)
+*.db
+neakasa.db
+
+# IDE and OS files
+.idea
+.vscode
+.DS_Store
+
+# Test coverage
+coverage/
+
+# Cypress
+cypress/videos
+cypress/screenshots
+
+# Local env files
 .env.local
 .env.development.local
 .env.test.local
+.env.production.local
 
-# Documentation
-*.md
-!README.md
+# Dependencies
+node_modules/
 
-# IDE
-.vscode
-.idea
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Scripts
-start-dev.sh
-start-project.sh
-
-# Test files
-testSemrushDirect.js
-test-search-insights.md
+# Build outputs (Vercel will build these)
+build/
+dist/
